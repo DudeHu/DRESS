@@ -1,0 +1,16 @@
+{
+  "name": "2cash_admin",
+  "version": "0.0.2",
+  "devDependencies": {
+    "seek-cli": "latest",
+    "seekjs": "^1.2.6"
+  },
+  "dependencies": {
+    "apn": "^1.7.8",
+    "ifun": "0.0.9"
+  },
+  "scripts": {
+    "init": "node ./build/init.js",
+    "taobao": "npm install --regristry=https://registry.npm.taobao.org/"
+  }
+}

@@ -1,0 +1,69 @@
+<div class="ui-detail-con">
+    <div class="ui-detail-header">
+        <span class="ui-web-back-icon"></span>
+        <span data-event="go:list/statics" class="ui-content-header-txt">返回统计</span>
+    </div>
+    <div class="ui-statics-info ui-com-clearFix">
+        <div>
+            <span class="ui-web-label-icon"></span>
+            <span class="ui-web-statics-txt">标签总数</span>
+            <span class="ui-web-count">56</span>
+        </div>
+        <div>
+            <span class="ui-web-people-icon"></span>
+            <span class="ui-statics-txt">明星</span>
+            <span class="ui-web-count">33</span>
+        </div>
+        <div>
+            <span class="ui-web-tings-icon"></span>
+            <span class="ui-statics-txt">物体</span>
+            <span class="ui-web-count">16</span>
+        </div>
+        <div>
+            <span class="ui-web-place-icon"></span>
+            <span class="ui-statics-txt">场景</span>
+            <span class="ui-web-count">7</span>
+        </div>
+    </div>
+    <div class="ui-statics-form ui-com-clearFix">
+        <div class="ui-statics-form-con ui-floatR">
+            <div>
+                <span>持续时间</span>
+                <div data-part="rangePart" class="ui-range-con">
+                    <input data-bind="args.rangeVal" data-event="change>timeSelect" name="money" type="range" min="3" max="20" step="1" id="range">
+                    <div class="ui-statics-controlRange" style="width:{this.rangeWidth};"></div>
+                    <div class="ui-range-tip">
+                        <span>3s</span>
+                        <span class="ui-orange-txt" style="left:{this.rangeWidth};">{if this.args.rangeVal>3&&this.args.rangeVal<20}{this.args.rangeVal}s{/if}</span>
+                        <span>20s+</span>
+                    </div>
+                </div>
+            </div>
+            <div data-enter="search" class="ui-web-input">
+                <span class="ui-search-icon"></span>
+                <input data-bind="args.serachString" type="text"/>
+            </div>
+        </div>
+    </div>
+    <div class="ui-statics-list-con">
+        <div class="ui-statics-list-header">
+            <div class="ui-statics-list-header-txt">{this.itemKey}</div>
+        </div>
+        <ul class="ui-statics-list">
+            <li>
+                <span>视频名称</span>
+                <span>标签数</span>
+                <span>时长</span>
+                <span>
+                    广告机会
+                </span>
+            </li>
+            <li>
+                <span>刘涛</span>
+                <span>8</span>
+                <span>00:22:33</span>
+                <span>3</span>
+            </li>
+        </ul>
+    </div>
+</div>

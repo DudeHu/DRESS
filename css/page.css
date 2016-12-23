@@ -1,0 +1,20 @@
+.ui-page-list{
+    float: right;
+    padding: 0 8px;
+    line-height: 20px;
+    margin-left: 5px;
+    margin-top: 30px;
+}
+.ui-page-list p{
+    display: inline-block;
+    border-radius: 3px 3px 3px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #ecf1f5;
+    min-width: 30px;
+    padding: 0 5px;
+}
+.ui-page-list p.current-page{
+    background: #b0d5f8;
+    color: #fff;
+}

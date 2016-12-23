@@ -1,0 +1,42 @@
+<%
+    var lists = this.lists;
+%>
+<div>
+    <div class="ui-page-list">
+        <p data-event="goPage:{lists.cursor-1}">上一页</p>
+        {if lists.page_count>10}
+        <p {if lists.cursor==1}class="current-page"{/if} data-event="goPage:1">1</p>
+        {if lists.cursor<4}
+        <p {if lists.cursor==2}class="current-page"{/if} data-event="goPage:2">2</p>
+        <p {if lists.cursor==3}class="current-page"{/if} data-event="goPage:3">3</p>
+        <p {if lists.cursor==4}class="current-page"{/if} data-event="goPage:4">4</p>
+        <p>...</p>
+        {elsif lists.cursor==4}
+        <p {if lists.cursor==2}class="current-page"{/if} data-event="goPage:2">2</p>
+        <p {if lists.cursor==3}class="current-page"{/if} data-event="goPage:3">3</p>
+        <p {if lists.cursor==4}class="current-page"{/if} data-event="goPage:4">4</p>
+        <p {if lists.cursor==5}class="current-page"{/if} data-event="goPage:5">5</p>
+        <p>...</p>
+        {elsif lists.cursor>4&&(lists.cursor<(lists.page_count-3))}
+        <p>...</p>
+        <p {if lists.cursor==lists.cursor-2}class="current-page"{/if} data-event="goPage:{lists.cursor-2}">{lists.cursor-2}</p>
+        <p {if lists.cursor==lists.cursor-1}class="current-page"{/if}  data-event="goPage:{lists.cursor-1}">{lists.cursor-1}</p>
+        <p {if lists.cursor==lists.cursor}class="current-page"{/if}  data-event="goPage:{lists.cursor}">{lists.cursor}</p>
+        <p {if lists.cursor==lists.cursor+1}class="current-page"{/if}  data-event="goPage:{lists.cursor+1}">{lists.cursor+1}</p>
+        <p>...</p>
+        {elsif lists.cursor>=(lists.page_count-3)}
+        <p>...</p>
+        <p {if lists.cursor==lists.page_count-4}class="current-page"{/if} data-event="goPage:{lists.page_count-4}">{lists.page_count-4}</p>
+        <p {if lists.cursor==lists.page_count-3}class="current-page"{/if} data-event="goPage:{lists.page_count-3}">{lists.page_count-3}</p>
+        <p {if lists.cursor==lists.page_count-2}class="current-page"{/if} data-event="goPage:{lists.page_count-2}">{lists.page_count-2}</p>
+        <p {if lists.cursor==lists.page_count-1}class="current-page"{/if} data-event="goPage:{lists.page_count-1}">{lists.page_count-1}</p>
+        {/if}
+        <p {if lists.cursor==lists.page_count}class="current-page"{/if} data-event="goPage:{lists.page_count}">{lists.page_count}</p>
+        {else}
+        <% for(var i=1;i<=lists.page_count;i++){ %>
+        <p {if lists.cursor==i}class="current-page"{/if} data-event="goPage:{i}">{i}</p>
+        <% }%>
+        {/if}
+        <p data-event="goPage:{lists.cursor+1}">下一页</p>
+    </div>
+</div>

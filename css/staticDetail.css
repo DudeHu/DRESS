@@ -1,0 +1,25 @@
+.ui-statics-info{
+    border-bottom: 1px solid #999999;
+    width: 100%;
+    padding: 20px 50px;
+}
+.ui-statics-info>div{
+    width: 25%;
+    float: left;
+    font-size: 0;
+    padding: 0 20px;
+}
+.ui-statics-info>div:not(:last-child){
+    border-right: 1px solid #adadad;
+}
+.ui-statics-info>div span{
+    display: inline-block;
+    font-size: 18px;
+    text-align: center;
+}
+.ui-statics-info>div span:last-child{
+    width: 50px;
+}
+.ui-statics-info>div span:not(:last-child){
+    width: 90px;
+}

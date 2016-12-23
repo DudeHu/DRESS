@@ -1,0 +1,130 @@
+.ui-video-list li{
+    border-bottom: 1px solid #b3b3b3;
+}
+.ui-video-list li:hover{
+    background-color: #ecf1f5;
+    cursor: pointer;
+}
+.ui-video-con .ui-web-input{
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 5px;
+}
+.ui-video-con .ui-web-input input{
+    top:0;
+}
+.ui-video-list li{
+    font-size: 0;
+}
+.ui-video-list li>span{
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    line-height: 60px;
+    height: 60px;
+}
+.ui-video-list li:first-child{
+    font-weight: 600;
+}
+.ui-video-list li>span:nth-child(2){
+    width: 22%;
+    text-align: left;
+    text-indent: 1em;
+}
+.ui-video-list li>span:nth-child(3){
+    width: 20%;
+}
+.ui-video-list li>span:nth-child(4){
+    width: 13%;
+}
+.ui-video-list li>span:nth-child(5){
+    width: 13%;
+}
+.ui-video-list li>span:nth-child(6){
+    width: 13%;
+}
+.ui-video-list li>span:nth-child(7){
+    width: 15%;
+}
+.ui-video-list li.ui-no-search-li{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 14px;
+}
+.ui-web-checkbox{
+    width: 25px;
+    position: relative;
+    display: inline-block;
+    top: -15px;
+}
+.ui-web-checkbox label {
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    background: #fff;
+    border:1px solid #ddd;
+}
+.ui-web-checkbox label:hover::after {
+    opacity: 0.5;
+}
+.ui-web-checkbox input[type=checkbox]:checked + label:after {
+    opacity: 1;
+
+}
+.ui-web-checkbox label:after {
+    opacity: 0.2;
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 5px;
+    background: transparent;
+    top: 4px;
+    left: 4px;
+    border: 2px solid #0080fc;
+    border-top: none;
+    border-right: none;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.ui-video-control span{
+    display: inline-block;
+}
+.ui-video-control>span:first-child{
+    border-right: 1px solid #adadad;
+}
+.ui-video-control>span{
+    padding:0 20px;
+    cursor: pointer;
+}
+.ui-look-off-icon,.ui-look-on-icon,.ui-upload-off-icon,.ui-upload-on-icon{
+    width: 22px;
+    height: 20px;
+    vertical-align: middle;
+}
+.ui-look-off-icon{
+    background: url("../images/look_off_icon.png") no-repeat center;
+}
+.ui-look-on-icon{
+    background: url("../images/look_on_icon.png") no-repeat center;
+}
+.ui-upload-off-icon{
+    background: url("../images/upload_off_icon.png") no-repeat center;
+}
+.ui-upload-on-icon{
+    background: url("../images/upload_on_icon.png") no-repeat center;
+}
+.ui-upload-btn{
+    position: absolute;
+    width: 120px;
+    left: 0;
+    height: 40px;
+    opacity: 0;
+}

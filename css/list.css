@@ -1,0 +1,135 @@
+.ui-web-deal-state{
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+    background-color: #b0d5f8;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 18%;
+    z-index:1;
+    font-size: 26px;
+}
+.ui-web-deal-state .ui-web-deal-con >div{
+    float: left;
+}
+.ui-web-deal-state .ui-web-deal-con >div p{
+    line-height: 40px;
+}
+.ui-web-deal-con > div:first-child{
+    padding: 20px 0;
+}
+.ui-web-deal-state .ui-web-deal-con{
+    width: 65%;
+    margin: 0 auto;
+}
+.ui-export-btn{
+    margin-left: 40px;
+    cursor: pointer;
+}
+
+.ui-upload-box,.uploadify-queue{
+    width: 35%;
+    position: fixed;
+    bottom: 0;
+    left:18%;
+    z-index: 1;
+    background-color: #f1f5f8;
+    border: 1px solid #cfdae3;
+}
+.ui-upload-box-header{
+    background-color: #b0d5f8;
+    height: 45px;
+    line-height:45px ;
+}
+.ui-upload-box-header span{
+    display: inline-block;
+    height: 45px;
+    line-height:45px ;
+    width: 20px;
+    font-weight: bold;
+    color: #0080fc;
+    font-size: 16px;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.ui-upload-box ul{
+    padding: 20px;
+    height: 360px;
+    overflow-y: auto;
+}
+.ui-upload-box ul>li{
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid #cfdae3;
+}
+.ui-upload-box ul>li:first-child{
+    border-bottom: 3px solid #cfdae3;
+    font-size: 18px;
+}
+.ui-upload-box ul>li span{
+    display: inline-block;
+}
+.ui-upload-box ul>li>span{
+    text-align: center;
+}
+.ui-upload-box ul>li:first-child>span:not(:first-child){
+    position: relative;
+    top: -20px;
+}
+.ui-upload-box ul>li:first-child>span:nth-child(1){
+    line-height: 45px;
+}
+.ui-upload-box ul>li>span:nth-child(1){
+    width: 34%;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 15px;
+}
+.ui-upload-box ul>li>span:nth-child(2){
+    width: 18%;
+}
+.ui-upload-box ul>li>span:nth-child(3){
+    width: 24%;
+}
+.ui-upload-box ul>li>span:nth-child(4){
+    width: 21%;
+}
+
+.ui-upload-box-process{
+    position: relative;
+    width: 55%;
+    height: 6px;
+    border-radius: 3px 3px 3px;
+    -webkit-border-radius:3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px;
+    -mso-border-radius: 3px 3px 3px;
+    background-color: #cfdae3;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+.ui-upload-box-process span{
+    position: absolute;
+    height: 6px;
+    border-radius: 3px 3px 3px;
+    -webkit-border-radius:3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px;
+    -o-border-radius: 3px 3px 3px;
+    -mso-border-radius: 3px 3px 3px;
+    top: 0;
+    padding-left: 10px;
+    left: 0;
+    background-color: #0080fc;
+}
+.ui-upload-box-stop{
+    background: url("../images/close_icon.png") no-repeat center;
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    vertical-align: middle;
+    cursor: pointer;
+}

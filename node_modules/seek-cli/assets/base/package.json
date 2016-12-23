@@ -1,0 +1,7 @@
+{
+  "name": "seekjs-demo",
+  "version": "0.0.1",
+  "dependencies": {
+    "seekjs": "^1.0.5"
+  }
+}

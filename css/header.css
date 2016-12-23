@@ -1,0 +1,75 @@
+.ui-header-con{
+    height: 110px;
+    width: 100%;
+    line-height: 110px;
+    border-bottom: 1px solid #999999;
+    background-color: #ecf1f5;
+    padding: 20px 90px 20px 40;
+    font-size: 16px;
+    position: fixed;
+    z-index: 2;
+}
+
+.ui-header-con .ui-web-logo{
+    width: 150px;
+    height: 60px;
+}
+.ui-header-con >div:first-child{
+    float: left;
+}
+.ui-header-con>div:not(:first-child){
+    float: right;
+}
+.ui-web-space{
+    position: relative;
+    top:10px;
+    text-align: center;
+    margin-right: 20px;
+}
+.ui-web-space-val{
+    height: 12px;
+    border-radius: 5px 5px 5px;
+    -webkit-border-radius:5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px;
+    -o-border-radius: 5px 5px 5px;
+    -mso-border-radius: 5px 5px 5px;
+    width: 130px;
+}
+.ui-web-space-val{
+    border:1px solid #999;
+    position: relative;
+}
+.ui-web-space-val span{
+    display: inline-block;
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 10px;
+    background-color: #0080fc;
+}
+.ui-web-space-txt{
+    line-height: 30px;
+}
+.ui-header-user,.ui-header-exit{
+    line-height: 33px;
+}
+.ui-header-user-icon{
+    background: url("../images/user_icon_cir.png") no-repeat center;
+    height: 33px;
+    width: 33px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.ui-header-exit-icon{
+    background:url("../images/exit_icon.png") no-repeat center;
+    width: 31px;
+    height: 29px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.ui-header-info>div{
+    float: left;
+}
+.ui-header-info>div:not(:last-child){
+    padding-right: 30px;
+}

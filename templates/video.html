@@ -1,0 +1,75 @@
+<div class="ui-video-con ui-content-con">
+    <div class="ui-content-header ui-video-header ui-com-clearFix">
+        <span class="ui-content-header-txt">全部视频</span>
+        <div class="ui-relative-right">
+            <span class="ui-web-btn-mid ui-com-relative">
+                上传
+                <input id="uploadFile" data-event="change>upload" class="ui-upload-btn" multiple type="file">
+            </span>
+            <div data-enter="search" class="ui-web-input">
+                <span class="ui-search-icon"></span>
+                <input data-bind="args.serachString" type="text"/>
+            </div>
+        </div>
+    </div>
+    <p id="time"></p>
+    <ul class="ui-video-list">
+        {if this.videoList.length>0}
+        <li>
+            <div class="ui-web-checkbox">
+                <input data-event="change>selectAll" type="checkbox" id="checkboxInput"/>
+                <label for="checkboxInput"></label>
+            </div>
+            <span>名称</span>
+            <span>上传时间</span>
+            <span>大小</span>
+            <span>标签数</span>
+            <span>状态</span>
+            <span>操作</span>
+        </li>
+        {foreach src=this.videoList}
+        <% var index=Number(i+1);%>
+        <li  data-event="go:detail/video">
+            <div class="ui-web-checkbox">
+                <input data-event="change>selectSingle" type="checkbox" name="checkboxInput" id="checkboxInput{index}"/>
+                <label for="checkboxInput{index}"></label>
+            </div>
+            <span>{item.name}</span>
+            <span>{item.time | timestamp2Date}</span>
+            <span>{item.size}</span>
+            <span>{item.counts}</span>
+
+            {if item.state=="ed"}
+            <span>分析完成</span>
+            <span class="ui-video-control">
+                <span class="ui-look-on-icon"></span>
+                <span class="ui-upload-on-icon"></span>
+            </span>
+            {elsif item.state=="ing"}
+            <span class="ui-orange-txt"> 正在分析</span>
+            <span class="ui-video-control">
+                <span class="ui-look-off-icon"></span>
+                <span class="ui-upload-off-icon"></span>
+            </span>
+            {/if}
+
+        </li>
+        {/foreach}
+        {else}
+        <li>
+            <span></span>
+            <span>名称</span>
+            <span>上传时间</span>
+            <span>大小</span>
+            <span>标签数</span>
+            <span>状态</span>
+            <span>操作</span>
+        </li>
+        <li class="ui-no-search-li">
+            没有文件！
+        </li>
+        {/if}
+    </ul>
+    <div style="display: none" class="ui-web-del-btn ui-floatL">删除</div>
+    <div class="ui-floatR" data-view="page"></div>
+</div>

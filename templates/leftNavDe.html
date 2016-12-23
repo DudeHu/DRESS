@@ -1,0 +1,17 @@
+<%
+    var page = this.parent.page;
+%>
+<div class="ui-left-nav-de">
+    <ul>
+        <li data-event="goPage:video" {if page=="video"}class="on"{/if}>
+            <div>
+                <span {if page=="video"}class="ui-video-on-icon"{else}class="ui-video-off-icon"{/if}></span>
+            </div>
+        </li>
+        <li  data-event="goPage:static" {if page=="statics"}class="on"{/if}>
+            <div>
+                <span  {if page=="static"}class="ui-count-on-icon"{else}class="ui-count-off-icon"{/if}></span>
+            </div>
+        </li>
+    </ul>
+</div>

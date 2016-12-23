@@ -1,0 +1,55 @@
+<div>
+    <div data-view="header"></div>
+    <div data-view="leftNav"></div>
+    {if this.page=="video"}
+    <div data-view="video"></div>
+    {elsif this.page=="statics"}
+    <div data-view="statics"></div>
+    {/if}
+    <div id="uploadFile-queue"></div>
+    <div data-part="statusPart">
+        {if this.status=="uploading"}
+        <div class="ui-web-deal-state">
+            <div class="ui-web-deal-con ui-com-clearFix">
+                <div>
+                    <p>正在上传</p>
+                    <p class="ui-blue-txt">0/3</p>
+                </div>
+                <div data-event="showUploadBox" class="ui-export-btn ui-txt-big ui-blue-txt">
+                    >>
+                </div>
+            </div>
+        </div>
+        <div class="ui-upload-box">
+            <div class="ui-upload-box-header">
+                <span data-event="closeUploadBox">╳</span>
+            </div>
+            <ul>
+                <li>
+                    <span>视频名称</span>
+                    <span>大小</span>
+                    <span>进度</span>
+                    <span>操作</span>
+                </li>
+                {foreach src=this.uploadCuList}
+                <li>
+                    <span>{item.name}</span>
+                    <span>{item.size}</span>
+                    <span>
+                    <span class="ui-upload-box-process ui-upload-box-process-{i}">
+                         <span style="width: 0"></span>
+                    </span>
+                    <span class="ui-upload-process-val-{i}">0%</span>
+                </span>
+                    <span data-event="stopUpload:{i}" class="ui-upload-box-stop ui-upload-box-stop-{i}"></span>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+        {elsif this.status=="success"}
+        <div class="ui-web-deal-state">
+            上传成功！
+        </div>
+        {/if}
+    </div>
+</div>

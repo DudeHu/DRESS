@@ -1,0 +1,68 @@
+.ui-login-con{
+    width: 100%;
+    height: 100%;
+    background: url("../images/login_bg.png") no-repeat center ;
+    background-size: 1100px;
+}
+
+.ui-login-left,.ui-login-right{
+    display: inline-block;
+}
+.ui-login-left{
+    width: 48%;
+
+}
+.ui-login-right{
+    width: 45%;
+    vertical-align: top;
+}
+.ui-login-left-bg{
+    background: url("../images/login_left_bg.png") no-repeat 280px ;
+    height: 80%;
+    margin-top: 50px;
+    background-size: 65%;
+}
+.ui-login-form{
+    width: 350px;
+    margin: 0 auto;
+    height: auto;
+    margin-top: 25%;
+}
+
+
+.ui-procol-des{
+    color: #b2b3b3;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.ui-order-h-des span:not(:last-child){
+    border-right: 1px solid #b2b3b3;
+}
+.ui-order-h-des span{
+    padding:0 10px;
+    height: 20px;
+    margin: 10px 0;
+}
+.ui-order-l-des{
+    height: 40px;
+    line-height: 40px;
+}
+
+.ui-order-l-des:before,.ui-order-l-des:after{
+    content: "";
+    width: 90px;
+    height: 0;
+    border-bottom: 1px solid #b2b3b3;
+    position: relative;
+    display: inline-block;
+    top: -3px;
+}
+.ui-order-l-des:before{
+    left: -10px;
+}
+.ui-order-l-des:after{
+    left: 10px;
+}
