@@ -1,5 +1,5 @@
 {
-  "name": "2cash_admin",
+  "name": "dress",
   "version": "0.0.2",
   "devDependencies": {
     "seek-cli": "latest",
@@ -12,5 +12,11 @@
   "scripts": {
     "init": "node ./build/init.js",
     "taobao": "npm install --regristry=https://registry.npm.taobao.org/"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huyuqiong/DRESS.git"
+  },
+  "license": "MIT"
+
 }

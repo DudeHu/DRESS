@@ -2,6 +2,7 @@
  * Created by huyuqiong on 2016/12/17.
  */
 define(function (req,exp) {
+    "use strict";
     exp.onInit = function (done) {
         exp.itemKey = exp.parent.params[1];
         done();

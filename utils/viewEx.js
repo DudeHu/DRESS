@@ -1,4 +1,5 @@
 define(function(req,exp){
+    "use strict";
 	var app = req("sys.app");
 
 	exp.alert = function(){
