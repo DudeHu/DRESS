@@ -1,6 +1,7 @@
 /.idea
 /.git
 /build
+/node_modules
 /my.config.js
 /run.sh
 /kil.sh
