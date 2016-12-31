@@ -16,7 +16,7 @@ e.运行初始化脚本
 npm run init
 
 ###2.运行
-nobox start java=bihai
+nobox start
 
 ###3.构建及运行
 seek build test
