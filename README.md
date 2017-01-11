@@ -1,23 +1,26 @@
 
 ###1.Initialition
 
-a.install server / release module. (安装服务器及发版模块)
+a.Install server / release module. (安装服务器及发版模块)
 
 npm install nobox -g
+npm install bower -g
 
-b.install seekjs script for build tools. (安装seekjs脚手架构建工具)
+b.Install seekjs script for build tools. (安装seekjs脚手架构建工具)
 
 npm install seek-cli -g
 
-c.install uglifyjs for compress code.(安装代码压缩工具)
+c.Install uglifyjs for compress code.(安装代码压缩工具)
 
 npm install uglifyjs -g
 
-d.install local module. (安装本地模块)
+d.Install local module. (安装本地模块)
+
+bower install
 
 npm install 或 npm run taobao (适用于国内)
 
-e.initialization script of run.(运行初始化脚本)
+e.Initialization script of run.(运行初始化脚本)
 
 npm run init
 
