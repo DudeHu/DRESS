@@ -1,0 +1,25 @@
+{
+  "name": "dress",
+  "description": "",
+  "main": "",
+  "authors": [
+    "huyuqiong <921628437@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/huyuqiong/DRESS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huyuqiong/DRESS.git"
+  },
+  "dependencies": {
+    "qiniu": "^1.0.17",
+    "plupload": "=2.1.1"
+  }
+}
