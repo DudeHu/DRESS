@@ -35,14 +35,19 @@
                 <source src="{this.videoInfo.videoUrl}"  type="video/mp4"/>
                 您的浏览器不支持 HTML5 video 标签。
             </video>
-            <div data-part="videoMask" class="ui-video-mask">
-                    <div style="width:{this.mask.width}px;height:{this.mask.height}px;left:{this.mask.x}px;top:{this.mask.y}px"  class="ui-video-mask-range">
+                <div data-part="videoMask" class="ui-video-mask">
+                    {foreach src=this.masks}
+                    <% var mask = item; %>
+                    <div style="width:{mask.width}%;height:{mask.height}%;left:{mask.x}%;top:{mask.y}%"  class="ui-video-mask-range">
                         <div class="ui-video-mask-tip">
-                            <div s class="ui-video-mask-txt">{this.mask.text}</div>
-                            <div class="ui-video-mask-trangle"></divs>
+                            <div s class="ui-video-mask-txt">{mask.text}</div>
+                            <div class="ui-video-mask-trangle"></div>
                         </div>
-                    </div>
-            </div>
+                      </div>
+                    {/foreach}
+                 </div>
+
+
 
         </div>
     </div>
@@ -67,7 +72,6 @@
         </div>
     </div>
         <div data-part="tagListPart">
-            <% console.log(this.searchResultList) %>
             {if this.searchResultList.tagList}
             <div class="ui-con-fw ui-statics-list-con">
                 <div class="ui-statics-list-header ui-com-clearFix">
@@ -149,7 +153,7 @@
                             {foreach src=_citem.tagPicList}
                             <% var _sitem = item %>
                             <div>
-                                <img src="{_sitem.picUrl}">
+                                <img src="{'http://'+_sitem.picUrl}">
                                 <p>开始时间 ／ {_sitem.startTime}</p>
                                 <p>持续时间 ／ <span class="ui-orange-txt">{_sitem.duration}</span></p>
                             </div>

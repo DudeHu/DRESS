@@ -52,6 +52,7 @@ define(function (req,exp) {
             left:50
         }
     }
+    exp.masks = [];
 
     exp.rangeWidth = 0;
 
@@ -80,6 +81,7 @@ define(function (req,exp) {
         service.getVideoDetail(exp.args,function (rs) {
             if(rs.status == "SUCCESS"){
                 exp.videoInfo = rs.data;
+                exp.playList = rs.data.trailInfo;
                 done();
             }else{
                 exp.alert(rs.msg);
@@ -93,8 +95,10 @@ define(function (req,exp) {
         var Media = document.getElementById("videoDom");
         var has = false;
         Media.addEventListener("timeupdate",function(e){
-            var _t = Math.round(Media.currentTime);
-            var _e =exp.playList[_t];
+            var _t1 = Math.ceil(15 * Media.currentTime);
+            var _t2 = Math.floor(15 * Media.currentTime);
+            var _e = exp.playList[_t1] || exp.playList[_t2];
+            console.log("_e:"+_e+_t1+":"+_t2);
             if(!has && (Media.readyState > 0)) {
                 var hour = parseInt(Media.duration / 60 /60);
                 var minutes = parseInt(Media.duration / 60);
@@ -106,17 +110,31 @@ define(function (req,exp) {
                 exp.videoInfoPart.render();
                 has = true;
             }
-            if(_e){
-                exp.mask.width = _e.width;
-                exp.mask.height = _e.height;
-                exp.mask.text = _e.name;
-                exp.mask.x = _e.left;
-                exp.mask.y = _e.top;
-                exp.videoMask.render();
+            if(_e && _e.length>0){
+                var _t = exp.playList[_t1]?_t1:_t2;
+                _e.forEach(function (ele,index) {
+                    var text = ele.name;
+                    clearInterval(time);
+                    var time = window.setInterval(function () {
+                        var _c = ele.trail[_t];
+                        if(_c !== undefined){
+                            exp.masks[index] = {};
+                            exp.masks[index].text = text;
+                            exp.masks[index].width = Math.round(_c.width * 100);
+                            exp.masks[index].height = Math.round(_c.height * 100);
+                            exp.masks[index].x = Math.round(_c.x * 100);
+                            exp.masks[index].y = Math.round(_c.y * 100);
+                            exp.videoMask.render();
+                            _t = _t+1;
+                        }else{
+                            exp.masks = [];
+                            clearInterval(time);
+                        }
+                    },1000/exp.videoInfo.fps);
+                });
                 exp.videoMask.show();
-                window.setTimeout(function () {
-                    exp.videoMask.hide();
-                },_e.duration*1000);
+            }else{
+                exp.videoMask.hide();
             }
         },false);
     }
