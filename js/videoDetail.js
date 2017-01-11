@@ -3,6 +3,8 @@
  */
 define(function (req,exp) {
     "use strict";
+
+    var service = req("utils.ajax");
     exp.args = {
         rangeVal:3,
         serachString:""
@@ -53,9 +55,8 @@ define(function (req,exp) {
 
     exp.rangeWidth = 0;
 
-    exp.onInit = function () {
+    exp.searchResultList = {};
 
-    }
     exp.mask = {
         width:0,
         height:0,
@@ -63,16 +64,48 @@ define(function (req,exp) {
         y:0,
         text:""
     }
-
+    exp.videoInfo = {
+        name:"",
+        objectTagNums:0,
+        sceneTagNums:0,
+        starTagNums:0,
+        size:0,
+        videoUrl:"",
+        uploadTime:""
+    };
     exp.onInit = function (done) {
-        done();
+
+        exp.parent.params[1] && (exp.args.videoId = exp.parent.params[1]);
+
+        service.getVideoDetail(exp.args,function (rs) {
+            if(rs.status == "SUCCESS"){
+                exp.videoInfo = rs.data;
+                done();
+            }else{
+                exp.alert(rs.msg);
+            }
+        });
+
+
     }
     
     exp.onRender = function () {
         var Media = document.getElementById("videoDom");
+        var has = false;
         Media.addEventListener("timeupdate",function(e){
             var _t = Math.round(Media.currentTime);
             var _e =exp.playList[_t];
+            if(!has && (Media.readyState > 0)) {
+                var hour = parseInt(Media.duration / 60 /60);
+                var minutes = parseInt(Media.duration / 60);
+                var seconds = Math.round(Media.duration % 60);
+                hour = hour<10?("0"+hour):hour;
+                minutes = minutes<10?("0"+minutes):minutes;
+                seconds = seconds<10?("0"+seconds):seconds;
+                exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
+                exp.videoInfoPart.render();
+                has = true;
+            }
             if(_e){
                 exp.mask.width = _e.width;
                 exp.mask.height = _e.height;
@@ -100,7 +133,9 @@ define(function (req,exp) {
         console.log(_val);
         exp.rangeWidth = (_val-_min)/(_max-_min) * 100-0.4*_val+"%";
         exp.rangePart.render();
+        exp.search();
     }
+
     exp.showHideAllDetail = function () {
         var _ele = exp.$element;
         if(_ele.text() == "－"){
@@ -122,19 +157,33 @@ define(function (req,exp) {
             _ele.removeClass("ui-detail-export-icon").addClass("ui-detail-unexport-icon");
         }
     }
-    var fileName = "video.json";
-    var content = {
-        name:123123,
-        sadd:3123
-    };
-    exp.downloadJSON = function () {
-            var aLink = document.createElement('a');
-            var blob = new Blob([JSON.stringify(content)]);
-            var evt = document.createEvent("HTMLEvents");
-            evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
-            aLink.download = fileName;
-            aLink.href = URL.createObjectURL(blob);
-            aLink.dispatchEvent(evt);
-            aLink.click();
+    exp.downloadJSON = function (url) {
+        var aLink = document.createElement('a');
+        //var blob = new Blob([JSON.stringify(content)]);
+        var _fileReg = new RegExp(".+/(.+)$");
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("click", false, false);
+        aLink.download = url.match(_fileReg);
+        aLink.href = url;
+        aLink.dispatchEvent(evt);
+        aLink.click();
     }
+
+
+    exp.search = function () {
+        if(exp.$element.val() && exp.$element.val().length>2) {
+            service.searchByTag(exp.args, function (rs) {
+                if (rs.status == "SUCCESS") {
+                    exp.searchResultList = rs.data;
+                } else {
+                    exp.searchResultList.tagList = [];
+                }
+
+            });
+        }else{
+            exp.searchResultList = {};
+        }
+        exp.tagListPart.render();
+    }
+
 });

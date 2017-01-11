@@ -3,10 +3,9 @@
     padding: 30px 0;
 }
 .ui-video-detail-video{
-    width: 75%;
-    height:550px;
     float: left;
     position: relative;
+    width: 75%;
 }
 .ui-video-mask{
     position: absolute;
@@ -78,4 +77,14 @@
 .ui-video-name{
     font-size: 18px;
     color: #333;
+}
+video{
+    margin: 0 auto;
+    display: inherit;
+}
+.ui-no-search-li{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 14px;
 }

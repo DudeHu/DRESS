@@ -2,31 +2,91 @@
  * Created by qu on 2016/8/23.
  */
 
-
-
+var config = require('../upload.config.js');
+var qiniu = require('qiniu');
+var uptoken = new qiniu.rs.PutPolicy(config.Bucket_Name);
 //登陆
-exports.login = function(params){
+exports.login = function(params,session){
    return {
-       url:"/java/adminUser/login",
+       url:"/user/login",
        type:"post",
        data:{
-           username:params.name,
+           user_name:params.account,
            password:params.password
        }
 
    }
 };
 
-exports.checkMsgFile = function() {
-    /* return {
-     url: `/java/pc/order/check/login/submit_check_doc_item`,
-     type: "post"
-     };*/
+exports.deleteVideo = function (params,session) {
     return{
-        url:"http://192.168.5.183:8090/java/pc/order/check/login/submit_check_doc_batch",
-        type: "post"
-    };
-};
+        url:"/video/delete",
+        type:"post",
+        data:{
+            videoIds:params.videoIds
+        }
+    }
+}
+
+exports.getVideoList = function (params,session) {
+    return{
+        url:"/video/list",
+        type:"post",
+        data:{
+            userId:params.userId,
+            page:params.cursor,
+            size:params.step
+        }
+    }
+}
+
+exports.searchByName = function (params,session) {
+    return{
+        url:"/video/searchByName",
+        type:"post",
+        data:{
+            userId:params.userId,
+            videoName:params.serachString,
+            page:params.page,
+            size:params.size
+        }
+    }
+}
+
+exports.uploadVideo = function (params,seesion) {
+    return{
+        url:"/video/upload",
+        type:"post",
+        data:{
+            userId:params.userId,
+            videoUrl:params.url,
+            videoName:params.name,
+            videoSize:params.size
+        }
+    }
+}
+
+exports.searchByTag = function (params) {
+    return{
+        url:"/video/searchTag",
+        type:"post",
+        data:{
+            videoId:params.videoId,
+            tagName:params.serachString,
+            duration:params.rangeVal
+        }
+    }
+}
+
+exports.getVideoDetail = function (params) {
+    return{
+        url:"/video/info",
+        type:"post",
+        data:{
+            videoId:params.videoId
+        }
+    }
+}
 
 
 

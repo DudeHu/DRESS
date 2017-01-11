@@ -5,34 +5,34 @@
     </div>
     <div class="ui-video-detail ui-com-clearFix">
         <div class="ui-video-detail-info">
-            <div class="ui-video-detail-face">
-                <p class="ui-video-name">如果蜗牛有爱情05.mp4</p>
-                <p>上传时间：2016-10-06 / 20:08 </p>
-                <p>00:13:00</p>
-                <p>文件大小：80MB</p>
+            <div data-part="videoInfoPart" class="ui-video-detail-face">
+                <p class="ui-video-name">{this.videoInfo.name}</p>
+                <p>上传时间：{this.videoInfo.uploadTime} </p>
+                <p>{this.videoInfo.duration}</p>
+                <p>文件大小：{this.videoInfo.size}MB</p>
             </div>
             <div class="ui-video-detail-depth">
                 <p>
                     <span class="ui-web-tings-icon"></span>
                     <span class="ui-statics-txt">物体</span>
-                    <span class="ui-web-count">16</span>
+                    <span class="ui-web-count">{this.videoInfo.objectTagNums}</span>
                 </p>
                 <p>
                     <span class="ui-web-place-icon"></span>
                     <span class="ui-statics-txt">场景</span>
-                    <span class="ui-web-count">33</span>
+                    <span class="ui-web-count">{this.videoInfo.sceneTagNums}</span>
                 </p>
                 <p>
                     <span class="ui-web-people-icon"></span>
                     <span class="ui-statics-txt">明星</span>
-                    <span class="ui-web-count">33</span>
+                    <span class="ui-web-count">{this.videoInfo.starTagNums}</span>
                 </p>
             </div>
-            <div data-event="downloadJSON" class="ui-web-pad-btn">下载JSON</div>
+            <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
         </div>
         <div class="ui-video-detail-video">
-            <video id="videoDom" width="100%" height="100%" controls>
-                <source src="../images/test.mp4"  type="video/mp4"/>
+            <video id="videoDom" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
+                <source src="{this.videoInfo.videoUrl}"  type="video/mp4"/>
                 您的浏览器不支持 HTML5 video 标签。
             </video>
             <div data-part="videoMask" class="ui-video-mask">
@@ -60,70 +60,109 @@
                     </div>
                 </div>
             </div>
-            <div data-enter="search" class="ui-web-input">
+            <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input data-bind="args.serachString" type="text"/>
+                <input data-event="input>search" data-bind="args.serachString" type="text"/>
             </div>
         </div>
     </div>
-    <div class="ui-con-fw ui-statics-list-con">
-        <div class="ui-statics-list-header ui-com-clearFix">
-            <div class="ui-statics-list-header-txt">明星</div>
-            <div data-event="showHideAllDetail" class="ui-detail-all-export">＋</div>
-        </div>
-        <ul class="ui-statics-list">
-            <li>
-                <span>名称</span>
-                <span>标签数</span>
-                <span>时长</span>
-                <span>
-                    广告机会
-                    <span class="ui-orange-txt">3</span>
-                </span>
-            </li>
-            <li>
-                <span>刘涛</span>
-                <span>
-                    8
-                    <span data-event="showHideDetail" class="ui-detail-unexport-icon"></span>
-                </span>
-                <span>00:22:33</span>
-                <span>3</span>
-                <div class="ui-list-item-detail">
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
-                    <div>
-                        <img src="">
-                        <p>开始时间 ／ 00:14:18</p>
-                        <p>持续时间 ／ <span class="ui-orange-txt">＃13s</span></p>
-                    </div>
+        <div data-part="tagListPart">
+            <% console.log(this.searchResultList) %>
+            {if this.searchResultList.tagList}
+            <div class="ui-con-fw ui-statics-list-con">
+                <div class="ui-statics-list-header ui-com-clearFix">
+                    <div class="ui-statics-list-header-txt">搜索结果</div>
+                    <div data-event="showHideAllDetail" class="ui-detail-all-export">＋</div>
                 </div>
-            </li>
-        </ul>
-    </div>
+                <ul class="ui-statics-list">
+                {if this.searchResultList.tagList.length>0}
+
+                    <li>
+                        <span>名称</span>
+                        <span>标签数</span>
+                        <span>时长</span>
+                        <span>
+                    广告机会
+                    <span class="ui-orange-txt">{this.searchResultList.totalAdCount}</span>
+                    </span>
+                    </li>
+                    {foreach src=this.searchResultList.tagList}
+                    <% var _citem = item %>
+                    <li>
+                        <span>{_citem.tagName}</span>
+                        <span>
+                            {_citem.tagCount}
+                         <span data-event="showHideDetail" class="ui-detail-unexport-icon"></span>
+                        </span>
+                        <span>{_citem.duration}</span>
+                        <span>{_citem.adCount}</span>
+                        <div class="ui-list-item-detail">
+                            {foreach src=_citem.tagPicList}
+                            <% var _sitem = item %>
+                            <div>
+                                <img src="{_sitem.picUrl}">
+                                <p>开始时间 ／ {_sitem.startTime}</p>
+                                <p>持续时间 ／ <span class="ui-orange-txt">{_sitem.duration}</span></p>
+                            </div>
+                            {/foreach}
+                        </div>
+                    </li>
+                    {/foreach}
+
+                    {else}
+                    <li class="ui-no-search-li">
+                        无搜索结果！
+                    </li>
+                 {/if}
+                </ul>
+
+            </div>
+            {else}
+            {foreach src=this.videoInfo.tagInfo}
+            <% var _item = item %>
+            <div class="ui-con-fw ui-statics-list-con">
+                <div class="ui-statics-list-header ui-com-clearFix">
+                    <div class="ui-statics-list-header-txt">{i=="objects"?"物体":(i=="star"?"明星":"场景")}</div>
+                    <div data-event="showHideAllDetail" class="ui-detail-all-export">＋</div>
+                </div>
+                <ul class="ui-statics-list">
+                    <li>
+                        <span>名称</span>
+                        <span>标签数</span>
+                        <span>时长</span>
+                        <span>
+                    广告机会
+                    <span class="ui-orange-txt">{_item.totalAdCount}</span>
+                </span>
+                    </li>
+                    {foreach src=_item.tagList}
+                    <% var _citem = item %>
+                    <li>
+                        <span>{_citem.tagName}</span>
+                        <span>
+                            {_citem.tagCount}
+                         <span data-event="showHideDetail" class="ui-detail-unexport-icon"></span>
+                        </span>
+                        <span>{_citem.duration}</span>
+                        <span>{_citem.adCount}</span>
+                        <div class="ui-list-item-detail">
+                            {foreach src=_citem.tagPicList}
+                            <% var _sitem = item %>
+                            <div>
+                                <img src="{_sitem.picUrl}">
+                                <p>开始时间 ／ {_sitem.startTime}</p>
+                                <p>持续时间 ／ <span class="ui-orange-txt">{_sitem.duration}</span></p>
+                            </div>
+                            {/foreach}
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+
 </div>
 
 </div>

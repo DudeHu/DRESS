@@ -2,6 +2,7 @@
   "name": "dress",
   "version": "0.0.2",
   "devDependencies": {
+    "qiniu-js": "^1.0.14-beta",
     "seek-cli": "latest",
     "seekjs": "^1.2.6"
   },
@@ -18,5 +19,4 @@
     "url": "https://github.com/huyuqiong/DRESS.git"
   },
   "license": "MIT"
-
 }

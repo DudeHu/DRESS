@@ -7,10 +7,12 @@ define(function(req,exp,mod){
     };
 
     mod.exports = {
-        login: service("login"),                  /*登陆注册短信验证码等*/
-
-        saveFile: service("saveFile"),            //上传文件
-
+        login: service("login"),                   /*登陆注册短信验证码等*/
+        getVideoList:service("getVideoList"),      //获取视频列表
+        uploadVideo: service("uploadVideo"),       //上传视频列表
+        searchByName:service("searchByName"),       //搜索视频通过姓名（列表页）
+        getVideoDetail:service("getVideoDetail"),   //获取视频详情页
+        searchByTag:service("searchByTag"),         //搜索视频通过标签名（详情页）
         _end_: 0
 	};
 

@@ -4,6 +4,7 @@
 define(function(req,exp){
     "use strict";
 
+    var service = req("utils.ajax");
     exp.args = {
         password:"",
         account:""
@@ -13,7 +14,21 @@ define(function(req,exp){
     }
 
     exp.login = function () {
-        console.log(JSON.stringify(exp.args));
-        exp.go("list");
+        service.login(exp.args,function (rs) {
+            console.log(rs);
+            if(rs.status == "SUCCESS"){
+                sessionStorage.userId = "10001";
+                sessionStorage.name = rs.data.name;
+                sessionStorage.space = rs.data.space;
+                exp.go("list");
+            }else{
+                $(".ui-error-con").show();
+            }
+        });
+
+    }
+
+    exp.hideError = function () {
+        $(".ui-error-con").hide();
     }
 });

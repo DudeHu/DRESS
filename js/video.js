@@ -3,153 +3,156 @@
  */
 define(function(req,exp){
     "use strict";
-    exp.videoList = []
+
+    var $ = req("jquery");
+    var service = req("utils.ajax");
+    var FileProgress = req("utils.fileprogress");
+    req("../bower_components/plupload/js/moxie.js");
+    req("../bower_components/plupload/js/plupload.dev.js");
+    req("../bower_components/plupload/js/i18n/zh_CN.js");
+    req("utils.qiniu");
+    exp.videoList = [];
+
     exp.lists = {
         cursor:1,                   //当前页数
         page_count:2,               //总页数
         total:0,                    //总条数
-        step:0                      //每页显示数量
+        step:30                      //每页显示数量
     };
+
     exp.args = {
-        "serachString":""
-    }
+        serachString:"",
+        userId:sessionStorage.userId
+    };
 
     const LENGTH=50*1024*1024;
 
     exp.onInit = function (done) {
-        exp.videoList = [
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974491687,
-                "size":"93MB",
-                "counts":320,
-                "state":"ed"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ed"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
-            },  {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974411687,
-                "size":"13MB",
-                "counts":320,
-                "state":"ing"
-            },
-            {
-                "name":"如果蜗牛有爱情.mp4",
-                "time":1481974341687,
-                "size":"23MB",
-                "counts":320,
-                "state":"ing"
+        exp.videoList = [];
+        service.getVideoList(exp.args,function (rs) {
+            if(rs.status == "SUCCESS"){
+                exp.lists.page_count = rs.data.totalCount;
+                rs.data.list && (exp.videoList = rs.data.list);
+                done();
+            }else{
+                exp.alert(rs.msg);
             }
-        ];
-        exp.lists.total = 3;
-        done();
+        });
     }
 
+    var currentFile;
+    var currentIndex = 0;
+    var uploaded = [];
     exp.onRender = function () {
-        /*$('#uploadFile').uploadify({
-            'formData'     : {
-                'timestamp' : new Date().getTime(),
-                'token'     : "dsadad23342342dzsdsdkg"
+        var uploader = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'pickfiles',
+            container: 'container',
+            drop_element: 'container',
+            max_file_size: '500mb',
+            flash_swf_url: '../bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '5mb',
+            filters:{
+                mime_types : [
+                    { title : "video files", extensions : "mp4,flv" },
+                ]
             },
-            'fileTypeDesc':'支持的格式：',
-            'buttonClass':'ui-web-btn-mid',
-            'buttonText':'上传',
-            'swf':"../utils/uploadify.swf",
-            'onFallback':function(){             //检测FLASH失败调用
-                alert("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试。");
-             },
-            'averageSpeed':100,
-            'onUploadSuccess':function(file, data, response) {  //上传到服务器，服务器返回相应信息到data里
-                if (data) {
-                    var dataObj = eval("(" + data + ")");//转换为json对象
-                    //$('#uploadify').uploadify('upload')
-                    conlog.log(dataObj);
+            multi_selection: !(mOxie.Env.OS.toLowerCase()==="ios"),
+            uptoken_url: "/node_service/checkMsgFile",
+            // uptoken_func: function(){
+            //     var ajax = new XMLHttpRequest();
+            //     ajax.open('GET', $('#uptoken_url').val(), false);
+            //     ajax.setRequestHeader("If-Modified-Since", "0");
+            //     ajax.send();
+            //     if (ajax.status === 200) {
+            //         var res = JSON.parse(ajax.responseText);
+            //         console.log('custom uptoken_func:' + res.uptoken);
+            //         return res.uptoken;
+            //     } else {
+            //         console.log('custom uptoken_func err');
+            //         return '';
+            //     }
+            // },
+            domain: "http://resource.penn.dressplus.cn",
+            get_new_uptoken: false,
+            // downtoken_url: '/downtoken',
+            // unique_names: true,
+            // save_key: true,
+            // x_vars: {
+            //     'id': '1234',
+            //     'time': function(up, file) {
+            //         var time = (new Date()).getTime();
+            //         // do something with 'time'
+            //         return time;
+            //     },
+            // },
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'FilesAdded': function(up, files) {
+                    plupload.each(files, function(file) {
+                        FileProgress.bindEvent(file);
+                        var _item = {};
+                        _item.name = file.name;
+                        _item.size = file.size/1024/1024;
+                        exp.parent.uploadCuList.push(_item);
+                    });
+                    exp.parent.status = "uploading";
+                    exp.parent.statusPart.render();
+                    $(".ui-upload-box-stop").on('click',function () {
+                        var _this = $(this);
+                        exp.confirm("确定取消该文件的上传？",function () {
+                            up.removeFile(currentFile);
+                            _this.parent().remove();
+                        },function(){
+
+                        });
+                    });
+                },
+                'BeforeUpload': function(up, file) {
+                    currentFile = file;
+                },
+                'UploadProgress': function(up, file) {
+                    var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+                    FileProgress.countProgress(file,currentIndex);
+                },
+                'UploadComplete': function() {
+                    exp.parent.status = "success";
+                    exp.parent.statusPart.render();
+                },
+                'FileUploaded': function(up, file, info) {
+                    FileProgress.countProgress(file,currentIndex);
+                    currentIndex += 1;
+                    info = JSON.parse(info);
+                    var _item = {};
+                    _item.userId = sessionStorage.userId;
+                    _item.name = file.name;
+                    _item.size = Math.round(file.size/1024/1024);
+                    if(info.url){
+                        _item.url = info.url;
+                    }else{
+                        var domain = up.getOption('domain');
+                        _item.url = `${domain}/video/${encodeURI(info.key)}`;
+                    }
+                    uploaded.push(_item);
+                    service.uploadVideo(_item,function (rs) {
+                        if(rs.status == "SUCCESS"){
+                            console.log(rs);
+                        }else{
+                            exp.alert(rs.msg);
+                        }
+                    });
+                },
+                'Error': function(up, err, errTip) {
+                    exp.alert(err.file.name+":"+errTip);
                 }
-            },
-            'itemTemplate' : '<div id="${fileID}" class="uploadify-queue-item">\
-					<div class="cancel">\
-						<a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\', \'${fileID}\')">X</a>\
-					</div>\
-					<span class="fileName">${fileName} (${fileSize})</span><span class="data"></span>\
-				</div>'
-        });*/
+            }
+        });
+
+        uploader.bind('FileUploaded', function() {
+            console.log('hello man,a file is uploaded');
+        });
     }
 
 
@@ -179,9 +182,24 @@ define(function(req,exp){
         else
             $(".ui-web-del-btn").hide();
     }
+    var searchList = [];
 
     exp.search = function () {
-        console.log(exp.args.serachString);
+        searchList = exp.videoList;
+        if(exp.$element.val() && exp.$element.val().length>2){
+            exp.args.size = exp.lists.step;
+            exp.args.page = exp.lists.cursor;
+            service.searchByName(exp.args,function (rs) {
+                if(rs.status == "SUCCESS"){
+                    rs.data.list && (exp.videoList = rs.data.list);
+                }else{
+                    exp.videoList = [];
+                }
+            });
+        }else{
+            exp.videoList = searchList;
+        }
+        exp.render();
     }
     
     exp.uploadProgressShow = function (files,loaded) {
@@ -210,7 +228,8 @@ define(function(req,exp){
 
     var filesList=[];
 
-    exp.upload = function () {
+
+    exp.uploadA = function () {
         var el = document.getElementById("uploadFile");
         for(var i=0;i<el.files.length;i++){
             var _file = el.files[i];
@@ -297,5 +316,16 @@ define(function(req,exp){
             }
 
             oReq.send(form);
+    }
+    exp.downloadJSON = function (url) {
+        var aLink = document.createElement('a');
+        //var blob = new Blob([JSON.stringify(content)]);
+        var _fileReg = new RegExp(".+/(.+)$");
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("click", false, false);
+        aLink.download = url.match(_fileReg);
+        aLink.href = url;
+        aLink.dispatchEvent(evt);
+        aLink.click();
     }
 });

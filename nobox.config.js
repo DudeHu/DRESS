@@ -15,6 +15,10 @@ module.exports = function (args,ua) {
             items:[{
                 path: "/service/",
                 file: require("./node/service")
+            },{
+                type:"json",
+                path:"/node_service/",
+                file:require("./node/node_service")
             }],
             validate:{
                 rule: require("./node/rule"),

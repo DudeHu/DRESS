@@ -63,7 +63,7 @@ define(function(req, exp){
                 if(params && params.data && rs.data){
                     params.data = rs.data;
                 }
-                callback({success:rs.success, code:rs.code, message:rs.message, data:rs.data});
+                callback({status:rs.status, codes:rs.codes||rs.code, msg:rs.msg||rs.message, data:rs.data});
             }
         }
     };

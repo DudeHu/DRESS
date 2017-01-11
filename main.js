@@ -7,7 +7,7 @@ seekjs.config({
     },
     alias:{
         ajax: seekjs.resolve("./utils/ajax"),
-		jquery: seekjs.resolve("sys.lib.jquery")
+		jquery: seekjs.resolve("sys.lib.jquery"),
     }
 });
 

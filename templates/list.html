@@ -8,6 +8,7 @@
     {/if}
     <div id="uploadFile-queue"></div>
     <div data-part="statusPart">
+        {if this.status!="none"}
         {if this.status=="uploading"}
         <div class="ui-web-deal-state">
             <div class="ui-web-deal-con ui-com-clearFix">
@@ -20,6 +21,11 @@
                 </div>
             </div>
         </div>
+        {elsif this.status=="success"}
+        <div class="ui-web-deal-state">
+            上传成功！
+        </div>
+        {/if}
         <div class="ui-upload-box">
             <div class="ui-upload-box-header">
                 <span data-event="closeUploadBox">╳</span>
@@ -34,21 +40,17 @@
                 {foreach src=this.uploadCuList}
                 <li>
                     <span>{item.name}</span>
-                    <span>{item.size}</span>
+                    <span>{Math.round(item.size)}M</span>
                     <span>
-                    <span class="ui-upload-box-process ui-upload-box-process-{i}">
-                         <span style="width: 0"></span>
-                    </span>
+                        <span class="ui-upload-box-process ui-upload-box-process-{i}">
+                            <span style="width: 0"></span>
+                        </span>
                     <span class="ui-upload-process-val-{i}">0%</span>
-                </span>
-                    <span data-event="stopUpload:{i}" class="ui-upload-box-stop ui-upload-box-stop-{i}"></span>
+                    </span>
+                    <span class="ui-upload-box-stop"></span>
                 </li>
                 {/foreach}
             </ul>
-        </div>
-        {elsif this.status=="success"}
-        <div class="ui-web-deal-state">
-            上传成功！
         </div>
         {/if}
     </div>

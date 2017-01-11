@@ -108,6 +108,7 @@
     width: 22px;
     height: 20px;
     vertical-align: middle;
+    position: relative;
 }
 .ui-look-off-icon{
     background: url("../images/look_off_icon.png") no-repeat center;
@@ -120,6 +121,12 @@
 }
 .ui-upload-on-icon{
     background: url("../images/upload_on_icon.png") no-repeat center;
+}
+.ui-upload-on-icon a{
+    position: absolute;
+    opacity: 1;
+    width: 44px;
+    height: 20px;
 }
 .ui-upload-btn{
     position: absolute;

@@ -73,7 +73,7 @@ define(function(req,exp){
         }
     }
     exp.stopUpload = function (index) {
-        console.log(index);
+
     }
     exp.closeUploadBox = function () {
         $(".ui-upload-box").hide();

@@ -50,14 +50,12 @@ var envList = module.exports = {
 
     //巴西测试服务器
     test: {
-        ip: "52.67.118.137",
+        ip: "dressplus-api.appdevs.cn",
         node:{
             port: 3003
         },
         java:{
-            //ip: "52.67.118.137",
-            ip:"127.0.0.1",
-            port:8010
+            port:80
         },
         mongo: {
             dbName: "wecash",

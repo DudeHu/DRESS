@@ -3,16 +3,16 @@
     <div class="ui-header-info ui-com-clearFix">
         <div class="ui-web-space">
             <p class="ui-web-space-val">
-                <span style="width:30px;"></span>
+                <span style="width:{Math.round(this.curSpace/this.space)}px;"></span>
             </p>
-            <p class="ui-web-space-txt">240MB/500MB</p>
+            <p class="ui-web-space-txt">{this.curSpace}MB/{this.space}</p>
         </div>
         <div class="ui-header-user">
             <span class="ui-header-user-icon"></span>
-            ADMIN MY AA
+            {sessionStorage.name}
         </div>
-        <div class="ui-header-exit">
-            <span class="ui-header-exit-icon"></span>
+        <div data-event="exit" class="ui-header-exit">
+            <span  class="ui-header-exit-icon"></span>
             退出
         </div>
     </div>

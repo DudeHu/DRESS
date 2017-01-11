@@ -1,14 +1,14 @@
 <div class="ui-video-con ui-content-con">
     <div class="ui-content-header ui-video-header ui-com-clearFix">
         <span class="ui-content-header-txt">全部视频</span>
-        <div class="ui-relative-right">
-            <span class="ui-web-btn-mid ui-com-relative">
+        <div id="container" class="ui-relative-right">
+            <span id="pickfiles" class="ui-web-btn-mid ui-com-relative">
                 上传
-                <input id="uploadFile" data-event="change>upload" class="ui-upload-btn" multiple type="file">
+                <!--<input id="uploadFile" data-event="change>upload" class="ui-upload-btn" multiple type="file">-->
             </span>
             <div data-enter="search" class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input data-bind="args.serachString" type="text"/>
+                <input data-event="input>search" data-bind="args.serachString" type="text"/>
             </div>
         </div>
     </div>
@@ -29,21 +29,21 @@
         </li>
         {foreach src=this.videoList}
         <% var index=Number(i+1);%>
-        <li  data-event="go:detail/video">
+        <li>
             <div class="ui-web-checkbox">
                 <input data-event="change>selectSingle" type="checkbox" name="checkboxInput" id="checkboxInput{index}"/>
                 <label for="checkboxInput{index}"></label>
             </div>
             <span>{item.name}</span>
-            <span>{item.time | timestamp2Date}</span>
-            <span>{item.size}</span>
-            <span>{item.counts}</span>
+            <span>{item.uploadTime}</span>
+            <span>{item.videoSize}</span>
+            <span>{item.tagNums}</span>
 
-            {if item.state=="ed"}
+            {if item.status=="100"}
             <span>分析完成</span>
             <span class="ui-video-control">
-                <span class="ui-look-on-icon"></span>
-                <span class="ui-upload-on-icon"></span>
+                <span data-event="go:detail/video/{item.id}" class="ui-look-on-icon"></span>
+                <span data-event="downloadJSON:{item.jsonHref}" class="ui-upload-on-icon"></span>
             </span>
             {elsif item.state=="ing"}
             <span class="ui-orange-txt"> 正在分析</span>
@@ -71,5 +71,7 @@
         {/if}
     </ul>
     <div style="display: none" class="ui-web-del-btn ui-floatL">删除</div>
+    {if this.lists.page_count>1}
     <div class="ui-floatR" data-view="page"></div>
+    {/if}
 </div>
