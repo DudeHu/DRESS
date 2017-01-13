@@ -82,7 +82,7 @@
     line-height: 45px;
 }
 .ui-upload-box ul>li>span:nth-child(1){
-    width: 34%;
+    width: 33%;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;

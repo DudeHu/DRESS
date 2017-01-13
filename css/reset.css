@@ -184,6 +184,7 @@ body{
     line-height: 20px;
     color: #ffad23;
     display: none;
+    margin-bottom: 10px;
 }
 .ui-error-con span{
     display: inline-block;
@@ -430,4 +431,26 @@ input[type="range"] {
 .ui-list-item-detail>div p{
     line-height: 22px;
     font-size: 14px;
+}
+@media screen and (min-width: 1024px) {
+   body{font-size:12px;}
+}
+@media screen and (min-width: 1280px) {
+    body{font-size:12px;}
+}
+@media screen and (min-width: 1440px) {
+    body{font-size:12px;}
+}
+@media screen and (min-width: 1680px) {
+    .ui-home-bg{
+        height: 1050px;
+    }
+    .ui-header-logo{
+        background-size: 90%;
+    }
+}
+@media screen and (min-width: 1920px) {
+    .ui-home-bg{
+        height: 1200px;
+    }
 }

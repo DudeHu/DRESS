@@ -49,7 +49,7 @@ define(function(req, exp){
         return function(rs){
             if(rs.code==-1) {
                 //sessionStorage.login_or_register_go_page = location.href.split("#")[1];
-                if($.session.get("sessionId")){
+                if($.session && $.session.get("sessionId")){
                     exp.alert("A sessão expira!Favor fazer o login de novo!");
                 }
             }

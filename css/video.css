@@ -135,3 +135,9 @@
     height: 40px;
     opacity: 0;
 }
+.ui-video-list-name{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: bottom;
+}

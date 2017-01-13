@@ -13,6 +13,7 @@ define(function(req,exp,mod){
         searchByName:service("searchByName"),       //搜索视频通过姓名（列表页）
         getVideoDetail:service("getVideoDetail"),   //获取视频详情页
         searchByTag:service("searchByTag"),         //搜索视频通过标签名（详情页）
+        deleteVideo:service("deleteVideo"),         //删除视频
         _end_: 0
 	};
 

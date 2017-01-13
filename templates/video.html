@@ -6,18 +6,18 @@
                 上传
                 <!--<input id="uploadFile" data-event="change>upload" class="ui-upload-btn" multiple type="file">-->
             </span>
-            <div data-enter="search" class="ui-web-input">
+            <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
                 <input data-event="input>search" data-bind="args.serachString" type="text"/>
             </div>
         </div>
     </div>
     <p id="time"></p>
-    <ul class="ui-video-list">
+    <ul data-part="listPart" class="ui-video-list">
         {if this.videoList.length>0}
         <li>
             <div class="ui-web-checkbox">
-                <input data-event="change>selectAll" type="checkbox" id="checkboxInput"/>
+                <input data-event="click>selectAll" type="checkbox" id="checkboxInput"/>
                 <label for="checkboxInput"></label>
             </div>
             <span>名称</span>
@@ -31,10 +31,10 @@
         <% var index=Number(i+1);%>
         <li>
             <div class="ui-web-checkbox">
-                <input data-event="change>selectSingle" type="checkbox" name="checkboxInput" id="checkboxInput{index}"/>
+                <input data-event="click>selectSingle:{item.id}" type="checkbox" name="checkboxInput" id="checkboxInput{index}"/>
                 <label for="checkboxInput{index}"></label>
             </div>
-            <span>{item.name}</span>
+            <span class="ui-video-list-name">{item.name}</span>
             <span>{item.uploadTime}</span>
             <span>{item.videoSize}</span>
             <span>{item.tagNums}</span>
@@ -70,7 +70,7 @@
         </li>
         {/if}
     </ul>
-    <div style="display: none" class="ui-web-del-btn ui-floatL">删除</div>
+    <div style="display: none" data-event="delVideo" class="ui-web-del-btn ui-floatL">删除</div>
     {if this.lists.page_count>1}
     <div class="ui-floatR" data-view="page"></div>
     {/if}

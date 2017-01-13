@@ -624,7 +624,7 @@ function QiniuJsSDK() {
             }else{
                 ajax = that.createAjax();
             }
-            ajax.open('GET', uphosts_url, true);
+            ajax.open('GET', uphosts_url, false);
             var onreadystatechange = function(){
                 logger.debug("ajax.readyState: ", ajax.readyState);
                 if (ajax.readyState === 4) {
@@ -733,11 +733,11 @@ function QiniuJsSDK() {
             // When you set the key in putPolicy by "scope": "bucket:key"
             // You should understand the risk of override a file in the bucket
             // So the code below that automatically get key from uptoken has been commented
-            // var putPolicy = getPutPolicy(that.token)
-            // if (putPolicy.key) {
-            //     logger.debug("key is defined in putPolicy.scope: ", putPolicy.key)
-            //     return putPolicy.key
-            // }
+            var putPolicy = getPutPolicy(that.token)
+            if (putPolicy.key) {
+               logger.debug("key is defined in putPolicy.scope: ", putPolicy.key)
+                return putPolicy.key
+            }
             var key = '',
                 unique_names = false;
             if (!op.save_key) {
@@ -899,10 +899,11 @@ function QiniuJsSDK() {
         uploader.bind('BeforeUpload', function(up, file) {
             logger.debug("BeforeUpload event activated");
             // add a key named speed for file object
+
             file.speed = file.speed || 0;
             ctx = '';
 
-            if(op.get_new_uptoken){
+            if(op.get_new_uptoken && (!file.percent>0)){
                 getNewUpToken(file);
             }
 
@@ -1232,6 +1233,7 @@ function QiniuJsSDK() {
         // - invoke mkfile api to compose chunks if upload strategy is chunk upload
         uploader.bind('FileUploaded', (function(_FileUploaded_Handler) {
             return function(up, file, info) {
+
                 logger.debug("FileUploaded event activated");
                 logger.debug("file: ", file);
                 logger.debug("info: ", info);
@@ -1240,7 +1242,7 @@ function QiniuJsSDK() {
                         // if op.dowontoken_url is not empty
                         // need get downtoken before invoke the _FileUploaded_Handler
                         var ajax_downtoken = that.createAjax();
-                        ajax_downtoken.open('POST', op.downtoken_url, true);
+                        ajax_downtoken.open('POST', op.downtoken_url, false);
                         ajax_downtoken.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                         ajax_downtoken.onreadystatechange = function() {
                             if (ajax_downtoken.readyState === 4) {
@@ -1284,10 +1286,8 @@ function QiniuJsSDK() {
                 if (ctx) {
                     var key = '';
                     logger.debug("save_key: ", op.save_key);
-                    if (!op.save_key) {
-                        key = getFileKey(up, file, that.key_handler);
-                        key = key ? '/key/' + that.URLSafeBase64Encode(key) : '';
-                    }
+                     key = getFileKey(up, file, that.key_handler);
+                     key = key ? '/key/' + that.URLSafeBase64Encode(key) : '';
 
                     var fname = '/fname/' + that.URLSafeBase64Encode(file.name);
 
@@ -1318,7 +1318,7 @@ function QiniuJsSDK() {
                     }else{
                         ajax = that.createAjax();
                     }
-                    ajax.open('POST', url, true);
+                    ajax.open('POST', url, false);
                     ajax.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
                     ajax.setRequestHeader('Authorization', 'UpToken ' + that.token);
                     var onreadystatechange = function(){

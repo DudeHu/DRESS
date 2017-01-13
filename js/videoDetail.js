@@ -5,6 +5,9 @@ define(function (req,exp) {
     "use strict";
 
     var service = req("utils.ajax");
+    var maskTime = null;
+    var currentPlayTime = 0;
+    var times = {};
     exp.args = {
         rangeVal:3,
         serachString:""
@@ -95,11 +98,9 @@ define(function (req,exp) {
         var Media = document.getElementById("videoDom");
         var has = false;
         Media.addEventListener("timeupdate",function(e){
-            var _t1 = Math.ceil(15 * Media.currentTime);
-            var _t2 = Math.floor(15 * Media.currentTime);
-            var _e = exp.playList[_t1] || exp.playList[_t2];
-            console.log("_e:"+_e+_t1+":"+_t2);
-            if(!has && (Media.readyState > 0)) {
+           //currentPlayTime = Math.round(Media.currentTime*25);
+           //exp.dealMask(true);
+           /* if(!has && (Media.readyState > 0)) {
                 var hour = parseInt(Media.duration / 60 /60);
                 var minutes = parseInt(Media.duration / 60);
                 var seconds = Math.round(Media.duration % 60);
@@ -136,12 +137,74 @@ define(function (req,exp) {
             }else{
                 exp.videoMask.hide();
             }
+            */
+        },false);
+        Media.addEventListener("play",function(e){
+            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
+            exp.dealMask(true);
+        },false);
+        Media.addEventListener("pause",function(e){
+            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
+            exp.dealMask(false);
+        },false);
+        Media.addEventListener("waitting",function(e){
+            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
+            exp.dealMask(false);
         },false);
     }
 
-    exp.search = function () {
 
+
+    exp.dealTimes = function () {
+        clearInterval(maskTime);
+        for(var o in times){
+            clearInterval(times[o]);
+        }
     }
+    
+    exp.dealMask = function (flag) {
+        exp.dealTimes();
+        if(flag){
+         maskTime = window.setInterval(function () {
+             var _e = exp.playList[currentPlayTime];
+            if(_e && _e.length>0){
+                exp.masks=[];
+                _e.forEach(function (ele,index) {
+                    var text = ele.name;
+                    var _c = ele.trail[currentPlayTime];
+                    if(_c){
+                        clearInterval(maskTime);
+                        clearInterval(times[currentPlayTime+""+index]);
+                        times[currentPlayTime+""+index] = setInterval(function () {
+                            _c = ele.trail[currentPlayTime];
+                            if(_c){
+                                exp.masks[index] = {};
+                                exp.masks[index].text = text;
+                                exp.masks[index].width = Math.round(_c.width * 100);
+                                exp.masks[index].height = Math.round(_c.height * 100);
+                                exp.masks[index].x = Math.round(_c.x * 100);
+                                exp.masks[index].y = Math.round(_c.y * 100);
+                                exp.videoMask.render();
+                                currentPlayTime += 1;
+                            }else{
+                                exp.videoMask.hide();
+                                clearInterval(times[currentPlayTime+""+index]);
+                                exp.dealMask(true);
+                            }
+                        },1000/exp.videoInfo.fps);
+                        exp.videoMask.show();
+                    }else{
+                        currentPlayTime += 1;
+                    }
+                });
+            }else{
+                currentPlayTime += 1;
+            }
+
+        },1000/exp.videoInfo.fps);
+        }
+    }
+
 
     exp.timeSelect = function () {
         var _ele = exp.$element;

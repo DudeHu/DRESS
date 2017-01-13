@@ -61,7 +61,8 @@ exports.uploadVideo = function (params,seesion) {
             userId:params.userId,
             videoUrl:params.url,
             videoName:params.name,
-            videoSize:params.size
+            videoSize:params.size,
+            qnVideoId:params.qnVideoId
         }
     }
 }

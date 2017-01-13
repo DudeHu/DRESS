@@ -39,15 +39,17 @@
                 </li>
                 {foreach src=this.uploadCuList}
                 <li>
-                    <span>{item.name}</span>
+                    <span>{item.name || item.video_name}</span>
                     <span>{Math.round(item.size)}M</span>
                     <span>
                         <span class="ui-upload-box-process ui-upload-box-process-{i}">
-                            <span style="width: 0"></span>
+                            <span {if item.complete}style="width: 100%"{else}style="width: 0"{/if}></span>
                         </span>
-                    <span class="ui-upload-process-val-{i}">0%</span>
+                    <span class="ui-upload-process-val-{i}">{if item.complete}100%{else}0%{/if}</span>
                     </span>
-                    <span class="ui-upload-box-stop"></span>
+                    {if !item.complete}
+                    <span class="ui-upload-box-stop ui-upload-box-stop-{i}"></span>
+                    {/if}
                 </li>
                 {/foreach}
             </ul>

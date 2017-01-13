@@ -7,15 +7,16 @@ define(function(req,exp){
     var $ = req("jquery");
     var service = req("utils.ajax");
     var FileProgress = req("utils.fileprogress");
+    var stopCount = 0;
     req("../bower_components/plupload/js/moxie.js");
     req("../bower_components/plupload/js/plupload.dev.js");
     req("../bower_components/plupload/js/i18n/zh_CN.js");
     req("utils.qiniu");
     exp.videoList = [];
-
+    exp.delList = [];
     exp.lists = {
         cursor:1,                   //当前页数
-        page_count:2,               //总页数
+        page_count:0,               //总页数
         total:0,                    //总条数
         step:30                      //每页显示数量
     };
@@ -31,7 +32,9 @@ define(function(req,exp){
         exp.videoList = [];
         service.getVideoList(exp.args,function (rs) {
             if(rs.status == "SUCCESS"){
-                exp.lists.page_count = rs.data.totalCount;
+                exp.lists.total = rs.data.totalCount;
+                exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
+                rs.data.size && (exp.lists.step = rs.data.size);
                 rs.data.list && (exp.videoList = rs.data.list);
                 done();
             }else{
@@ -40,9 +43,27 @@ define(function(req,exp){
         });
     }
 
+    exp.goPage = function (page,render) {
+        exp.args.cursor = exp.lists.cursor =  page;
+        service.getVideoList(exp.args,function (rs) {
+            if(rs.status == "SUCCESS"){
+                exp.lists.total = rs.data.totalCount;
+                exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
+                rs.data.size && (exp.lists.step = rs.data.size);
+                rs.data.list && (exp.videoList = rs.data.list);
+                render();
+                exp.render();
+            }else{
+                exp.alert(rs.msg);
+            }
+        });
+    }
+    
     var currentFile;
     var currentIndex = 0;
+    var _oldFilesCount = 0;
     var uploaded = [];
+    var _files = [];
     exp.onRender = function () {
         var uploader = Qiniu.uploader({
             runtimes: 'html5,flash,html4',
@@ -53,6 +74,7 @@ define(function(req,exp){
             flash_swf_url: '../bower_components/plupload/js/Moxie.swf',
             dragdrop: true,
             chunk_size: '5mb',
+            get_new_uptoken: true,
             filters:{
                 mime_types : [
                     { title : "video files", extensions : "mp4,flv" },
@@ -75,42 +97,70 @@ define(function(req,exp){
             //     }
             // },
             domain: "http://resource.penn.dressplus.cn",
-            get_new_uptoken: false,
             // downtoken_url: '/downtoken',
             // unique_names: true,
-            // save_key: true,
-            // x_vars: {
-            //     'id': '1234',
-            //     'time': function(up, file) {
-            //         var time = (new Date()).getTime();
-            //         // do something with 'time'
-            //         return time;
-            //     },
-            // },
+            save_key: true,
+            x_vars: {
+                'id': '1234'
+            },
             auto_start: true,
             log_level: 5,
             init: {
                 'FilesAdded': function(up, files) {
-                    plupload.each(files, function(file) {
+                    if(_files.length>0){
+                        _oldFilesCount += _files.length;
+                    }
+                    _files = files;
+                    plupload.each(files, function(file,index) {
                         FileProgress.bindEvent(file);
                         var _item = {};
                         _item.name = file.name;
                         _item.size = file.size/1024/1024;
+                        _item.status = true;
                         exp.parent.uploadCuList.push(_item);
                     });
                     exp.parent.status = "uploading";
                     exp.parent.statusPart.render();
-                    $(".ui-upload-box-stop").on('click',function () {
+                    $(".ui-upload-box-stop").each(function(index) {
                         var _this = $(this);
-                        exp.confirm("确定取消该文件的上传？",function () {
-                            up.removeFile(currentFile);
-                            _this.parent().remove();
-                        },function(){
+                        var _file = files[index];
+                        _this.on('click', function () {
 
+                            if (!$(this).hasClass("start")) {
+                                $(this).addClass("start");
+                                stopCount += 1;
+                                exp.parent.uploadCuList[index].status = false;
+                                var _index = exp.findNext(files, index);
+                                up.stop();
+                                if(_index!=null){
+                                    var _tem = up.files[0];
+                                    up.files[0] = up.files[_index];
+                                    up.files[_index] = _tem;
+                                    currentIndex = _index+_oldFilesCount;
+                                    up.start();
+                                }
+                            } else {
+                                up.stop();
+                                exp.parent.uploadCuList[index] = true;
+                                stopCount > 0 && (stopCount -= 1);
+                                var _index = exp.findCurrent(up.files,_file.name);
+                                if(_index!=null){
+                                    var _tem = up.files[_index];
+                                    up.files[_index] = up.files[0];
+                                    up.files[0] = _tem;
+                                    currentIndex = index + _oldFilesCount;
+                                    up.start();
+                                }
+
+                            }
                         });
                     });
                 },
                 'BeforeUpload': function(up, file) {
+                    var _index = exp.findCurrent(_files,file.name);
+                    if(_index!=null){
+                        currentIndex = _index + _oldFilesCount;
+                    }
                     currentFile = file;
                 },
                 'UploadProgress': function(up, file) {
@@ -119,33 +169,49 @@ define(function(req,exp){
                 },
                 'UploadComplete': function() {
                     exp.parent.status = "success";
+                    exp.parent.uploadCuList = uploaded;
                     exp.parent.statusPart.render();
+                    exp.render();
                 },
                 'FileUploaded': function(up, file, info) {
                     FileProgress.countProgress(file,currentIndex);
-                    currentIndex += 1;
+                    var re = exp.findNext(up.files,currentIndex);
+                    var ce = exp.findCurrent(_files,file.name);
+                    $(".ui-upload-box-stop-"+ce).hide();
+                    exp.parent.uploadCuList[ce].complete = true;
+                    if(re != null){
+                        currentIndex = re + _oldFilesCount;
+                    }else{
+                        up.stop();
+                    }
                     info = JSON.parse(info);
                     var _item = {};
                     _item.userId = sessionStorage.userId;
                     _item.name = file.name;
                     _item.size = Math.round(file.size/1024/1024);
+                    _item.qnVideoId = info.persistentId;
                     if(info.url){
                         _item.url = info.url;
                     }else{
                         var domain = up.getOption('domain');
-                        _item.url = `${domain}/video/${encodeURI(info.key)}`;
+                        _item.url = `${domain}/${encodeURI(info.key)}`;
                     }
-                    uploaded.push(_item);
+
                     service.uploadVideo(_item,function (rs) {
                         if(rs.status == "SUCCESS"){
-                            console.log(rs);
+                            uploaded.push(rs.data);
                         }else{
                             exp.alert(rs.msg);
                         }
                     });
                 },
                 'Error': function(up, err, errTip) {
-                    exp.alert(err.file.name+":"+errTip);
+                    var _index = exp.findNext(_files,currentIndex);
+                    if(!_index){
+                        up.stop();
+                    }
+
+                    console.log(err.file.name+":"+errTip);
                 }
             }
         });
@@ -156,22 +222,73 @@ define(function(req,exp){
     }
 
 
-    exp.selectSingle = function () {
+    exp.selectSingle = function (id) {
         var _ele = exp.$element;
         if(_ele.is(':checked') && ($("[name='checkboxInput']:checked").length == exp.videoList.length)){
             $("#checkboxInput").prop("checked",true);
         }else if(!_ele.is(':checked') &&  $("#checkboxInput").is(':checked')){
             $("#checkboxInput").prop("checked",false);
+            exp.delListFromId(id);
+        }
+        if(_ele.is(':checked')){
+            exp.delList.push(id);
+        }else{
+            exp.delListFromId(id);
         }
         exp.showDelBtn();
+    }
+
+    exp.findCurrent = function (files,name) {
+        var result = null;
+        files.forEach(function (ele,index) {
+            if(ele.name == name){
+                result = index;
+                return false;
+            }
+
+        });
+        return result;
+    }
+
+    exp.findNext = function (files,index) {
+        var result = null;
+        for(var i=index;i<files.length;i++){
+            if((files[i].status == 1)&&(exp.parent.uploadCuList[i].status)){
+                result = i;
+                break;
+            }
+        }
+
+        if(!result){
+            for(var i=0;i<index;i++){
+                if((files[i].status == 1)&&(exp.parent.uploadCuList[i].status)){
+                    result = i;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+    exp.delListFromId = function (id) {
+        exp.delList.forEach(function (ele,index) {
+            if(ele == id){
+                exp.delList.splice(index,1);
+            }
+        });
     }
 
     exp.selectAll = function () {
         var _ele = exp.$element;
         if(_ele.is(':checked')){
+            exp.delList = [];
             $("[name='checkboxInput']").prop("checked",true);
+            exp.videoList.forEach(function (ele) {
+                exp.delList.push(ele.id);
+            })
         }else{
             $("[name='checkboxInput']").prop("checked",false);
+            exp.delList = [];
         }
         exp.showDelBtn();
     }
@@ -199,7 +316,8 @@ define(function(req,exp){
         }else{
             exp.videoList = searchList;
         }
-        exp.render();
+        exp.listPart.render();
+        exp.$element.focus();
     }
     
     exp.uploadProgressShow = function (files,loaded) {
@@ -327,5 +445,27 @@ define(function(req,exp){
         aLink.href = url;
         aLink.dispatchEvent(evt);
         aLink.click();
+    }
+    exp.delVideo = function () {
+      console.log(exp.delList);
+      if(exp.delList.length>0) {
+          service.deleteVideo({videoIds:exp.delList.toString()}, function (rs) {
+                if(rs.status == "SUCCESS"){
+                    service.getVideoList(exp.args,function (rs) {
+                        if(rs.status == "SUCCESS"){
+                            exp.lists.total = rs.data.totalCount;
+                            exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
+                            rs.data.list && (exp.videoList = rs.data.list);
+                        }else{
+                            exp.alert(rs.msg);
+                        }
+                        exp.render();
+                    });
+                    exp.alert("删除成功！");
+                }else{
+                    exp.alert("删除失败！");
+                }
+          })
+      }
     }
 });
