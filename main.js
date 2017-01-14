@@ -3,7 +3,8 @@ seekjs.config({
         utils: seekjs.resolve("./utils/"),
         js: seekjs.resolve("./js/"),
         tp: seekjs.resolve("./templates/"),
-        st: seekjs.resolve("./css/")
+        st: seekjs.resolve("./css/"),
+		bower:seekjs.resolve("./bower_components/plupload/js/")
     },
     alias:{
         ajax: seekjs.resolve("./utils/ajax"),

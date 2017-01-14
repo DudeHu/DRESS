@@ -8,9 +8,9 @@ define(function(req,exp){
     var service = req("utils.ajax");
     var FileProgress = req("utils.fileprogress");
     var stopCount = 0;
-    req("../bower_components/plupload/js/moxie.js");
-    req("../bower_components/plupload/js/plupload.dev.js");
-    req("../bower_components/plupload/js/i18n/zh_CN.js");
+    req("./bower_components/plupload/js/moxie.js");
+    req("./bower_components/plupload/js/plupload.dev.js");
+    req("./bower_components/plupload/js/i18n/zh_CN.js");
     req("utils.qiniu");
     exp.videoList = [];
     exp.delList = [];
