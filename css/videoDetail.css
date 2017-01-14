@@ -2,7 +2,7 @@
 @media screen and (min-width: 1024px) {
     body{font-size:12px;}
     .ui-video-detail-depth p{
-        line-height: 70px!important;
+        line-height: 30px!important;
         padding: 0 10px!important;
     }
     .ui-video-detail-depth p>span{
@@ -14,15 +14,18 @@
     .ui-video-detail{
         padding: 10px 0!important;
     }
+    .ui-video-detail-info{
+        width: 20%!important;
+    }
 }
 @media screen and (min-width: 1280px) {
     body{font-size:12px;}
     .ui-video-detail-depth p{
-        line-height: 40px!important;
-        padding: 0 30px!important;
+        line-height: 35px!important;
+        padding: 0 20px!important;
     }
     .ui-video-detail-depth p>span{
-        width: 60px!important;
+        width: 55px!important;
     }
     .ui-statics-form{
         margin-top: 0;
@@ -34,10 +37,10 @@
 @media screen and (min-width: 1440px) {
     .ui-video-detail-depth p{
         line-height: 50px!important;
-        padding: 0 45px!important;
+        padding: 0 25px!important;
     }
     .ui-video-detail-depth p>span{
-        width: 65px!important;
+        width: 60px!important;
     }
 }
 @media screen and (min-width: 1680px) {
