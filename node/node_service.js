@@ -24,12 +24,14 @@ var uptoken = function(bucket, key) {
     putPolicy.persistentOps = fops;
     //putPolicy.callbackUrl = "http://dressplus-api.appdevs.cn/video/uploadCallback";
     //putPolicy.callbackBody = 'filename=$(fname)&filesize=$(fsize)&id=$(x:id)';
+    putPolicy.persistentNotifyUrl = "http://dressplus-api.appdevs.cn/video/qnNotify";
     //putPolicy.persistentPipeline = pipleline;
     return putPolicy.token();
 }
 
 //构造上传函数
 var uploadFile = function(uptoken, key, file) {
+    var extra = new qiniu.io.PutExtra();
     var extra = new qiniu.io.PutExtra();
     qiniu.io.putReadable(uptoken, key, file, extra, function(err, ret) {
         if(!err) {

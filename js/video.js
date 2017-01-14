@@ -100,9 +100,9 @@ define(function(req,exp){
             // downtoken_url: '/downtoken',
             // unique_names: true,
             save_key: true,
-            x_vars: {
-                'id': '1234'
-            },
+            // x_vars: {
+            //     'id': '1234'
+            // },
             auto_start: true,
             log_level: 5,
             init: {
