@@ -10,7 +10,11 @@ define(function(req,exp){
         account:""
     }
     exp.onInit = function (done) {
-        done();
+        if(sessionStorage.userId){
+            exp.go("list");
+        }else {
+            done();
+        }
     }
 
     exp.login = function () {

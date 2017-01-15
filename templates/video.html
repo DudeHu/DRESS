@@ -39,13 +39,13 @@
             <span>{item.videoSize}</span>
             <span>{item.tagNums}</span>
 
-            {if item.status=="100"}
+            {if item.status=="200"}
             <span>分析完成</span>
             <span class="ui-video-control">
                 <span data-event="go:detail/video/{item.id}" class="ui-look-on-icon"></span>
                 <span data-event="downloadJSON:{item.jsonHref}" class="ui-upload-on-icon"></span>
             </span>
-            {elsif item.state=="ing"}
+            {elsif item.status=="100"}
             <span class="ui-orange-txt"> 正在分析</span>
             <span class="ui-video-control">
                 <span class="ui-look-off-icon"></span>

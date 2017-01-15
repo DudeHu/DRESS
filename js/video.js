@@ -30,29 +30,25 @@ define(function(req,exp){
 
     exp.onInit = function (done) {
         exp.videoList = [];
-        service.getVideoList(exp.args,function (rs) {
-            if(rs.status == "SUCCESS"){
-                exp.lists.total = rs.data.totalCount;
-                exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
-                rs.data.size && (exp.lists.step = rs.data.size);
-                rs.data.list && (exp.videoList = rs.data.list);
-                done();
-            }else{
-                exp.alert(rs.msg);
-            }
-        });
+        exp.getList(exp.args,done);
     }
 
     exp.goPage = function (page,render) {
         exp.args.cursor = exp.lists.cursor =  page;
-        service.getVideoList(exp.args,function (rs) {
+        exp.getList(exp.args,function () {
+            render();
+            exp.render();
+        });
+    }
+
+    exp.getList = function (args,fn) {
+        service.getVideoList(args,function (rs) {
             if(rs.status == "SUCCESS"){
                 exp.lists.total = rs.data.totalCount;
                 exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
                 rs.data.size && (exp.lists.step = rs.data.size);
                 rs.data.list && (exp.videoList = rs.data.list);
-                render();
-                exp.render();
+                fn && fn();
             }else{
                 exp.alert(rs.msg);
             }
@@ -61,9 +57,10 @@ define(function(req,exp){
     
     var currentFile;
     var currentIndex = 0;
-    var _oldFilesCount = 0;
+    exp._oldFilesCount = 0;
+    exp.hasUploadCount = 0;
     var uploaded = [];
-    var _files = [];
+    exp._files = [];
     exp.onRender = function () {
         var uploader = Qiniu.uploader({
             runtimes: 'html5,flash,html4',
@@ -107,10 +104,11 @@ define(function(req,exp){
             log_level: 5,
             init: {
                 'FilesAdded': function(up, files) {
-                    if(_files.length>0){
-                        _oldFilesCount += _files.length;
+                    exp.hasUploadCount = 0;
+                    if(exp._files.length>0){
+                        exp._oldFilesCount += exp._files.length;
                     }
-                    _files = files;
+
                     plupload.each(files, function(file,index) {
                         FileProgress.bindEvent(file);
                         var _item = {};
@@ -118,6 +116,7 @@ define(function(req,exp){
                         _item.size = file.size/1024/1024;
                         _item.status = true;
                         exp.parent.uploadCuList.push(_item);
+                        exp._files.push(file);
                     });
                     exp.parent.status = "uploading";
                     exp.parent.statusPart.render();
@@ -136,7 +135,7 @@ define(function(req,exp){
                                     var _tem = up.files[0];
                                     up.files[0] = up.files[_index];
                                     up.files[_index] = _tem;
-                                    currentIndex = _index+_oldFilesCount;
+                                    currentIndex = _index;
                                     up.start();
                                 }
                             } else {
@@ -148,7 +147,7 @@ define(function(req,exp){
                                     var _tem = up.files[_index];
                                     up.files[_index] = up.files[0];
                                     up.files[0] = _tem;
-                                    currentIndex = index + _oldFilesCount;
+                                    currentIndex = index;
                                     up.start();
                                 }
 
@@ -157,9 +156,9 @@ define(function(req,exp){
                     });
                 },
                 'BeforeUpload': function(up, file) {
-                    var _index = exp.findCurrent(_files,file.name);
+                    var _index = exp.findCurrent(exp._files,file.name);
                     if(_index!=null){
-                        currentIndex = _index + _oldFilesCount;
+                        currentIndex = _index;
                     }
                     currentFile = file;
                 },
@@ -171,16 +170,18 @@ define(function(req,exp){
                     exp.parent.status = "success";
                     exp.parent.uploadCuList = uploaded;
                     exp.parent.statusPart.render();
-                    exp.render();
+                    exp.getList(exp.args,exp.listPart.render);
                 },
                 'FileUploaded': function(up, file, info) {
                     FileProgress.countProgress(file,currentIndex);
                     var re = exp.findNext(up.files,currentIndex);
-                    var ce = exp.findCurrent(_files,file.name);
-                    $(".ui-upload-box-stop-"+ce).hide();
+                    var ce = exp.findCurrent(exp._files,file.name);
+                    exp.hasUploadCount += 1;
+                    //$(".ui-upload-box-stop-"+(ce + exp._oldFilesCount)).hide();
                     exp.parent.uploadCuList[ce].complete = true;
+                    exp.parent.statusPart.render();
                     if(re != null){
-                        currentIndex = re + _oldFilesCount;
+                        currentIndex = re;
                     }else{
                         up.stop();
                     }
@@ -200,13 +201,14 @@ define(function(req,exp){
                     service.uploadVideo(_item,function (rs) {
                         if(rs.status == "SUCCESS"){
                             uploaded.push(rs.data);
+                            exp.getList(exp.args,exp.listPart.render);
                         }else{
                             exp.alert(rs.msg);
                         }
                     });
                 },
                 'Error': function(up, err, errTip) {
-                    var _index = exp.findNext(_files,currentIndex);
+                    var _index = exp.findNext(exp._files,currentIndex);
                     if(!_index){
                         up.stop();
                     }

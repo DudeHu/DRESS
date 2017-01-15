@@ -159,6 +159,7 @@ define(function (req,exp) {
         clearInterval(maskTime);
         for(var o in times){
             clearInterval(times[o]);
+            console.log(o);
         }
     }
     
@@ -176,6 +177,7 @@ define(function (req,exp) {
                         clearInterval(maskTime);
                         clearInterval(times[currentPlayTime+""+index]);
                         times[currentPlayTime+""+index] = setInterval(function () {
+                            console.log("still");
                             _c = ele.trail[currentPlayTime];
                             if(_c){
                                 exp.masks[index] = {};
