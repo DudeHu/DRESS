@@ -97,6 +97,7 @@ define(function (req,exp) {
     exp.onRender = function () {
         var Media = document.getElementById("videoDom");
         var has = false;
+
         Media.addEventListener("timeupdate",function(e){
            //currentPlayTime = Math.round(Media.currentTime*25);
            //exp.dealMask(true);
@@ -140,6 +141,18 @@ define(function (req,exp) {
             */
         },false);
         Media.addEventListener("play",function(e){
+            if(!has && (Media.readyState > 0)) {
+                var hour = parseInt(Media.duration / 60 /60);
+                var minutes = parseInt(Media.duration / 60);
+                var seconds = Math.ceil(Media.duration % 60);
+                seconds = seconds>0?seconds-1:seconds;
+                hour = hour<10?("0"+hour):hour;
+                minutes = minutes<10?("0"+minutes):minutes;
+                seconds = seconds<10?("0"+seconds):seconds;
+                exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
+                exp.videoInfoPart.render();
+                has = true;
+            }
             currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
             exp.dealMask(true);
         },false);
@@ -159,7 +172,6 @@ define(function (req,exp) {
         clearInterval(maskTime);
         for(var o in times){
             clearInterval(times[o]);
-            console.log(o);
         }
     }
     
@@ -178,7 +190,6 @@ define(function (req,exp) {
                         clearInterval(maskTime);
                         clearInterval(times[currentPlayTime+""+index]);
                         times[currentPlayTime+""+index] = setInterval(function () {
-                            console.log(currentPlayTime+""+index + ":still");
                             _c = ele.trail[currentPlayTime];
                             if(_c){
                                 exp.masks[index] = {};
@@ -256,7 +267,7 @@ define(function (req,exp) {
 
 
     exp.search = function () {
-        if(exp.$element.val() && exp.$element.val().length>1) {
+        if($("#queryTag").val() && $("#queryTag").val().length>1) {
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;

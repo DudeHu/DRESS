@@ -67,10 +67,16 @@ define(function(req,exp){
         }
     ]
     exp.paramType = "single";
-    exp.onInit = function () {
-        if(exp.params[0]){
-            exp.page = exp.params[0];
+    exp.onInit = function (done) {
+        if(!sessionStorage.userId){
+            exp.go("login");
+        }else{
+            if(exp.params[0]){
+                exp.page = exp.params[0];
+            }
+            done();
         }
+
     }
     exp.stopUpload = function (index) {
 

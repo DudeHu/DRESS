@@ -31,7 +31,7 @@
             <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
         </div>
         <div class="ui-video-detail-video">
-            <video id="videoDom" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
+            <video id="videoDom" autoplay="true" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
                 <source src="{this.videoInfo.videoUrl}"  type="video/mp4"/>
                 <source src="{this.videoInfo.videoUrl}"  type="video/ogg"/>
                 您的浏览器不支持 HTML5 video 标签。
@@ -41,7 +41,7 @@
                     <% var mask = item; %>
                     <div style="width:{mask.width}%;height:{mask.height}%;left:{mask.x}%;top:{mask.y}%"  class="ui-video-mask-range">
                         <div class="ui-video-mask-tip">
-                            <div s class="ui-video-mask-txt">{mask.text}</div>
+                            <div class="ui-video-mask-txt">{mask.text}</div>
                             <div class="ui-video-mask-trangle"></div>
                         </div>
                       </div>
@@ -68,7 +68,7 @@
             </div>
             <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input data-event="input>search" data-bind="args.serachString" type="text"/>
+                <input id="queryTag" data-event="input>search" data-bind="args.serachString" type="text"/>
             </div>
         </div>
     </div>

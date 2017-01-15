@@ -5,9 +5,14 @@ define(function (req,exp) {
     "use strict";
     exp.paramType = "single"
     exp.onInit = function (done) {
-        if(exp.params[0]){
-            exp.page = exp.params[0];
+        if(!sessionStorage.userId){
+            exp.go("login");
+        }else{
+            if(exp.params[0]){
+                exp.page = exp.params[0];
+            }
+            done();
         }
-        done();
+
     }
 });

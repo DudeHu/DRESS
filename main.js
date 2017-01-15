@@ -30,5 +30,6 @@ define(function(req,exp,mod){
 		st: 'st.'
 	});
 
+
 	app.init("login");
 });
