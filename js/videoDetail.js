@@ -174,10 +174,11 @@ define(function (req,exp) {
                     var text = ele.name;
                     var _c = ele.trail[currentPlayTime];
                     if(_c){
+                        var time_index = currentPlayTime;
                         clearInterval(maskTime);
                         clearInterval(times[currentPlayTime+""+index]);
                         times[currentPlayTime+""+index] = setInterval(function () {
-                            console.log("still");
+                            console.log(currentPlayTime+""+index + ":still");
                             _c = ele.trail[currentPlayTime];
                             if(_c){
                                 exp.masks[index] = {};
@@ -190,7 +191,8 @@ define(function (req,exp) {
                                 currentPlayTime += 1;
                             }else{
                                 exp.videoMask.hide();
-                                clearInterval(times[currentPlayTime+""+index]);
+                                clearInterval(times[time_index+""+index]);
+                                delete times[time_index+""+index];
                                 exp.dealMask(true);
                             }
                         },1000/exp.videoInfo.fps);
@@ -254,19 +256,22 @@ define(function (req,exp) {
 
 
     exp.search = function () {
-        if(exp.$element.val() && exp.$element.val().length>2) {
+        if(exp.$element.val() && exp.$element.val().length>1) {
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;
                 } else {
-                    exp.searchResultList.tagList = [];
+                    exp.searchResultList = {};
                 }
-
+                exp.searchResultListStatus = true;
+                exp.tagListPart.render();
             });
         }else{
+            exp.searchResultListStatus = false;
             exp.searchResultList = {};
+            exp.tagListPart.render();
         }
-        exp.tagListPart.render();
+
     }
 
 });

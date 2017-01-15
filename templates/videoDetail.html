@@ -72,57 +72,24 @@
         </div>
     </div>
         <div data-part="tagListPart">
-            {if this.searchResultList.tagList}
+            <%
+              var showS = false;
+               for(var t in this.searchResultList){
+                    showS = true;
+                }
+            %>
+            {if this.searchResultListStatus&&!showS}
             <div class="ui-con-fw ui-statics-list-con">
-                <div class="ui-statics-list-header ui-com-clearFix">
-                    <div class="ui-statics-list-header-txt">搜索结果</div>
-                    <div data-event="showHideAllDetail" class="ui-detail-all-export">＋</div>
-                </div>
                 <ul class="ui-statics-list">
-                {if this.searchResultList.tagList.length>0}
-
-                    <li>
-                        <span>名称</span>
-                        <span>标签数</span>
-                        <span>时长</span>
-                        <span>
-                    广告机会
-                    <span class="ui-orange-txt">{this.searchResultList.totalAdCount}</span>
-                    </span>
-                    </li>
-                    {foreach src=this.searchResultList.tagList}
-                    <% var _citem = item %>
-                    <li>
-                        <span>{_citem.tagName}</span>
-                        <span>
-                            {_citem.tagCount}
-                         <span data-event="showHideDetail" class="ui-detail-unexport-icon"></span>
-                        </span>
-                        <span>{_citem.duration}</span>
-                        <span>{_citem.adCount}</span>
-                        <div class="ui-list-item-detail">
-                            {foreach src=_citem.tagPicList}
-                            <% var _sitem = item %>
-                            <div>
-                                <img src="{_sitem.picUrl}">
-                                <p>开始时间 ／ {_sitem.startTime}</p>
-                                <p>持续时间 ／ <span class="ui-orange-txt">{_sitem.duration}</span></p>
-                            </div>
-                            {/foreach}
-                        </div>
-                    </li>
-                    {/foreach}
-
-                    {else}
                     <li class="ui-no-search-li">
                         无搜索结果！
                     </li>
-                 {/if}
                 </ul>
 
             </div>
             {else}
-            {foreach src=this.videoInfo.tagInfo}
+            <% var forTag = showS?this.searchResultList:this.videoInfo.tagInfo %>
+            {foreach src=forTag}
             <% var _item = item %>
             <div class="ui-con-fw ui-statics-list-con">
                 <div class="ui-statics-list-header ui-com-clearFix">
