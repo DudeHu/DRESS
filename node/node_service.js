@@ -12,20 +12,20 @@ var bucket = config.Bucket_Name;
 //上传策略中设置pipeline以及fops
 var uptoken = function(bucket, key) {
     //转码是使用的队列名称。
-    //pipeline = 'abcdtest';
+    var pipeline = 'abcdtest';
 
     //要进行转码的转码操作。
     var fops = "avthumb/mp4/vcodec/libx264"
 
     //可以对转码后的文件进行使用saveas参数自定义命名，当然也可以不指定文件会默认命名并保存在当间。
-    var saveas_key = qiniu.util.urlsafeBase64Encode(`${bucket}:video/${key}`);
+    var saveas_key = qiniu.util.urlsafeBase64Encode(`${bucket}:video/after_${key}`);
     fops = fops+'|saveas/'+saveas_key;
     var putPolicy = new qiniu.rs.PutPolicy(`${bucket}:video/${key}`);
     putPolicy.persistentOps = fops;
     //putPolicy.callbackUrl = "http://dressplus-api.appdevs.cn/video/uploadCallback";
     //putPolicy.callbackBody = 'filename=$(fname)&filesize=$(fsize)&id=$(x:id)';
     putPolicy.persistentNotifyUrl = "http://dressplus-api.appdevs.cn/video/qnNotify";
-    //putPolicy.persistentPipeline = pipleline;
+    putPolicy.persistentPipeline = pipeline;
     return putPolicy.token();
 }
 

@@ -93,7 +93,7 @@ define(function(req,exp){
             //         return '';
             //     }
             // },
-            domain: "http://resource.penn.dressplus.cn",
+            domain: 'http://oj9agbelr.bkt.clouddn.com',
             // downtoken_url: '/downtoken',
             // unique_names: true,
             save_key: true,
@@ -462,8 +462,8 @@ define(function(req,exp){
                             exp.alert(rs.msg);
                         }
                         exp.render();
+                        exp.alert("删除成功！");
                     });
-                    exp.alert("删除成功！");
                 }else{
                     exp.alert("删除失败！");
                 }
