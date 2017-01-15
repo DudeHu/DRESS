@@ -144,7 +144,7 @@ define(function (req,exp) {
             if(!has && (Media.readyState > 0)) {
                 var hour = parseInt(Media.duration / 60 /60);
                 var minutes = parseInt(Media.duration / 60);
-                var seconds = Math.ceil(Media.duration % 60);
+                var seconds = Math.round(Media.duration % 60);
                 seconds = seconds>0?seconds-1:seconds;
                 hour = hour<10?("0"+hour):hour;
                 minutes = minutes<10?("0"+minutes):minutes;
@@ -227,7 +227,7 @@ define(function (req,exp) {
         var _max = _ele.attr("max");
         var _val = _ele.val();
         console.log(_val);
-        exp.rangeWidth = (_val-_min)/(_max-_min) * 100-0.4*_val+"%";
+        exp.rangeWidth = (_val-_min)/(_max-_min) * 100-0.39*_val+"%";
         exp.rangePart.render();
         exp.search();
     }
