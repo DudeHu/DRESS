@@ -31,9 +31,12 @@
             <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
         </div>
         <div class="ui-video-detail-video">
-            <video id="videoDom" autoplay="true" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
+            <video id="videoDom" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
+                {if navigator.userAgent.indexOf("Firefox") > -1}
                 <source src="{this.videoInfo.videoUrl}"  type="video/mp4"/>
+                {else}
                 <source src="{this.videoInfo.videoUrl}"  type="video/ogg"/>
+                {/if}
                 您的浏览器不支持 HTML5 video 标签。
             </video>
                 <div data-part="videoMask" class="ui-video-mask">
@@ -47,9 +50,6 @@
                       </div>
                     {/foreach}
                  </div>
-
-
-
         </div>
     </div>
     <div class="ui-statics-form ui-com-clearFix ui-con-fw">
@@ -68,7 +68,8 @@
             </div>
             <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input id="queryTag" data-event="input>search" data-bind="args.serachString" type="text"/>
+                <input id="searchInput" data-enter="search" data-bind="args.serachString" type="text"/>
+                <span class="ui-clearBtn" data-event="clearSearch">×</span>
             </div>
         </div>
     </div>

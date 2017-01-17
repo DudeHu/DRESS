@@ -1,4 +1,19 @@
-
+.ui-video-detail-depth p{
+    line-height: 30px!important;
+    padding: 0 10px!important;
+}
+.ui-video-detail-depth p>span{
+    width: 40px!important;
+}
+.ui-statics-form{
+    margin-top: 0;
+}
+.ui-video-detail{
+    padding: 10px 0!important;
+}
+.ui-video-detail-info{
+    width: 20%!important;
+}
 @media screen and (min-width: 1024px) {
     body{font-size:12px;}
     .ui-video-detail-depth p{

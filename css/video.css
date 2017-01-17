@@ -10,9 +10,7 @@
     margin-bottom: 0;
     padding: 5px;
 }
-.ui-video-con .ui-web-input input{
-    top:0;
-}
+
 .ui-video-list li{
     font-size: 0;
 }
@@ -141,3 +139,4 @@
     overflow: hidden;
     vertical-align: bottom;
 }
+

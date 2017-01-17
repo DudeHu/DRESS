@@ -8,6 +8,7 @@ define(function(req,exp){
     var service = req("utils.ajax");
     var FileProgress = req("utils.fileprogress");
     var stopCount = 0;
+    var searchList = [];
     req("../bower_components/plupload/js/moxie.js");
     req("../bower_components/plupload/js/plupload.dev.js");
     req("../bower_components/plupload/js/i18n/zh_CN.js");
@@ -48,6 +49,7 @@ define(function(req,exp){
                 exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
                 rs.data.size && (exp.lists.step = rs.data.size);
                 rs.data.list && (exp.videoList = rs.data.list);
+                searchList = exp.videoList;
                 fn && fn();
             }else{
                 exp.alert(rs.msg);
@@ -71,7 +73,8 @@ define(function(req,exp){
             flash_swf_url: '../bower_components/plupload/js/Moxie.swf',
             dragdrop: true,
             chunk_size: '5mb',
-            get_new_uptoken: true,
+            max_retries: 3,
+            //get_new_uptoken: true,
             filters:{
                 mime_types : [
                     { title : "video files", extensions : "mp4,flv" },
@@ -95,7 +98,7 @@ define(function(req,exp){
             // },
             domain: 'http://oj9agbelr.bkt.clouddn.com',
             // downtoken_url: '/downtoken',
-            // unique_names: true,
+            unique_names: true,
             save_key: true,
             // x_vars: {
             //     'id': '1234'
@@ -124,7 +127,6 @@ define(function(req,exp){
                         var _this = $(this);
                         var _file = files[index];
                         _this.on('click', function () {
-
                             if (!$(this).hasClass("start")) {
                                 $(this).addClass("start");
                                 stopCount += 1;
@@ -221,6 +223,7 @@ define(function(req,exp){
         uploader.bind('FileUploaded', function() {
             console.log('hello man,a file is uploaded');
         });
+        exp.dealClear();
     }
 
 
@@ -301,11 +304,11 @@ define(function(req,exp){
         else
             $(".ui-web-del-btn").hide();
     }
-    var searchList = [];
+
 
     exp.search = function () {
-        searchList = exp.videoList;
-        if(exp.$element.val() && exp.$element.val().length>2){
+
+        if(exp.$element.val()!=""){
             exp.args.size = exp.lists.step;
             exp.args.page = exp.lists.cursor;
             service.searchByName(exp.args,function (rs) {
@@ -314,12 +317,13 @@ define(function(req,exp){
                 }else{
                     exp.videoList = [];
                 }
+                exp.listPart.render();
             });
         }else{
             exp.videoList = searchList;
+            exp.listPart.render();
         }
-        exp.listPart.render();
-        exp.$element.focus();
+
     }
     
     exp.uploadProgressShow = function (files,loaded) {
@@ -469,5 +473,20 @@ define(function(req,exp){
                 }
           })
       }
+    }
+    exp.clearSearch = function () {
+        $("#searchInput").val("");
+        $(".ui-clearBtn").hide();
+        exp.videoList = searchList;
+        exp.listPart.render();
+    }
+
+    exp.dealClear = function(){
+       $("#searchInput").on("input",function () {
+           if($(this).val()!="")
+               $(".ui-clearBtn").show();
+           else
+               $(".ui-clearBtn").hide();
+       });
     }
 });

@@ -77,6 +77,8 @@ define(function (req,exp) {
         videoUrl:"",
         uploadTime:""
     };
+
+    var playStatus = false;
     exp.onInit = function (done) {
 
         exp.parent.params[1] && (exp.args.videoId = exp.parent.params[1]);
@@ -97,49 +99,7 @@ define(function (req,exp) {
     exp.onRender = function () {
         var Media = document.getElementById("videoDom");
         var has = false;
-
-        Media.addEventListener("timeupdate",function(e){
-           //currentPlayTime = Math.round(Media.currentTime*25);
-           //exp.dealMask(true);
-           /* if(!has && (Media.readyState > 0)) {
-                var hour = parseInt(Media.duration / 60 /60);
-                var minutes = parseInt(Media.duration / 60);
-                var seconds = Math.round(Media.duration % 60);
-                hour = hour<10?("0"+hour):hour;
-                minutes = minutes<10?("0"+minutes):minutes;
-                seconds = seconds<10?("0"+seconds):seconds;
-                exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
-                exp.videoInfoPart.render();
-                has = true;
-            }
-            if(_e && _e.length>0){
-                var _t = exp.playList[_t1]?_t1:_t2;
-                _e.forEach(function (ele,index) {
-                    var text = ele.name;
-                    clearInterval(time);
-                    var time = window.setInterval(function () {
-                        var _c = ele.trail[_t];
-                        if(_c !== undefined){
-                            exp.masks[index] = {};
-                            exp.masks[index].text = text;
-                            exp.masks[index].width = Math.round(_c.width * 100);
-                            exp.masks[index].height = Math.round(_c.height * 100);
-                            exp.masks[index].x = Math.round(_c.x * 100);
-                            exp.masks[index].y = Math.round(_c.y * 100);
-                            exp.videoMask.render();
-                            _t = _t+1;
-                        }else{
-                            exp.masks = [];
-                            clearInterval(time);
-                        }
-                    },1000/exp.videoInfo.fps);
-                });
-                exp.videoMask.show();
-            }else{
-                exp.videoMask.hide();
-            }
-            */
-        },false);
+        exp.dealClear();
         Media.addEventListener("play",function(e){
             if(!has && (Media.readyState > 0)) {
                 var hour = parseInt(Media.duration / 60 /60);
@@ -153,73 +113,80 @@ define(function (req,exp) {
                 exp.videoInfoPart.render();
                 has = true;
             }
-            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
-            exp.dealMask(true);
+            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+            playStatus = true;
+            exp.dealMask();
         },false);
         Media.addEventListener("pause",function(e){
-            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
-            exp.dealMask(false);
+            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+            playStatus = false;
+
         },false);
         Media.addEventListener("waitting",function(e){
-            currentPlayTime = Math.round(e.currentTarget.currentTime * 25);
-            exp.dealMask(false);
+            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+            //exp.dealMask(false);
+            playStatus = false;
         },false);
     }
 
 
 
     exp.dealTimes = function () {
-        clearInterval(maskTime);
+        clearTimeout(maskTime);
         for(var o in times){
             clearInterval(times[o]);
+            delete times[o];
         }
     }
     
-    exp.dealMask = function (flag) {
-        exp.dealTimes();
-        if(flag){
-         maskTime = window.setInterval(function () {
-             var _e = exp.playList[currentPlayTime];
+    exp.dealMask = function () {
+        //exp.dealTimes();
+        if(playStatus){
+         maskTime = window.setTimeout(function () {
+            var _e = exp.playList[currentPlayTime];
+            console.log("maskStill");
             if(_e && _e.length>0){
                 exp.masks=[];
                 _e.forEach(function (ele,index) {
-                    var text = ele.name;
-                    var _c = ele.trail[currentPlayTime];
-                    if(_c){
-                        var time_index = currentPlayTime;
-                        clearInterval(maskTime);
-                        clearInterval(times[currentPlayTime+""+index]);
-                        times[currentPlayTime+""+index] = setInterval(function () {
-                            _c = ele.trail[currentPlayTime];
-                            if(_c){
-                                exp.masks[index] = {};
-                                exp.masks[index].text = text;
-                                exp.masks[index].width = Math.round(_c.width * 100);
-                                exp.masks[index].height = Math.round(_c.height * 100);
-                                exp.masks[index].x = Math.round(_c.x * 100);
-                                exp.masks[index].y = Math.round(_c.y * 100);
-                                exp.videoMask.render();
-                                currentPlayTime += 1;
-                            }else{
-                                exp.videoMask.hide();
-                                clearInterval(times[time_index+""+index]);
-                                delete times[time_index+""+index];
-                                exp.dealMask(true);
-                            }
-                        },1000/exp.videoInfo.fps);
-                        exp.videoMask.show();
-                    }else{
-                        currentPlayTime += 1;
-                    }
+                    exp.dealCMask(ele,index);
                 });
             }else{
                 currentPlayTime += 1;
+                exp.dealMask();
             }
-
         },1000/exp.videoInfo.fps);
         }
     }
 
+    exp.dealCMask = function (ele,index) {
+        var text = ele.name;
+        var _c = ele.trail[currentPlayTime];
+        if(_c){
+            var time_index = currentPlayTime;
+            setTimeout(function () {
+                _c = ele.trail[currentPlayTime];
+                console.log("lock:"+currentPlayTime+""+index);
+                if(_c){
+                    exp.masks[index] = {};
+                    exp.masks[index].text = text;
+                    exp.masks[index].width = Math.round(_c.width * 100);
+                    exp.masks[index].height = Math.round(_c.height * 100);
+                    exp.masks[index].x = Math.round(_c.x * 100);
+                    exp.masks[index].y = Math.round(_c.y * 100);
+                    exp.videoMask.render();
+                    currentPlayTime += 1;
+                    exp.dealCMask(ele,index);
+                }else{
+                    exp.videoMask.hide();
+                }
+            },1000/exp.videoInfo.fps);
+            exp.videoMask.show();
+        }else{
+            exp.videoMask.hide();
+            currentPlayTime += 1;
+            exp.dealMask();
+        }
+    }
 
     exp.timeSelect = function () {
         var _ele = exp.$element;
@@ -253,6 +220,7 @@ define(function (req,exp) {
             _ele.removeClass("ui-detail-export-icon").addClass("ui-detail-unexport-icon");
         }
     }
+
     exp.downloadJSON = function (url) {
         var aLink = document.createElement('a');
         //var blob = new Blob([JSON.stringify(content)]);
@@ -267,7 +235,7 @@ define(function (req,exp) {
 
 
     exp.search = function () {
-        if($("#queryTag").val() && $("#queryTag").val().length>1) {
+        if($("#searchInput").val()!="") {
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;
@@ -282,7 +250,22 @@ define(function (req,exp) {
             exp.searchResultList = {};
             exp.tagListPart.render();
         }
-
     }
 
+    exp.clearSearch = function () {
+        $("#searchInput").val("");
+        $(".ui-clearBtn").hide();
+        exp.searchResultListStatus = false;
+        exp.searchResultList = {};
+        exp.tagListPart.render();
+    }
+
+    exp.dealClear = function(){
+        $("#searchInput").on("input",function () {
+            if($(this).val()!="")
+                $(".ui-clearBtn").show();
+            else
+                $(".ui-clearBtn").hide();
+        });
+    }
 });

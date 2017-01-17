@@ -40,7 +40,10 @@ embed{
     }
 }
 
-
+body{
+    width: 1440px;
+    font-size: 12px;
+}
 /*clear float*/
 .ui-com-clearFix::after {
     content: "";
@@ -90,10 +93,6 @@ embed{
     float: left;
     width: 100%;
 }
-body{
-    width: 100%;
-}
-
 .ui-web-logo{
     width: 100%;
     width: 100%;
@@ -209,7 +208,7 @@ body{
     width: 75%;
     float: left;
     padding: 50px 20px;
-    margin-left: 21%;
+    margin-left: 200px;
     padding-top: 150px;
 }
 .ui-content-header,.ui-detail-header{
@@ -316,7 +315,8 @@ input[type="range"] {
 }
 .ui-statics-form-con>div{
     margin-left:30px;
-    padding: 10px;
+    padding: 5px 10px;
+    position: relative;
 }
 .ui-statics-form-con span{
     font-size: 16px;
@@ -441,9 +441,12 @@ input[type="range"] {
     body{font-size:12px;}
 }
 @media screen and (min-width: 1440px) {
-    body{font-size:12px;}
+    body{font-size:12px;width: 100%;}
 }
 @media screen and (min-width: 1680px) {
+    body{
+        width: 100%;
+    }
     .ui-home-bg{
         height: 1050px;
     }
@@ -452,7 +455,17 @@ input[type="range"] {
     }
 }
 @media screen and (min-width: 1920px) {
+    body{
+        width: 100%;
+    }
     .ui-home-bg{
         height: 1200px;
     }
+}
+.ui-clearBtn{
+    display: none;
+    top: 8px;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
 }
