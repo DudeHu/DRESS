@@ -74,7 +74,7 @@ define(function(req,exp){
             dragdrop: true,
             chunk_size: '5mb',
             max_retries: 3,
-            //get_new_uptoken: true,
+            get_new_uptoken: true,
             filters:{
                 mime_types : [
                     { title : "video files", extensions : "mp4,flv" },

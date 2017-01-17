@@ -6,7 +6,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 18%;
+    width: 180px;
     z-index:1;
     font-size: 26px;
 }
@@ -29,10 +29,10 @@
 }
 
 .ui-upload-box,.uploadify-queue{
-    width: 35%;
+    width: 425px;
     position: fixed;
     bottom: 0;
-    left:18%;
+    left:180px;
     z-index: 1;
     background-color: #f1f5f8;
     border: 1px solid #cfdae3;
@@ -56,7 +56,7 @@
 }
 .ui-upload-box ul{
     padding: 20px;
-    height: 360px;
+    height: 260px;
     overflow-y: auto;
 }
 .ui-upload-box ul>li{
