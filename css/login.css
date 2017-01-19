@@ -26,7 +26,20 @@
     height: auto;
     margin-top: 16.66667rem;
 }
-
+.ui-login-con .ui-web-input{
+    height: 3.22222rem;
+    width: 22.22222rem;
+    padding: 0.71429rem;
+    margin-bottom: 1.07143rem;
+    padding-left: 0;
+}
+.ui-login-con .ui-web-input input{
+    line-height: 1.78571rem;
+    text-indent: .5em;
+    position: relative;
+    top: -0.4286rem;
+    font-size: 1.14286rem;
+}
 
 .ui-procol-des{
     color: #b2b3b3;
