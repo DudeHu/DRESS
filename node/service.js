@@ -90,6 +90,17 @@ exports.getVideoDetail = function (params) {
 }
 
 
+exports.getUserInfo = function (params) {
+    return{
+        url:"/user/info",
+        type:"post",
+        data:{
+            userId:params.userId
+        }
+    }
+}
+
+
 
 
 

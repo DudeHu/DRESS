@@ -1,25 +1,26 @@
 .ui-statics-info{
+    height: 8rem;
     border-bottom: 1px solid #999999;
     width: 100%;
-    padding: 20px 50px;
+    padding: 2.77778rem;
 }
 .ui-statics-info>div{
     width: 25%;
     float: left;
     font-size: 0;
-    padding: 0 20px;
+    padding: 0 1.11111rem;
 }
 .ui-statics-info>div:not(:last-child){
     border-right: 1px solid #adadad;
 }
 .ui-statics-info>div span{
     display: inline-block;
-    font-size: 18px;
+    font-size: 1rem;
     text-align: center;
 }
 .ui-statics-info>div span:last-child{
-    width: 50px;
+    width: 2.77778rem;
 }
 .ui-statics-info>div span:not(:last-child){
-    width: 90px;
+    width: 5rem;
 }

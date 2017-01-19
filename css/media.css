@@ -1,0 +1,42 @@
+@media screen and (max-width: 1023px) {
+    html,body {
+        font-size : 52%!important ;
+    }
+    .ui-content-con{
+        width: 845px;
+    }
+    .ui-header-con{
+        width: 1024px!important;
+    }
+    .ui-login-con{
+        width: 1024px!important;
+    }
+    .ui-detail-con{
+        width: 1024px!important;
+    }
+}
+@media screen and (min-width: 1024px) {
+    html,body {
+        font-size : 45%!important ;
+    }
+}
+@media screen and (min-width: 1280px) {
+    html,body {
+        font-size : 63%!important ;
+    }
+}
+@media screen and (min-width: 1440px) {
+    html,body {
+        font-size : 78%!important ;
+    }
+}
+@media screen and (min-width: 1680px) {
+    html,body {
+        font-size : 87.5%!important ;
+    }
+}
+@media screen and (min-width: 1920px) {
+    html,body {
+        font-size : 109%!important ;
+    }
+}

@@ -1,72 +1,77 @@
 .ui-web-deal-state{
-    height: 120px;
-    line-height: 120px;
+    height: 6.66667rem;
+    line-height: 6.66667rem;
     text-align: center;
-    background-color: #b0d5f8;
+    background-color: #0099ff;
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 180px;
+    width: 12.77778rem;
     z-index:1;
-    font-size: 26px;
+    font-size: 1.44444rem;
+    color: #fff;
 }
 .ui-web-deal-state .ui-web-deal-con >div{
     float: left;
 }
 .ui-web-deal-state .ui-web-deal-con >div p{
-    line-height: 40px;
+    line-height: 2.22222rem;
 }
 .ui-web-deal-con > div:first-child{
-    padding: 20px 0;
+    padding: 1.11111rem 0;
 }
 .ui-web-deal-state .ui-web-deal-con{
-    width: 65%;
+    width: 78%;
     margin: 0 auto;
 }
 .ui-export-btn{
-    margin-left: 40px;
+    margin-left: 1rem;
     cursor: pointer;
 }
 
 .ui-upload-box,.uploadify-queue{
-    width: 425px;
+    width: 38.88889rem;
     position: fixed;
     bottom: 0;
-    left:180px;
+    left:12.77778rem;
     z-index: 1;
     background-color: #f1f5f8;
     border: 1px solid #cfdae3;
 }
 .ui-upload-box-header{
-    background-color: #b0d5f8;
-    height: 45px;
-    line-height:45px ;
+    background-color: #0099ff;
+    height: 2.5rem;
+    line-height:2.5rem ;
 }
 .ui-upload-box-header span{
     display: inline-block;
-    height: 45px;
-    line-height:45px ;
-    width: 20px;
+    height: 2.66667rem;
+    line-height:2.66667rem ;
+    width: 1.11111rem;
     font-weight: bold;
-    color: #0080fc;
-    font-size: 16px;
+    color: #fff;
+    font-size: 0.88889rem;
     float: right;
-    margin-right: 20px;
+    margin-right: 1.11111rem;
     cursor: pointer;
 }
 .ui-upload-box ul{
-    padding: 20px;
-    height: 260px;
+    padding: 1.11111rem;
+    height: 20rem;
     overflow-y: auto;
+    width: 100%;
+    color: #666;
 }
 .ui-upload-box ul>li{
-    height: 45px;
-    line-height: 45px;
+    height: 3.05556rem;
+    line-height: 3.05556rem;
     border-bottom: 1px solid #cfdae3;
+    font-size: 1rem;
 }
 .ui-upload-box ul>li:first-child{
-    border-bottom: 3px solid #cfdae3;
-    font-size: 18px;
+    border-bottom: 0.16667rem solid #cfdae3;
+    font-size: 1.22222rem;
+    color: #333;
 }
 .ui-upload-box ul>li span{
     display: inline-block;
@@ -76,10 +81,10 @@
 }
 .ui-upload-box ul>li:first-child>span:not(:first-child){
     position: relative;
-    top: -20px;
+    top: -1.11111rem;
 }
 .ui-upload-box ul>li:first-child>span:nth-child(1){
-    line-height: 45px;
+    line-height: 2.5rem;
 }
 .ui-upload-box ul>li>span:nth-child(1){
     width: 33%;
@@ -87,7 +92,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    line-height: 15px;
+    line-height: 0.83333rem;
 }
 .ui-upload-box ul>li>span:nth-child(2){
     width: 18%;
@@ -102,33 +107,34 @@
 .ui-upload-box-process{
     position: relative;
     width: 55%;
-    height: 6px;
-    border-radius: 3px 3px 3px;
-    -webkit-border-radius:3px 3px 3px;
-    -moz-border-radius: 3px 3px 3px;
-    -o-border-radius: 3px 3px 3px;
-    -mso-border-radius: 3px 3px 3px;
+    height: 0.33333rem;
+    border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -webkit-border-radius:0.16667rem 0.16667rem 0.16667rem;
+    -moz-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -o-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -mso-border-radius: 0.16667rem 0.16667rem 0.16667rem;
     background-color: #cfdae3;
-    margin-right: 7px;
+    margin-right: 0.38889rem;
     vertical-align: middle;
 }
 .ui-upload-box-process span{
     position: absolute;
-    height: 6px;
-    border-radius: 3px 3px 3px;
-    -webkit-border-radius:3px 3px 3px;
-    -moz-border-radius: 3px 3px 3px;
-    -o-border-radius: 3px 3px 3px;
-    -mso-border-radius: 3px 3px 3px;
+    height: 0.33333rem;
+    border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -webkit-border-radius:0.16667rem 0.16667rem 0.16667rem;
+    -moz-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -o-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -mso-border-radius: 0.16667rem 0.16667rem 0.16667rem;
     top: 0;
     left: 0;
     background-color: #0080fc;
 }
 .ui-upload-box-stop{
     background: url("../images/close_icon.png") no-repeat center;
-    width: 25px;
-    height: 25px;
+    width: 1.38889rem;
+    height: 1.38889rem;
     vertical-align: middle;
     vertical-align: middle;
+    background-size: contain;
     cursor: pointer;
 }

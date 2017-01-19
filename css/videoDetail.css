@@ -1,72 +1,8 @@
-.ui-video-detail-depth p{
-    line-height: 30px!important;
-    padding: 0 10px!important;
-}
-.ui-video-detail-depth p>span{
-    width: 40px!important;
-}
-.ui-statics-form{
-    margin-top: 0;
-}
-.ui-video-detail{
-    padding: 10px 0!important;
-}
-.ui-video-detail-info{
-    width: 20%!important;
-}
-@media screen and (min-width: 1024px) {
-    body{font-size:12px;}
-    .ui-video-detail-depth p{
-        line-height: 30px!important;
-        padding: 0 10px!important;
-    }
-    .ui-video-detail-depth p>span{
-        width: 40px!important;
-    }
-    .ui-statics-form{
-        margin-top: 0;
-    }
-    .ui-video-detail{
-        padding: 10px 0!important;
-    }
-    .ui-video-detail-info{
-        width: 20%!important;
-    }
-}
-@media screen and (min-width: 1280px) {
-    body{font-size:12px;}
-    .ui-video-detail-depth p{
-        line-height: 35px!important;
-        padding: 0 20px!important;
-    }
-    .ui-video-detail-depth p>span{
-        width: 55px!important;
-    }
-    .ui-statics-form{
-        margin-top: 0;
-    }
-    .ui-video-detail{
-        padding: 20px 0!important;
-    }
-}
-@media screen and (min-width: 1440px) {
-    .ui-video-detail-depth p{
-        line-height: 50px!important;
-        padding: 0 25px!important;
-    }
-    .ui-video-detail-depth p>span{
-        width: 60px!important;
-    }
-}
-@media screen and (min-width: 1680px) {
 
-}
-@media screen and (min-width: 1920px) {
-
-}
 .ui-video-detail{
     width: 100%;
-    padding: 30px 0;
+    padding: 1.66667rem 0;
+    border-bottom: 1px solid #666;
 }
 .ui-video-detail-video{
     float: left;
@@ -82,66 +18,80 @@
     display: none;
 }
 .ui-video-mask-range{
-    border: 5px solid rgba(114,115,112,0.7);
+    border: 0.16667rem solid rgba(255,255,255,0.9);
     position: absolute;
     z-index: 1;
 }
 .ui-video-mask-tip{
     position: absolute;
-    top:-40px;
-    width: 80px;
+    top:-2.22222rem;
+    width: 4.44444rem;
+}
+.ui-statics-form-con .ui-time-tip{
+    display: inline-block;
+    position: relative;
+    top: 0.55556rem;
 }
 .ui-video-mask-tip .ui-video-mask-txt{
-    background-color:rgba(197,119,14,0.7);
-    line-height: 25px;
+    background-color:rgba(255,204,0,0.9);
+    line-height: 1.38889rem;
     color: #fff;
-    font-size: 16px;
-    padding: 0 15px;
-    -webkit-border-radius:3px 3px 3px;
-    -moz-border-radius: 3px 3px 3px;
-    -o-border-radius: 3px 3px 3px;
-    -mso-border-radius: 3px 3px 3px;
-    min-width: 50px;
+    font-size: 0.88889rem;
+    padding: 0 0.83333rem;
+    -webkit-border-radius:0.16667rem 0.16667rem 0.16667rem;
+    -moz-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -o-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    -mso-border-radius: 0.16667rem 0.16667rem 0.16667rem;
+    min-width: 2.77778rem;
     text-align: center;
 }
 .ui-video-mask-tip .ui-video-mask-trangle{
     width: 0px;
     height:0px;
-    border-width: 8px;
+    border-width: 0.44444rem;
     border-style: solid;
-    border-color: rgba(197,119,14,0.7) transparent transparent transparent;
-    margin-left: 15px;
+    border-color: rgba(255,204,0,0.9) transparent transparent transparent;
+    margin-left: 0.83333rem;
 }
 .ui-video-detail-info{
     width: 25%;
     float: right;
-    font-size: 16px;
+    font-size: 1rem;
 }
 .ui-video-detail-face{
-    border-bottom: 1px solid #0080fc;
-    color: #999;
-    padding: 20px 0;
+    border-bottom: 1px solid #0066cc;
+    color: #666;
+    padding: 1.11111rem 0;
 }
 .ui-video-detail-face p {
-    line-height: 30px;
+    line-height: 2.33333rem;
 }
 .ui-video-detail-depth{
-    border-bottom: 1px solid #cccccc;
-    padding: 20px 0;
+    border-bottom: 1px solid #0066cc;
+    padding: 1.11111rem 0;
 }
 .ui-video-detail-depth p{
-    line-height: 70px;
-    padding: 0 50px;
+    line-height: 3.88889rem;
+    width: 12.22222rem;
+    margin: 0 auto;
 }
 .ui-video-detail-depth p>span{
-    width: 70px;
+    width: 3.88889rem;
     display: inline-block;
+    vertical-align: middle;
+}
+.ui-video-detail-depth p>span.ui-statics-txt{
+    font-size: 1.33333rem;
+}
+.ui-web-count{
+    font-size: 1.11111rem;
+    color: #0099ff;
 }
 .ui-video-detail-depth p>span:first-child{
     background-size: 60%;
 }
 .ui-video-name{
-    font-size: 18px;
+    font-size: 1rem;
     color: #333;
 }
 video{
@@ -149,8 +99,8 @@ video{
     display: inherit;
 }
 .ui-no-search-li{
-    height: 60px;
-    line-height: 60px;
+    height: 3.33333rem;
+    line-height: 3.33333rem;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.77778rem;
 }

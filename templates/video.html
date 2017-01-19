@@ -8,9 +8,10 @@
             </span>
             <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input id="searchInput" data-enter="search" data-bind="args.serachString" type="text"/>
+                <input id="searchInput" placeholder="输入视频名称" data-bind="args.serachString" type="text"/>
                 <span class="ui-clearBtn" data-event="clearSearch">×</span>
             </div>
+            <div data-enter="search"></div>
         </div>
     </div>
     <p id="time"></p>
@@ -37,8 +38,8 @@
             </div>
             <span class="ui-video-list-name">{item.name}</span>
             <span>{item.uploadTime}</span>
-            <span>{item.videoSize}</span>
-            <span>{item.tagNums}</span>
+            <span>{item.videoSize}MB</span>
+            <span>{if item.tagNums==0}---{else}{item.tagNums}{/if}</span>
 
             {if item.status=="200"}
             <span>分析完成</span>
@@ -71,7 +72,11 @@
         </li>
         {/if}
     </ul>
-    <div style="display: none" data-event="delVideo" class="ui-web-del-btn ui-floatL">删除</div>
+    <div style="display: none" data-event="delVideo" class="ui-web-del-btn ui-floatL">
+        <span class="ui-del-btn-icon"></span>
+        <span>删除</span>
+
+    </div>
     {if this.lists.page_count>1}
     <div class="ui-floatR" data-view="page"></div>
     {/if}

@@ -14,6 +14,7 @@ define(function(req,exp,mod){
         getVideoDetail:service("getVideoDetail"),   //获取视频详情页
         searchByTag:service("searchByTag"),         //搜索视频通过标签名（详情页）
         deleteVideo:service("deleteVideo"),         //删除视频
+        getUserInfo:service("getUserInfo"),         //获得用户信息
         _end_: 0
 	};
 

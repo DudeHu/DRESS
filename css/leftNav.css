@@ -1,5 +1,5 @@
 .ui-left-nav{
-    width: 180px;
+    width: 12.77778rem;
     background: #f1f5f8;
     height: 100%;
     position: fixed;
@@ -8,27 +8,27 @@
 }
 .ui-left-nav ul{
     width: 100%;
-    color: #666666;
-    padding-top: 110px;
+    padding-top: 6.11111rem;
 }
 .ui-left-nav li{
-    line-height: 100px;
+    line-height: 5.55556rem;
     border-bottom: 1px solid #c7c7c7;
 }
 .ui-left-nav li.on{
-    color: #0e9de4;
+    color: #0066cc;
 }
 .ui-left-nav li:hover{
     background-color: rgba(199,199,199,0.2);
 }
 .ui-left-nav li>div{
-    width: 145px;
-    margin: 0 auto;
+    padding-left: 3.33333rem;
 }
 .ui-left-nav li span{
     display: inline-block;
+    vertical-align: middle;
+    background-size: 100%;
 }
 .ui-left-nav-txt{
-    font-size: 20px;
-    text-indent: 1em;
+    font-size: 1.33333rem;
+    text-indent: 1.11111rem;
 }

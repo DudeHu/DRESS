@@ -1,7 +1,9 @@
 <div class="ui-detail-con">
-    <div class="ui-detail-header">
-        <span class="ui-web-back-icon"></span>
-        <span data-event="go:list/statics" class="ui-content-header-txt">返回统计</span>
+    <div class="ui-detail-header" data-event="go:list/statics">
+        <div class="ui-web-back-con">
+            <span class="ui-web-back-icon"></span>
+            <span class="ui-content-header-txt">返回统计</span>
+        </div>
     </div>
     <div class="ui-statics-info ui-com-clearFix">
         <div>
@@ -28,7 +30,7 @@
     <div class="ui-statics-form ui-com-clearFix">
         <div class="ui-statics-form-con ui-floatR">
             <div>
-                <span>持续时间</span>
+                <span class="ui-time-tip">持续时间:</span>
                 <div data-part="rangePart" class="ui-range-con">
                     <input data-bind="args.rangeVal" data-event="change>timeSelect" name="money" type="range" min="3" max="20" step="1" id="range">
                     <div class="ui-statics-controlRange" style="width:{this.rangeWidth};"></div>
@@ -41,7 +43,7 @@
             </div>
             <div data-enter="search" class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input data-bind="args.serachString" type="text"/>
+                <input  placeholder="输入标签" data-bind="args.serachString" type="text"/>
             </div>
         </div>
     </div>

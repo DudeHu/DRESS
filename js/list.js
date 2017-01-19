@@ -6,66 +6,7 @@ define(function(req,exp){
     exp.status = "none";
     exp.page="video";
     exp.uploadCuList = [];
-    exp.uploadList = [
-        {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        },  {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974411687,
-            "size":"13MB",
-            "counts":320,
-            "state":"ing"
-        },
-        {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        },  {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        },  {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974411687,
-            "size":"13MB",
-            "counts":320,
-            "state":"ing"
-        },
-        {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        },  {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        },  {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974411687,
-            "size":"13MB",
-            "counts":320,
-            "state":"ing"
-        },
-        {
-            "name":"如果蜗牛有爱情.mp4",
-            "time":1481974341687,
-            "size":"23MB",
-            "counts":320,
-            "state":"ing"
-        }
-    ]
+    exp.uploadList = []
     exp.paramType = "single";
     exp.onInit = function (done) {
         if(!sessionStorage.userId){

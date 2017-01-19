@@ -11,4 +11,9 @@ define(function(req,exp){
         var args = [].slice.call(arguments);
         app.plugin.dialog.confirm.apply(null,args);
     };
+
+    exp.tip = function () {
+        var args = [].slice.call(arguments);
+        app.plugin.tip.showTip.apply(app.plugin.tip, [].slice.call(arguments));
+    }
 });

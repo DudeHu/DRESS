@@ -15,7 +15,7 @@ define(function(req,exp,mod){
 	"use strict";
 
 	req("st.reset.css");
-
+	req("st.media.css");
 
 	var app = req("sys.app");
 	var config = req("root.config");

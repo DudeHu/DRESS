@@ -6,8 +6,13 @@ define(function (req,exp) {
     exp.curSpace = 0;
     exp.space = 500;
     exp.onInit = function () {
-        exp.curSpace = 0;
         exp.space = sessionStorage.space;
+        if(exp.space.indexOf("MB")>0){
+            var _s = exp.space.substr(0,exp.space.indexOf("MB"));
+            exp.curSpace = 500 - Number(_s);
+        }else{
+            exp.curSpace = 500 - Number(exp.space);
+        }
     }
     exp.exit = function () {
         sessionStorage.clear();

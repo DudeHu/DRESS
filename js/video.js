@@ -111,51 +111,67 @@ define(function(req,exp){
                     if(exp._files.length>0){
                         exp._oldFilesCount += exp._files.length;
                     }
-
+                    var totalSize = 0;
                     plupload.each(files, function(file,index) {
                         FileProgress.bindEvent(file);
                         var _item = {};
                         _item.name = file.name;
                         _item.size = file.size/1024/1024;
+                        totalSize += _item.size;
                         _item.status = true;
                         exp.parent.uploadCuList.push(_item);
+                        console.log(exp.parent.uploadCuList);
                         exp._files.push(file);
                     });
-                    exp.parent.status = "uploading";
-                    exp.parent.statusPart.render();
-                    $(".ui-upload-box-stop").each(function(index) {
-                        var _this = $(this);
-                        var _file = files[index];
-                        _this.on('click', function () {
-                            if (!$(this).hasClass("start")) {
-                                $(this).addClass("start");
-                                stopCount += 1;
-                                exp.parent.uploadCuList[index].status = false;
-                                var _index = exp.findNext(files, index);
-                                up.stop();
-                                if(_index!=null){
-                                    var _tem = up.files[0];
-                                    up.files[0] = up.files[_index];
-                                    up.files[_index] = _tem;
-                                    currentIndex = _index;
-                                    up.start();
-                                }
-                            } else {
-                                up.stop();
-                                exp.parent.uploadCuList[index] = true;
-                                stopCount > 0 && (stopCount -= 1);
-                                var _index = exp.findCurrent(up.files,_file.name);
-                                if(_index!=null){
-                                    var _tem = up.files[_index];
-                                    up.files[_index] = up.files[0];
-                                    up.files[0] = _tem;
-                                    currentIndex = index;
-                                    up.start();
-                                }
+                    service.getUserInfo({userId:sessionStorage.userId},function (rs) {
+                        if(rs.status == "SUCCESS"){
+                            var _space = exp.parent.header.curSpace = Number(rs.data.space);
+                            if( _space >= totalSize/1024/1024){
 
+                                exp.parent.status = "uploading";
+                                exp.parent.statusPart.render();
+                                $(".ui-upload-box-stop").each(function(index) {
+                                    var _this = $(this);
+                                    var _file = files[index];
+                                    _this.on('click', function () {
+                                        if (!$(this).hasClass("start")) {
+                                            $(this).addClass("start");
+                                            stopCount += 1;
+                                            exp.parent.uploadCuList[index].status = false;
+                                            var _index = exp.findNext(files, index);
+                                            up.stop();
+                                            if(_index!=null){
+                                                var _tem = up.files[0];
+                                                up.files[0] = up.files[_index];
+                                                up.files[_index] = _tem;
+                                                currentIndex = _index;
+                                                up.start();
+                                            }
+                                        } else {
+                                            up.stop();
+                                            exp.parent.uploadCuList[index] = true;
+                                            stopCount > 0 && (stopCount -= 1);
+                                            var _index = exp.findCurrent(up.files,_file.name);
+                                            if(_index!=null){
+                                                var _tem = up.files[_index];
+                                                up.files[_index] = up.files[0];
+                                                up.files[0] = _tem;
+                                                currentIndex = index;
+                                                up.start();
+                                            }
+
+                                        }
+                                    });
+                                });
+                            }else {
+                                exp.alert("存储空间不足！");
                             }
-                        });
+                        }else{
+                            exp.alert(rs.msg);
+                        }
                     });
+
+
                 },
                 'BeforeUpload': function(up, file) {
                     var _index = exp.findCurrent(exp._files,file.name);
@@ -168,11 +184,16 @@ define(function(req,exp){
                     var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                     FileProgress.countProgress(file,currentIndex);
                 },
-                'UploadComplete': function() {
-                    exp.parent.status = "success";
-                    exp.parent.uploadCuList = uploaded;
-                    exp.parent.statusPart.render();
-                    exp.getList(exp.args,exp.listPart.render);
+                'UploadComplete': function(up,flie) {
+                    if(up.status == plupload.DONE){
+                        exp.parent.status = "success";
+                        exp.parent.uploadCuList = uploaded;
+                        exp.parent.statusPart.render();
+                        exp.getList(exp.args,exp.listPart.render);
+                    }else{
+                        exp.alert("上传失败！请重新上传！");
+                    }
+
                 },
                 'FileUploaded': function(up, file, info) {
                     FileProgress.countProgress(file,currentIndex);
@@ -199,23 +220,35 @@ define(function(req,exp){
                         var domain = up.getOption('domain');
                         _item.url = `${domain}/${encodeURI(info.key)}`;
                     }
-
-                    service.uploadVideo(_item,function (rs) {
-                        if(rs.status == "SUCCESS"){
-                            uploaded.push(rs.data);
-                            exp.getList(exp.args,exp.listPart.render);
-                        }else{
-                            exp.alert(rs.msg);
-                        }
+                    service.getUserInfo({userId:sessionStorage.userId},function (rs) {
+                            if(rs.status == "SUCCESS"){
+                                var _space = exp.parent.header.curSpace = 500-Number(rs.data.space);
+                                sessionStorage.space = exp.parent.header.space =  Number(rs.data.space);
+                                exp.parent.header.render();
+                                if( _space >= _item.size){
+                                    service.uploadVideo(_item,function (rs) {
+                                        if(rs.status == "SUCCESS"){
+                                            uploaded.push(rs.data);
+                                            exp.getList(exp.args,exp.listPart.render);
+                                        }else{
+                                            exp.alert(rs.msg);
+                                        }
+                                    });
+                                }else {
+                                    exp.alert("存储空间不足！");
+                                }
+                            }else{
+                                exp.alert(rs.msg);
+                            }
                     });
+
                 },
                 'Error': function(up, err, errTip) {
                     var _index = exp.findNext(exp._files,currentIndex);
                     if(!_index){
                         up.stop();
                     }
-
-                    console.log(err.file.name+":"+errTip);
+                    up.stop();
                 }
             }
         });
@@ -231,14 +264,18 @@ define(function(req,exp){
         var _ele = exp.$element;
         if(_ele.is(':checked') && ($("[name='checkboxInput']:checked").length == exp.videoList.length)){
             $("#checkboxInput").prop("checked",true);
+            $("#checkboxInput").parent().addClass("on");
         }else if(!_ele.is(':checked') &&  $("#checkboxInput").is(':checked')){
             $("#checkboxInput").prop("checked",false);
+            $("#checkboxInput").removeClass("on");
             exp.delListFromId(id);
         }
         if(_ele.is(':checked')){
+            _ele.parent().addClass("on");
             exp.delList.push(id);
         }else{
             exp.delListFromId(id);
+            _ele.parent().removeClass("on");
         }
         exp.showDelBtn();
     }
@@ -288,12 +325,16 @@ define(function(req,exp){
         if(_ele.is(':checked')){
             exp.delList = [];
             $("[name='checkboxInput']").prop("checked",true);
+            $("[name='checkboxInput']").parent().addClass("on");
             exp.videoList.forEach(function (ele) {
                 exp.delList.push(ele.id);
             })
+            _ele.parent().addClass("on");
         }else{
             $("[name='checkboxInput']").prop("checked",false);
             exp.delList = [];
+            $("[name='checkboxInput']").parent().removeClass("on");
+            _ele.parent().removeClass("on");
         }
         exp.showDelBtn();
     }
@@ -307,8 +348,8 @@ define(function(req,exp){
 
 
     exp.search = function () {
-
-        if(exp.$element.val()!=""){
+        console.log(exp.$element)
+        if($("#searchInput").val()!=""){
             exp.args.size = exp.lists.step;
             exp.args.page = exp.lists.cursor;
             service.searchByName(exp.args,function (rs) {
@@ -466,7 +507,7 @@ define(function(req,exp){
                             exp.alert(rs.msg);
                         }
                         exp.render();
-                        exp.alert("删除成功！");
+                        exp.autoTip("删除成功！");
                     });
                 }else{
                     exp.alert("删除失败！");
@@ -476,6 +517,10 @@ define(function(req,exp){
     }
     exp.clearSearch = function () {
         $("#searchInput").val("");
+        exp.showOlderList();
+    }
+
+    exp.showOlderList = function () {
         $(".ui-clearBtn").hide();
         exp.videoList = searchList;
         exp.listPart.render();
@@ -486,7 +531,30 @@ define(function(req,exp){
            if($(this).val()!="")
                $(".ui-clearBtn").show();
            else
-               $(".ui-clearBtn").hide();
+               exp.showOlderList();
        });
+    }
+
+    exp.autoTip = function (msg) {
+        var tipHtml = $('<div class="sk-dialog-position">'
+                     +'<div>'
+                     +'<div class="sk-dialog">'
+                     +'<div class="sk-dialog-top">'
+                     +'<div class="sk-dialog-tit">'
+                     +'<strong>提示</strong>'
+                     +'</div>'
+                     +'</div>'
+                     +'<div class="sk-dialog-cont">'
+                     +'<div class="sk-dialog-txt">'
+                     +'<p>'+msg+'</p>'
+                     +'</div>'
+                     + '</div>'
+                     +'<div class="sk-com-clear"></div>'
+                     +'</div>    </div>    <div class="sk-dialog-bg"></div></div>');
+
+        $("body").append(tipHtml);
+        setTimeout(function () {
+            tipHtml.remove();
+        },1500)
     }
 });

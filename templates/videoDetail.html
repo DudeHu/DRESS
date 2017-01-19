@@ -1,7 +1,9 @@
 <div class="ui-detail-con ui-videoDetail-con">
     <div class="ui-detail-header">
-        <span data-event="go:list/video"  class="ui-web-back-icon"></span>
-        <span class="ui-content-header-txt">返回列表</span>
+        <div class="ui-web-back-con" data-event="go:list/video">
+            <span class="ui-web-back-icon"></span>
+            <span class="ui-content-header-txt">返回列表</span>
+        </div>
     </div>
     <div class="ui-video-detail ui-com-clearFix">
         <div class="ui-video-detail-info">
@@ -55,7 +57,7 @@
     <div class="ui-statics-form ui-com-clearFix ui-con-fw">
         <div class="ui-statics-form-con ui-floatR">
             <div>
-                <span>持续时间</span>
+                <span class="ui-time-tip">持续时间:</span>
                 <div data-part="rangePart" class="ui-range-con">
                     <input data-bind="args.rangeVal" data-event="change>timeSelect" name="money" type="range" min="3" max="20" step="1" id="range">
                     <div class="ui-statics-controlRange" style="width:{this.rangeWidth};"></div>
@@ -68,9 +70,10 @@
             </div>
             <div class="ui-web-input">
                 <span class="ui-search-icon"></span>
-                <input id="searchInput" data-enter="search" data-bind="args.serachString" type="text"/>
+                <input placeholder="输入标签" id="searchInput" data-bind="args.serachString" type="text"/>
                 <span class="ui-clearBtn" data-event="clearSearch">×</span>
             </div>
+            <div data-enter="search"></div>
         </div>
     </div>
         <div data-part="tagListPart">
@@ -105,7 +108,7 @@
                         <span>时长</span>
                         <span>
                     广告机会
-                    <span class="ui-orange-txt">{_item.totalAdCount}</span>
+                    <span class="ui-orange-txt">({_item.totalAdCount})</span>
                 </span>
                     </li>
                     {foreach src=_item.tagList}

@@ -254,6 +254,10 @@ define(function (req,exp) {
 
     exp.clearSearch = function () {
         $("#searchInput").val("");
+        exp.showOlderList();
+    }
+
+    exp.showOlderList = function () {
         $(".ui-clearBtn").hide();
         exp.searchResultListStatus = false;
         exp.searchResultList = {};
@@ -265,7 +269,7 @@ define(function (req,exp) {
             if($(this).val()!="")
                 $(".ui-clearBtn").show();
             else
-                $(".ui-clearBtn").hide();
+                exp.showOlderList();
         });
     }
 });
