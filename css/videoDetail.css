@@ -104,3 +104,13 @@ video{
     text-align: center;
     font-size: 0.77778rem;
 }
+.ui-videoDetail-con .ui-web-input{
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 0.3rem;
+    vertical-align: middle;
+}
+.ui-videoDetail-con .ui-clearBtn{
+    position: relative;
+    top:-.6rem;
+}

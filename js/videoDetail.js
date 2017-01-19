@@ -203,9 +203,11 @@ define(function (req,exp) {
         var _ele = exp.$element;
         if(_ele.text() == "－"){
             _ele.closest(".ui-statics-list-con").find(".ui-list-item-detail").hide();
+            _ele.closest(".ui-statics-list-con").find(".ui-detail-export-icon").removeClass("ui-detail-export-icon").addClass("ui-detail-unexport-icon");
             _ele.text("＋");
         }else{
             _ele.closest(".ui-statics-list-con").find(".ui-list-item-detail").show();
+            _ele.closest(".ui-statics-list-con").find(".ui-detail-unexport-icon").removeClass("ui-detail-unexport-icon").addClass("ui-detail-export-icon");
             _ele.text("－");
         }
     }
