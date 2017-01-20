@@ -177,9 +177,9 @@ embed{
 .ui-web-input input{
     line-height: 1.78571rem;
     text-indent: .5em;
-    top: -0.55556rem;
-    position: relative;
-    font-size: 1.14286rem;
+    height: 1.78571rem;
+    margin-top: -2.3rem;
+    display: inline-block;
 }
 .ui-error-con{
     color: #ffcc00;
@@ -310,6 +310,8 @@ input[type="range"] {
     height: .3rem;
     -webkit-appearance: none;
     position: absolute;
+    z-index: 1;
+    cursor: pointer;
 }
 .ui-statics-form{
     padding: 1.42857rem 0;
@@ -321,9 +323,10 @@ input[type="range"] {
     padding: 0.35714rem 0.71429rem;
     position: relative;
 }
-.ui-statics-form-con span{
+.ui-statics-form-con span.ui-time-tip,.ui-range-con{
     font-size: 1.14286rem;
 }
+
 .ui-statics-form input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     cursor: default;
@@ -335,6 +338,7 @@ input[type="range"] {
     -webkit-box-shadow: 0 0 0.14286rem #3e3e3e;
 }
 .ui-statics-controlRange{
+    z-index: 2;
     position: absolute;
     background-color: #0080fc;
     border-radius: .5rem;

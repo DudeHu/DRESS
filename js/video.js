@@ -19,10 +19,11 @@ define(function(req,exp){
         cursor:1,                   //当前页数
         page_count:0,               //总页数
         total:0,                    //总条数
-        step:30                      //每页显示数量
+        step:10                      //每页显示数量
     };
 
     exp.args = {
+        step:10,
         serachString:"",
         userId:sessionStorage.userId
     };

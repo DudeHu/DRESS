@@ -144,7 +144,6 @@ define(function (req,exp) {
         if(playStatus){
          maskTime = window.setTimeout(function () {
             var _e = exp.playList[currentPlayTime];
-            console.log("maskStill");
             if(_e && _e.length>0){
                 exp.masks=[];
                 _e.forEach(function (ele,index) {
@@ -165,7 +164,6 @@ define(function (req,exp) {
             var time_index = currentPlayTime;
             setTimeout(function () {
                 _c = ele.trail[currentPlayTime];
-                console.log("lock:"+currentPlayTime+""+index);
                 if(_c){
                     exp.masks[index] = {};
                     exp.masks[index].text = text;
