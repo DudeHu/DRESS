@@ -169,17 +169,19 @@ embed{
     width: 1.28571rem;
     height: 100%;
     background-size: 100%;
+    float: left;
 }
 .ui-relative-right{
     float: right;
 }
 
 .ui-web-input input{
-    line-height: 1.78571rem;
+    ine-height: 1.78571rem;
     text-indent: .5em;
     height: 1.78571rem;
-    margin-top: -2.3rem;
-    display: inline-block;
+    /* margin-top: -2.3rem; */
+    display: block;
+    float: left;
 }
 .ui-error-con{
     color: #ffcc00;
@@ -323,7 +325,7 @@ input[type="range"] {
     padding: 0.35714rem 0.71429rem;
     position: relative;
 }
-.ui-statics-form-con span.ui-time-tip,.ui-range-con{
+.ui-statics-form-con span.ui-time-tip,.ui-range-con,.ui-clearBtn{
     font-size: 1.14286rem;
 }
 
@@ -451,13 +453,12 @@ input[type="range"] {
     width: 130px;
     cursor: pointer;
 }
-clo
+
 .ui-clearBtn{
     display: none;
-    top: 0.57143rem;
-    position: absolute;
-    right: 0.71429rem;
     cursor: pointer;
+    float: right;
+    margin-right: 10px;
 }
 .ui-statics-form{
     height: 7.11111rem;
