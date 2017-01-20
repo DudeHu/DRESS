@@ -356,12 +356,18 @@ define(function(req,exp){
             service.searchByName(exp.args,function (rs) {
                 if(rs.status == "SUCCESS"){
                     rs.data.list && (exp.videoList = rs.data.list);
+                    exp.lists.page_count = rs.data.maxPage;
+                    exp.lists.total = rs.data.totalCount;
                 }else{
+                    exp.lists.page_count = 0;
+                    exp.lists.total = 0;
                     exp.videoList = [];
                 }
                 exp.listPart.render();
             });
         }else{
+            exp.lists.total = 0;
+            exp.lists.page_count = 0;
             exp.videoList = searchList;
             exp.listPart.render();
         }

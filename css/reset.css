@@ -459,6 +459,8 @@ input[type="range"] {
     cursor: pointer;
     float: right;
     margin-right: 10px;
+    height: 1.8rem;
+    line-height: 1.8rem;
 }
 .ui-statics-form{
     height: 7.11111rem;

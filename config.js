@@ -29,16 +29,16 @@ define(function(req, exp){
             },
             error: function (rs) {
                 if (rs.status == 403) {
-                    exp.alert("A sessão expira!Favor fazer o login de novo!");
+                    app.viewEx.alert("A sessão expira!Favor fazer o login de novo!");
                 } else if (rs.status == 404) {
                     console.warn("找不到nodejs服务或nodejs未启动");
-                    exp.alert("Servidor Falha!");
+                    app.viewEx.alert("Servidor Falha!");
                 } else if (rs.statusText == "timeout") {
-                    exp.alert("Servidor Falha!Favor atualizar a página atual!");
+                    app.viewEx.alert("Servidor Falha!Favor atualizar a página atual!");
                 } else if (rs.statusText == "error") {
-                    exp.alert("Desculpe, você não tem a autorização de visitar!");
+                    app.viewEx.alert("Desculpe, você não tem a autorização de visitar!");
                 } else {
-                    exp.alert("Servidor Falha!Favor atualizar a página atual!");
+                    app.viewEx.alert("Servidor Falha!Favor atualizar a página atual!");
                 }
             }
         });
@@ -50,11 +50,11 @@ define(function(req, exp){
             if(rs.code==-1) {
                 //sessionStorage.login_or_register_go_page = location.href.split("#")[1];
                 if($.session && $.session.get("sessionId")){
-                    exp.alert("A sessão expira!Favor fazer o login de novo!");
+                    app.viewEx.alert("A sessão expira!Favor fazer o login de novo!");
                 }
             }
             else if(rs.code==500){
-                exp.alert("Servidor Falha!Favor atualizar a página atual!");
+                app.viewEx.alert("Servidor Falha!Favor atualizar a página atual!");
             }else if(rs.code==1102){
                 app.viewEx.alert("Favor fazer o login no primeiro!");
                 app.go("login");

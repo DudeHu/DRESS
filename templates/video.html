@@ -14,8 +14,9 @@
             <div data-enter="search"></div>
         </div>
     </div>
+    <div data-part="listPart">
     <p id="time"></p>
-    <ul data-part="listPart" class="ui-video-list">
+    <ul class="ui-video-list">
         {if this.videoList.length>0}
         <li>
             <div class="ui-web-checkbox">
@@ -80,4 +81,5 @@
     {if this.lists.page_count>1}
     <div class="ui-floatR" data-view="page"></div>
     {/if}
+    </div>
 </div>
