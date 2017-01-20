@@ -36,6 +36,7 @@ define(function (req,exp) {
         videoUrl:"",
         uploadTime:""
     };
+    var doneStatus = false;
 
     var playStatus = false;
     exp.onInit = function (done) {
@@ -46,12 +47,20 @@ define(function (req,exp) {
             if(rs.status == "SUCCESS"){
                 exp.videoInfo = rs.data;
                 exp.playList = rs.data.trailInfo;
-                done();
+                if(doneStatus){
+                    exp.render();
+                }else{
+                    done();
+                }
             }else{
                 exp.alert(rs.msg);
             }
         });
 
+        setTimeout(function (rs) {
+            done();
+            doneStatus = true;
+        },5000);
 
     }
     

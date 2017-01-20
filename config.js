@@ -29,16 +29,16 @@ define(function(req, exp){
             },
             error: function (rs) {
                 if (rs.status == 403) {
-                    app.viewEx.alert("A sessão expira!Favor fazer o login de novo!");
+                    app.viewEx.alert("403错误");
                 } else if (rs.status == 404) {
                     console.warn("找不到nodejs服务或nodejs未启动");
-                    app.viewEx.alert("Servidor Falha!");
+                    app.viewEx.alert("服务器错误");
                 } else if (rs.statusText == "timeout") {
-                    app.viewEx.alert("Servidor Falha!Favor atualizar a página atual!");
+                    app.viewEx.alert("请求超时");
                 } else if (rs.statusText == "error") {
-                    app.viewEx.alert("Desculpe, você não tem a autorização de visitar!");
+                    app.viewEx.alert("500服务器错误！");
                 } else {
-                    app.viewEx.alert("Servidor Falha!Favor atualizar a página atual!");
+                    app.viewEx.alert("网络错误");
                 }
             }
         });
