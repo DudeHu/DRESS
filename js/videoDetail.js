@@ -40,7 +40,29 @@ define(function (req,exp) {
     var renderStatus = false;
     var playStatus = false;
     exp.onInit = function (done) {
+        exp.playList = {};
+        exp.masks = [];
 
+        exp.rangeWidth = 0;
+
+        exp.searchResultList = {};
+
+        exp.mask = {
+            width:0,
+            height:0,
+            x:0,
+            y:0,
+            text:""
+        }
+        exp.videoInfo = {
+            name:"",
+            objectTagNums:0,
+            sceneTagNums:0,
+            starTagNums:0,
+            size:0,
+            videoUrl:"",
+            uploadTime:""
+        };
         exp.parent.params[1] && (exp.args.videoId = exp.parent.params[1]);
 
         service.getVideoDetail(exp.args,function (rs) {
