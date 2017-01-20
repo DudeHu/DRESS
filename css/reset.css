@@ -151,6 +151,7 @@ embed{
     height: 1.78571rem;
     padding-right: 3.57143rem;
     background-size: contain;
+    float: left;
 }
 
 .ui-web-input .ui-lock-icon{
@@ -161,6 +162,7 @@ embed{
     height: 1.92857rem;
     padding-right: 3.57143rem;
     background-size: contain;
+    float: left;
 }
 
 .ui-web-input .ui-search-icon{
