@@ -37,7 +37,7 @@ define(function (req,exp) {
         uploadTime:""
     };
     var doneStatus = false;
-
+    var renderStatus = false;
     var playStatus = false;
     exp.onInit = function (done) {
 
@@ -48,6 +48,7 @@ define(function (req,exp) {
                 exp.videoInfo = rs.data;
                 exp.playList = rs.data.trailInfo;
                 if(doneStatus){
+                    renderStatus = true;
                     exp.render();
                 }else{
                     done();
@@ -65,36 +66,38 @@ define(function (req,exp) {
     }
     
     exp.onRender = function () {
-        var Media = document.getElementById("videoDom");
-        var has = false;
-        exp.dealClear();
-        Media.addEventListener("play",function(e){
-            if(!has && (Media.readyState > 0)) {
-                var hour = parseInt(Media.duration / 60 /60);
-                var minutes = parseInt(Media.duration / 60);
-                var seconds = Math.round(Media.duration % 60);
-                seconds = seconds>0?seconds-1:seconds;
-                hour = hour<10?("0"+hour):hour;
-                minutes = minutes<10?("0"+minutes):minutes;
-                seconds = seconds<10?("0"+seconds):seconds;
-                exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
-                exp.videoInfoPart.render();
-                has = true;
-            }
-            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
-            playStatus = true;
-            exp.dealMask();
-        },false);
-        Media.addEventListener("pause",function(e){
-            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
-            playStatus = false;
+        if(renderStatus) {
+            var Media = document.getElementById("videoDom");
+            var has = false;
+            exp.dealClear();
+            Media.addEventListener("play", function (e) {
+                if (!has && (Media.readyState > 0)) {
+                    var hour = parseInt(Media.duration / 60 / 60);
+                    var minutes = parseInt(Media.duration / 60);
+                    var seconds = Math.round(Media.duration % 60);
+                    seconds = seconds > 0 ? seconds - 1 : seconds;
+                    hour = hour < 10 ? ("0" + hour) : hour;
+                    minutes = minutes < 10 ? ("0" + minutes) : minutes;
+                    seconds = seconds < 10 ? ("0" + seconds) : seconds;
+                    exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
+                    exp.videoInfoPart.render();
+                    has = true;
+                }
+                currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                playStatus = true;
+                exp.dealMask();
+            }, false);
+            Media.addEventListener("pause", function (e) {
+                currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                playStatus = false;
 
-        },false);
-        Media.addEventListener("waitting",function(e){
-            currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
-            //exp.dealMask(false);
-            playStatus = false;
-        },false);
+            }, false);
+            Media.addEventListener("waitting", function (e) {
+                currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                //exp.dealMask(false);
+                playStatus = false;
+            }, false);
+        }
     }
 
 
