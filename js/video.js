@@ -9,6 +9,8 @@ define(function(req,exp){
     var FileProgress = req("utils.fileprogress");
     var stopCount = 0;
     var searchList = [];
+    var page_count = 0;
+    var total = 0;
     req("../bower_components/plupload/js/moxie.js");
     req("../bower_components/plupload/js/plupload.dev.js");
     req("../bower_components/plupload/js/i18n/zh_CN.js");
@@ -36,18 +38,37 @@ define(function(req,exp){
     }
 
     exp.goPage = function (page,render) {
-        exp.args.cursor = exp.lists.cursor =  page;
-        exp.getList(exp.args,function () {
-            render();
-            exp.render();
-        });
+        if(!exp.serachStatus){
+            exp.args.cursor = exp.lists.cursor =  page;
+            exp.getList(exp.args,function () {
+                render();
+                exp.render();
+            });
+        }else{
+            exp.args.size = exp.lists.step;
+            exp.args.page = page;
+            service.searchByName(exp.args,function (rs) {
+                if(rs.status == "SUCCESS"){
+                    rs.data.list && (exp.videoList = rs.data.list);
+                    exp.lists.page_count = rs.data.maxPage;
+                    exp.lists.total = rs.data.totalCount;
+                    exp.serachStatus = true;
+                }else{
+                    exp.lists.page_count = 0;
+                    exp.lists.total = 0;
+                    exp.videoList = [];
+                }
+                render();
+                exp.listPart.render();
+            });
+        }
     }
 
     exp.getList = function (args,fn) {
         service.getVideoList(args,function (rs) {
             if(rs.status == "SUCCESS"){
-                exp.lists.total = rs.data.totalCount;
-                exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
+                total = exp.lists.total = rs.data.totalCount;
+                page_count = exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
                 rs.data.size && (exp.lists.step = rs.data.size);
                 rs.data.list && (exp.videoList = rs.data.list);
                 searchList = exp.videoList;
@@ -349,15 +370,15 @@ define(function(req,exp){
 
 
     exp.search = function () {
-        console.log(exp.$element)
         if($("#searchInput").val()!=""){
             exp.args.size = exp.lists.step;
-            exp.args.page = exp.lists.cursor;
+            //exp.args.page = exp.lists.cursor;
             service.searchByName(exp.args,function (rs) {
                 if(rs.status == "SUCCESS"){
                     rs.data.list && (exp.videoList = rs.data.list);
                     exp.lists.page_count = rs.data.maxPage;
                     exp.lists.total = rs.data.totalCount;
+                    exp.serachStatus = true;
                 }else{
                     exp.lists.page_count = 0;
                     exp.lists.total = 0;
@@ -365,12 +386,13 @@ define(function(req,exp){
                 }
                 exp.listPart.render();
             });
-        }else{
-            exp.lists.total = 0;
-            exp.lists.page_count = 0;
-            exp.videoList = searchList;
-            exp.listPart.render();
         }
+            /*else{
+            exp.args.serachString = "";
+            exp.serachStatus = false;
+            exp.showOlderList();
+            exp.listPart.render();
+        }*/
 
     }
     
@@ -524,12 +546,16 @@ define(function(req,exp){
     }
     exp.clearSearch = function () {
         $("#searchInput").val("");
+        exp.args.serachString = "";
+        exp.serachStatus = false;
         exp.showOlderList();
     }
 
     exp.showOlderList = function () {
         $(".ui-clearBtn").hide();
         exp.videoList = searchList;
+        exp.lists.page_count = page_count;
+        exp.lists.total = total;
         exp.listPart.render();
     }
 

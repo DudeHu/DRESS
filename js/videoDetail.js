@@ -13,48 +13,7 @@ define(function (req,exp) {
         serachString:""
     }
 
-    exp.playList = {
-        1:{
-            name:"aaa",
-            duration:3.25,
-            width:200,
-            height:100,
-            top:100,
-            left:200
-        },
-        10:{
-            name:"爱的啊",
-            duration:1.55,
-            width:200,
-            height:100,
-            top:200,
-            left:100
-        },
-        15:{
-            name:"wodefs",
-            duration:2.25,
-            width:150,
-            height:250,
-            top:100,
-            left:200
-        },
-        35:{
-            name:"我是多少",
-            duration:3.25,
-            width:200,
-            height:100,
-            top:100,
-            left:200
-        },
-        60:{
-            name:"哎哎",
-            duration:1.78,
-            width:300,
-            height:100,
-            top:200,
-            left:50
-        }
-    }
+    exp.playList = {};
     exp.masks = [];
 
     exp.rangeWidth = 0;
@@ -194,7 +153,7 @@ define(function (req,exp) {
         console.log(_val);
         exp.rangeWidth = (_val-_min)/(_max-_min) * 100-0.39*_val+"%";
         exp.rangePart.render();
-        exp.search();
+        exp.search(true);
     }
 
     exp.showHideAllDetail = function () {
@@ -234,8 +193,8 @@ define(function (req,exp) {
     }
 
 
-    exp.search = function () {
-        if($("#searchInput").val()!="") {
+    exp.search = function (flag) {
+        if(($("#searchInput").val()!="")||flag) {
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;
