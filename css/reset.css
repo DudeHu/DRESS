@@ -21,7 +21,13 @@ input:-ms-input-placeholder,
 textarea:-ms-input-placeholder { color: #C1C1C1; font-size: 1rem; }
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder { color: #C1C1C1; font-size: 1rem; }
-
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    background-color: rgb(0, 0, 0) !important;
+    background-image: none !important;
+    color: rgb(0, 0, 0) !important;
+    -webkit-tap-highlight-color:rgba(0,0,0,0) !important;
+}
 embed{
     display: none;
 }
@@ -120,7 +126,7 @@ embed{
     height: 2.44444rem;
     text-align: center;
     font-size: 1.28571rem;
-    margin-top: 3.57143rem;
+    margin-top: 1rem;
 }
 .ui-web-btn-mid{
     width: 7.22222rem;
@@ -410,11 +416,11 @@ input[type="range"] {
     text-align: center;
 }
 .ui-list-item-detail{
-    height: 28.57143rem;
     color:#999;
     overflow-y: auto;
     padding:0 1.07143rem;
     display: none;
+    margin-bottom: 1.5rem;
 }
 .ui-list-item-detail>div {
     float: left;

@@ -19,7 +19,7 @@ define(function (req,exp) {
     exp.rangeWidth = 0;
 
     exp.searchResultList = {};
-
+    exp.searchResultListStatus = false;
     exp.mask = {
         width:0,
         height:0,
@@ -54,6 +54,10 @@ define(function (req,exp) {
             y:0,
             text:""
         }
+        exp.args = {
+            rangeVal:3,
+            serachString:""
+        }
         exp.videoInfo = {
             name:"",
             objectTagNums:0,
@@ -64,7 +68,7 @@ define(function (req,exp) {
             uploadTime:""
         };
         exp.parent.params[1] && (exp.args.videoId = exp.parent.params[1]);
-
+        exp.searchResultListStatus = false;
         service.getVideoDetail(exp.args,function (rs) {
             if(rs.status == "SUCCESS"){
                 exp.videoInfo = rs.data;
@@ -91,7 +95,6 @@ define(function (req,exp) {
         if(renderStatus) {
             var Media = document.getElementById("videoDom");
             var has = false;
-            exp.dealClear();
             Media.addEventListener("play", function (e) {
                 if (!has && (Media.readyState > 0)) {
                     var hour = parseInt(Media.duration / 60 / 60);
@@ -120,6 +123,7 @@ define(function (req,exp) {
                 playStatus = false;
             }, false);
         }
+        exp.dealClear();
     }
 
 
@@ -193,12 +197,10 @@ define(function (req,exp) {
     exp.showHideAllDetail = function () {
         var _ele = exp.$element;
         if(_ele.text() == "－"){
-            _ele.closest(".ui-statics-list-con").find(".ui-list-item-detail").hide();
-            _ele.closest(".ui-statics-list-con").find(".ui-detail-export-icon").removeClass("ui-detail-export-icon").addClass("ui-detail-unexport-icon");
+            _ele.closest(".ui-statics-list-con").find(".ui-statics-list").hide();
             _ele.text("＋");
         }else{
-            _ele.closest(".ui-statics-list-con").find(".ui-list-item-detail").show();
-            _ele.closest(".ui-statics-list-con").find(".ui-detail-unexport-icon").removeClass("ui-detail-unexport-icon").addClass("ui-detail-export-icon");
+            _ele.closest(".ui-statics-list-con").find(".ui-statics-list").show();
             _ele.text("－");
         }
     }
@@ -238,16 +240,14 @@ define(function (req,exp) {
                 exp.searchResultListStatus = true;
                 exp.tagListPart.render();
             });
-        }else{
-            exp.searchResultListStatus = false;
-            exp.searchResultList = {};
-            exp.tagListPart.render();
         }
+
     }
 
     exp.clearSearch = function () {
         $("#searchInput").val("");
-        exp.showOlderList();
+        exp.args.serachString = "";
+        exp.search(true);
     }
 
     exp.showOlderList = function () {
@@ -261,8 +261,10 @@ define(function (req,exp) {
         $("#searchInput").on("input",function () {
             if($(this).val()!="")
                 $(".ui-clearBtn").show();
-            else
-                exp.showOlderList();
+            else{
+                exp.args.serachString = "";
+                exp.search(true);
+            }
         });
     }
 });

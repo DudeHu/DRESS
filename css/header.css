@@ -60,6 +60,8 @@
 }
 .ui-header-user,.ui-header-exit{
     line-height: 1.83333rem;
+    position: relative;
+    top:.3rem;
 }
 .ui-header-user-icon{
     background: url("../images/user_icon_cir.png") no-repeat center;

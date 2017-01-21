@@ -34,12 +34,25 @@ define(function(req,exp){
 
     exp.onInit = function (done) {
         exp.videoList = [];
+        exp.args = {
+            step:10,
+            serachString:"",
+            userId:sessionStorage.userId
+        };
+        exp.delList = [];
+        exp.lists = {
+            cursor:1,                   //当前页数
+            page_count:0,               //总页数
+            total:0,                    //总条数
+            step:10                      //每页显示数量
+        };
         exp.getList(exp.args,done);
     }
 
     exp.goPage = function (page,render) {
+        exp.args.cursor = exp.lists.cursor =  page;
         if(!exp.serachStatus){
-            exp.args.cursor = exp.lists.cursor =  page;
+
             exp.getList(exp.args,function () {
                 render();
                 exp.render();
@@ -83,6 +96,7 @@ define(function(req,exp){
     var currentIndex = 0;
     exp._oldFilesCount = 0;
     exp.hasUploadCount = 0;
+    exp.totalUploadCount = 0;
     var uploaded = [];
     exp._files = [];
     exp.onRender = function () {
@@ -129,7 +143,7 @@ define(function(req,exp){
             log_level: 5,
             init: {
                 'FilesAdded': function(up, files) {
-                    exp.hasUploadCount = 0;
+                    exp.totalUploadCount += files.length;
                     if(exp._files.length>0){
                         exp._oldFilesCount += exp._files.length;
                     }
@@ -276,6 +290,13 @@ define(function(req,exp){
         });
 
         uploader.bind('FileUploaded', function() {
+            if(exp.hasUploadCount == exp.totalUploadCount){
+                exp.parent.status = "success";
+                exp.parent.uploadCuList = uploaded;
+                exp.parent.statusPart.render();
+                exp.hasUploadCount = 0;
+                exp.totalUploadCount = 0;
+            }
             console.log('hello man,a file is uploaded');
         });
         exp.dealClear();
