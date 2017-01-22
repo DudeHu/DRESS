@@ -191,7 +191,7 @@ define(function (req,exp) {
         console.log(_val);
         exp.rangeWidth = (_val-_min)/(_max-_min) * 100-0.39*_val+"%";
         exp.rangePart.render();
-        exp.search(true);
+        exp.search(true,_val);
     }
 
     exp.showHideAllDetail = function () {
@@ -229,8 +229,11 @@ define(function (req,exp) {
     }
 
 
-    exp.search = function (flag) {
+    exp.search = function (flag,value) {
         if(($("#searchInput").val()!="")||flag) {
+            if(value == 3){
+                exp.args.rangeVal = 0;
+            }
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;

@@ -258,8 +258,8 @@ define(function(req,exp){
                     }
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
                             if(rs.status == "SUCCESS"){
-                                var _space = exp.parent.header.curSpace = 500-Number(rs.data.space);
-                                sessionStorage.space = exp.parent.header.space =  Number(rs.data.space);
+                                exp.parent.header.curSpace = 500-Number(rs.data.space);
+                                var _space = sessionStorage.space = exp.parent.header.space =  Number(rs.data.space);
                                 exp.parent.header.render();
                                 if( _space >= _item.size){
                                     service.uploadVideo(_item,function (rs) {
