@@ -13,6 +13,8 @@ define(function (req,exp) {
         serachString:""
     }
 
+    exp.senceMask = {};
+
     exp.playList = {};
     exp.masks = [];
 
@@ -42,7 +44,7 @@ define(function (req,exp) {
     exp.onInit = function (done) {
         exp.playList = {};
         exp.masks = [];
-
+        exp.senceMask = {};
         exp.rangeWidth = 0;
 
         exp.searchResultList = {};
@@ -73,8 +75,8 @@ define(function (req,exp) {
             if(rs.status == "SUCCESS"){
                 exp.videoInfo = rs.data;
                 exp.playList = rs.data.trailInfo;
+                renderStatus = true;
                 if(doneStatus){
-                    renderStatus = true;
                     exp.render();
                 }else{
                     done();
@@ -95,7 +97,10 @@ define(function (req,exp) {
         if(renderStatus) {
             var Media = document.getElementById("videoDom");
             var has = false;
-            Media.addEventListener("play", function (e) {
+            Media.addEventListener("timeupdate",function (e) {
+                exp.dealSenceMask(Math.round(e.currentTarget.currentTime));
+            });
+            Media.addEventListener("play", function (e) {1
                 if (!has && (Media.readyState > 0)) {
                     var hour = parseInt(Media.duration / 60 / 60);
                     var minutes = parseInt(Media.duration / 60);
@@ -182,6 +187,22 @@ define(function (req,exp) {
             exp.dealMask();
         }
     }
+    
+    exp.dealSenceMask = function (time) {
+
+        exp.videoInfo.senceList.forEach(function (ele,index) {
+            var _t =exp.formatTime(ele.startTime);
+            var _te = exp.formatTime(ele.endTime);
+            if( _t == time){
+                exp.senceMask.name =  ele.name;
+                exp.senceMaskPart.render().show();
+                var _t = setTimeout(function () {
+                    exp.senceMaskPart.hide();
+                    clearTimeout(_t);
+                }, (_te - _t)*1000);
+            }
+        });
+    }
 
     exp.timeSelect = function () {
         var _ele = exp.$element;
@@ -214,6 +235,14 @@ define(function (req,exp) {
             _ele.closest("li").find(".ui-list-item-detail").hide();
             _ele.removeClass("ui-detail-export-icon").addClass("ui-detail-unexport-icon");
         }
+    }
+
+    exp.formatTime = function (timeStr) {
+        var times = timeStr.split(":");
+        var hour = parseInt(times[0],10);
+        var min = parseInt(times[1],10);
+        var second = parseInt(times[2],10);
+        return second + min*60 + hour*60*60;
     }
 
     exp.downloadJSON = function (url) {

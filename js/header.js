@@ -3,17 +3,26 @@
  */
 define(function (req,exp) {
     "use strict";
+
+    var service = req("utils.ajax");
     exp.curSpace = 0;
     exp.space = 500;
-    exp.onInit = function () {
-        exp.space = sessionStorage.space;
-        if(exp.space.indexOf("MB")>0){
-            var _s = exp.space.substr(0,exp.space.indexOf("MB"));
-            exp.curSpace = 500 - Number(_s);
-        }else{
-            exp.curSpace = 500 - Number(exp.space);
-        }
+    exp.onInit = function (done) {
+        exp.getSpace(done);
     }
+
+    exp.getSpace  = function (fn) {
+        service.getUserInfo({userId:sessionStorage.userId},function (rs) {
+            if(rs.status == "SUCCESS"){
+                exp.space = Number(rs.data.space);
+                exp.curSpace = 500 - exp.space;
+                fn&&fn();
+            }else{
+                exp.alert(rs.msg);
+            }
+        });
+    }
+
     exp.exit = function () {
         sessionStorage.clear();
         exp.go("login");

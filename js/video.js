@@ -161,7 +161,7 @@ define(function(req,exp){
                     });
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
                         if(rs.status == "SUCCESS"){
-                            var _space = exp.parent.header.curSpace = Number(rs.data.space);
+                            var _space = Number(rs.data.space);
                             if( _space >= totalSize/1024/1024){
 
                                 exp.parent.status = "uploading";
@@ -258,8 +258,8 @@ define(function(req,exp){
                     }
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
                             if(rs.status == "SUCCESS"){
-                                exp.parent.header.curSpace = 500-Number(rs.data.space);
-                                var _space = sessionStorage.space = exp.parent.header.space =  Number(rs.data.space);
+                                var _space = exp.parent.header.space =  Number(rs.data.space);
+                                exp.parent.header.curSpace = 500 - _space;
                                 exp.parent.header.render();
                                 if( _space >= _item.size){
                                     service.uploadVideo(_item,function (rs) {
@@ -275,12 +275,15 @@ define(function(req,exp){
                                 }
                             }else{
                                 exp.alert(rs.msg);
+                                up.stop();
                             }
                     });
 
                 },
                 'Error': function(up, err, errTip) {
                     var _index = exp.findNext(exp._files,currentIndex);
+                    console.log(err);
+                    exp.alert(err.file.name + "上传" + errTip +"，" + "请重新上传！");
                     if(!_index){
                         up.stop();
                     }
@@ -292,7 +295,7 @@ define(function(req,exp){
         uploader.bind('FileUploaded', function() {
             if(exp.hasUploadCount == exp.totalUploadCount){
                 exp.parent.status = "success";
-                exp.parent.uploadCuList = uploaded;
+                //exp.parent.uploadCuList = uploaded;
                 exp.parent.statusPart.render();
                 exp.hasUploadCount = 0;
                 exp.totalUploadCount = 0;
@@ -552,13 +555,22 @@ define(function(req,exp){
                         if(rs.status == "SUCCESS"){
                             exp.lists.total = rs.data.totalCount;
                             exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
-                            rs.data.list && (exp.videoList = rs.data.list);
+                            if(rs.data.list)
+                                exp.videoList = rs.data.list;
+                            else
+                                exp.videoList = [];
+                            exp.parent.header.getSpace(function () {
+                                exp.parent.header.render();
+                                exp.render();
+                                exp.autoTip("删除成功！");
+                            });
+
                         }else{
                             exp.alert(rs.msg);
                         }
-                        exp.render();
-                        exp.autoTip("删除成功！");
+
                     });
+
                 }else{
                     exp.alert("删除失败！");
                 }

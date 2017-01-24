@@ -23,7 +23,6 @@ define(function(req,exp){
             if(rs.status == "SUCCESS"){
                 sessionStorage.userId = "10001";
                 sessionStorage.name = rs.data.name;
-                sessionStorage.space = rs.data.space;
                 exp.go("list");
             }else{
                 $(".ui-error-con").show();
