@@ -184,9 +184,10 @@ embed{
 }
 
 .ui-web-input input{
-    ine-height: 1.78571rem;
+    line-height: 1.78571rem;
     text-indent: .5em;
     height: 1.78571rem;
+    width: 13rem;
     /* margin-top: -2.3rem; */
     display: block;
     float: left;

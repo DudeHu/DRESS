@@ -135,6 +135,7 @@
     height: 1.7rem;
     vertical-align: middle;
     position: relative;
+    background-size: 100%;
 }
 .ui-look-off-icon{
     background: url("../images/look_off_icon.png") no-repeat center;

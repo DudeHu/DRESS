@@ -109,7 +109,7 @@ define(function(req,exp){
             flash_swf_url: '../bower_components/plupload/js/Moxie.swf',
             dragdrop: true,
             chunk_size: '5mb',
-            max_retries: 3,
+            max_retries: 0,
             get_new_uptoken: true,
             filters:{
                 mime_types : [
@@ -161,7 +161,7 @@ define(function(req,exp){
                     });
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
                         if(rs.status == "SUCCESS"){
-                            var _space = Number(rs.data.space);
+                            var _space = 500 - Number(rs.data.space);
                             if( _space >= totalSize/1024/1024){
 
                                 exp.parent.status = "uploading";
@@ -258,8 +258,8 @@ define(function(req,exp){
                     }
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
                             if(rs.status == "SUCCESS"){
-                                var _space = exp.parent.header.space =  Number(rs.data.space);
-                                exp.parent.header.curSpace = 500 - _space;
+                                var _space = 500-Number(rs.data.space);
+                                exp.parent.header.space =  Number(rs.data.space);
                                 exp.parent.header.render();
                                 if( _space >= _item.size){
                                     service.uploadVideo(_item,function (rs) {
@@ -283,7 +283,7 @@ define(function(req,exp){
                 'Error': function(up, err, errTip) {
                     var _index = exp.findNext(exp._files,currentIndex);
                     console.log(err);
-                    exp.alert(err.file.name + "上传" + errTip +"，" + "请重新上传！");
+                   // exp.alert(err.file.name + "上传" + errTip +"，" + "请重新上传！");
                     if(!_index){
                         up.stop();
                     }
