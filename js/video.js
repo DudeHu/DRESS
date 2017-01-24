@@ -299,8 +299,11 @@ define(function(req,exp){
                 exp.parent.statusPart.render();
                 exp.hasUploadCount = 0;
                 exp.totalUploadCount = 0;
+                setTimeout(function () {
+                    exp.parent.status = "none";
+                    exp.parent.statusPart.render();
+                },3000);
             }
-            console.log('hello man,a file is uploaded');
         });
         exp.dealClear();
     }

@@ -130,13 +130,7 @@
     padding:0 1.31111rem;
     cursor: pointer;
 }
-.ui-look-off-icon,.ui-look-on-icon,.ui-upload-off-icon,.ui-upload-on-icon{
-    width: 1.22222rem;
-    height: 1.7rem;
-    vertical-align: middle;
-    position: relative;
-    background-size: 100%;
-}
+
 .ui-look-off-icon{
     background: url("../images/look_off_icon.png") no-repeat center;
 }
@@ -148,6 +142,13 @@
 }
 .ui-upload-on-icon{
     background: url("../images/upload_on_icon.png") no-repeat center;
+}
+.ui-look-off-icon,.ui-look-on-icon,.ui-upload-off-icon,.ui-upload-on-icon{
+    width: 1.22222rem;
+    height: 2rem;
+    vertical-align: middle;
+    position: relative;
+    background-size: 72%;
 }
 .ui-upload-on-icon a{
     position: absolute;

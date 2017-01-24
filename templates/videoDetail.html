@@ -55,8 +55,7 @@
                  </div>
 
             <div data-part="senceMaskPart" class="ui-sence-mask">
-                <p>场景</p>
-                <p>{this.senceMask.name}</p>
+                <p>场景 {this.senceMask.name}</p>
             </div>
         </div>
         </div>
@@ -66,10 +65,10 @@
             <div>
                 <span class="ui-time-tip">持续时间:</span>
                 <div data-part="rangePart" class="ui-range-con">
-                    <input data-bind="args.rangeVal" data-event="change>timeSelect" name="money" type="range" min="3" max="20" step="1" id="range">
+                    <input data-bind="args.rangeVal" data-event="change>timeSelect" name="money" type="range" min="0" max="20" step="1" id="range">
                     <div class="ui-statics-controlRange" style="width:{this.rangeWidth};"></div>
                     <div class="ui-range-tip">
-                        <span>3s</span>
+                        <span>0s</span>
                         <span class="ui-orange-txt" style="left:{this.rangeWidth};">{if this.args.rangeVal>3&&this.args.rangeVal<20}{this.args.rangeVal}s{/if}</span>
                         <span>20s+</span>
                     </div>

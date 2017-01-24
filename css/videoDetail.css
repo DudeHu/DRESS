@@ -94,8 +94,9 @@
     background-size: 60%;
 }
 .ui-video-name{
-    font-size: 1rem;
+    font-size: 1.3rem;
     color: #333;
+    font-weight: 600;
 }
 video{
     margin: 0 auto;

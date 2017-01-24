@@ -9,7 +9,7 @@ define(function (req,exp) {
     var currentPlayTime = 0;
     var times = {};
     exp.args = {
-        rangeVal:3,
+        rangeVal:0,
         serachString:""
     }
 
@@ -57,7 +57,7 @@ define(function (req,exp) {
             text:""
         }
         exp.args = {
-            rangeVal:3,
+            rangeVal:0,
             serachString:""
         }
         exp.videoInfo = {
@@ -94,25 +94,19 @@ define(function (req,exp) {
     }
     
     exp.onRender = function () {
+
         if(renderStatus) {
+            var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
+            var _aw = $(".ui-videoDetail-con").width();
+            if(_ew > _aw ){
+                $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
+            }
             var Media = document.getElementById("videoDom");
             var has = false;
             Media.addEventListener("timeupdate",function (e) {
                 exp.dealSenceMask(Math.round(e.currentTarget.currentTime));
             });
-            Media.addEventListener("play", function (e) {1
-                if (!has && (Media.readyState > 0)) {
-                    var hour = parseInt(Media.duration / 60 / 60);
-                    var minutes = parseInt(Media.duration / 60);
-                    var seconds = Math.round(Media.duration % 60);
-                    seconds = seconds > 0 ? seconds - 1 : seconds;
-                    hour = hour < 10 ? ("0" + hour) : hour;
-                    minutes = minutes < 10 ? ("0" + minutes) : minutes;
-                    seconds = seconds < 10 ? ("0" + seconds) : seconds;
-                    exp.videoInfo.duration = `${hour}:${minutes}:${seconds}`;
-                    exp.videoInfoPart.render();
-                    has = true;
-                }
+            Media.addEventListener("play", function (e) {
                 currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = true;
                 exp.dealMask();
@@ -120,7 +114,6 @@ define(function (req,exp) {
             Media.addEventListener("pause", function (e) {
                 currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = false;
-
             }, false);
             Media.addEventListener("waitting", function (e) {
                 currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
@@ -165,19 +158,21 @@ define(function (req,exp) {
         if(_c){
             var time_index = currentPlayTime;
             setTimeout(function () {
-                _c = ele.trail[currentPlayTime];
-                if(_c){
-                    exp.masks[index] = {};
-                    exp.masks[index].text = text;
-                    exp.masks[index].width = Math.round(_c.width * 100);
-                    exp.masks[index].height = Math.round(_c.height * 100);
-                    exp.masks[index].x = Math.round(_c.x * 100);
-                    exp.masks[index].y = Math.round(_c.y * 100);
-                    exp.videoMask.render();
-                    currentPlayTime += 1;
-                    exp.dealCMask(ele,index);
-                }else{
-                    exp.videoMask.hide();
+                if(playStatus) {
+                    _c = ele.trail[currentPlayTime];
+                    if (_c) {
+                        exp.masks[index] = {};
+                        exp.masks[index].text = text;
+                        exp.masks[index].width = Math.round(_c.width * 100);
+                        exp.masks[index].height = Math.round(_c.height * 100);
+                        exp.masks[index].x = Math.round(_c.x * 100);
+                        exp.masks[index].y = Math.round(_c.y * 100);
+                        exp.videoMask.render();
+                        currentPlayTime += 1;
+                        exp.dealCMask(ele, index);
+                    } else {
+                        exp.videoMask.hide();
+                    }
                 }
             },1000/exp.videoInfo.fps);
             exp.videoMask.show();

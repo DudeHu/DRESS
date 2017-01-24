@@ -22,12 +22,21 @@ define(function(req,exp){
     exp.stopUpload = function (index) {
 
     }
+
+    exp.showCloseUploadBox = function () {
+        if(exp.$element.text() == "<<"){
+            exp.closeUploadBox();
+        }else{
+            exp.showUploadBox();
+        }
+    }
+
     exp.closeUploadBox = function () {
         $(".ui-upload-box").hide();
-        $(".ui-export-btn").text("<<");
+        $(".ui-export-btn").text(">>");
     }
     exp.showUploadBox = function () {
         $(".ui-upload-box").show();
-        $(".ui-export-btn").text(">>");
+        $(".ui-export-btn").text("<<");
     }
 });
