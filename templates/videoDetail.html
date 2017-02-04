@@ -33,8 +33,8 @@
             <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
         </div>
         <div class="ui-video-detail-video-con ui-com-clearFix">
-        <div style="width:{this.videoInfo.width}px;height:{this.videoInfo.height}px"  class="ui-video-detail-video">
-            <video id="videoDom" width="{this.videoInfo.width}px" height="{this.videoInfo.height}px" controls>
+        <div style="width:720px;height:{720/(this.videoInfo.width/this.videoInfo.height)}px"  class="ui-video-detail-video">
+            <video id="videoDom" width="720px" height="{720/(this.videoInfo.width/this.videoInfo.height)}px" controls>
                 {if navigator.userAgent.indexOf("Firefox") > -1}
                 <source src="{this.videoInfo.videoUrl}"  type="video/mp4"/>
                 {else}
@@ -69,7 +69,7 @@
                     <div class="ui-statics-controlRange" style="width:{this.rangeWidth};"></div>
                     <div class="ui-range-tip">
                         <span>0s</span>
-                        <span class="ui-orange-txt" style="left:{this.rangeWidth};">{if this.args.rangeVal>3&&this.args.rangeVal<20}{this.args.rangeVal}s{/if}</span>
+                        <span class="ui-orange-txt" style="left:{this.rangeWidth};">{if this.args.rangeVal>0&&this.args.rangeVal<20}{this.args.rangeVal}s{/if}</span>
                         <span>20s+</span>
                     </div>
                 </div>

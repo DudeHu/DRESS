@@ -299,6 +299,7 @@ define(function(req,exp){
                 exp.parent.statusPart.render();
                 exp.hasUploadCount = 0;
                 exp.totalUploadCount = 0;
+                exp.parent.uploadCuList = [];
                 setTimeout(function () {
                     exp.parent.status = "none";
                     exp.parent.statusPart.render();

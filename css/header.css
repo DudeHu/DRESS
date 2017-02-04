@@ -82,6 +82,9 @@
 .ui-header-info>div{
     float: left;
 }
+.ui-header-exit{
+    cursor: pointer;
+}
 .ui-header-info>div:not(:last-child){
     padding-right: 1.66667rem;
 }
