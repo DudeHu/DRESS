@@ -313,7 +313,7 @@ define(function(req,exp){
             $("#checkboxInput").parent().addClass("on");
         }else if(!_ele.is(':checked') &&  $("#checkboxInput").is(':checked')){
             $("#checkboxInput").prop("checked",false);
-            $("#checkboxInput").removeClass("on");
+            $("#checkboxInput").parent().removeClass("on");
             exp.delListFromId(id);
         }
         if(_ele.is(':checked')){

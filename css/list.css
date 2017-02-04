@@ -151,3 +151,7 @@
     background-size: contain;
     cursor: pointer;
 }
+.ui-web-checkbox input{
+    width: 0;
+    height: 0;
+}

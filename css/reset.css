@@ -271,6 +271,7 @@ embed{
     width: 1rem;
     height: 1.71429rem;
     vertical-align: text-top;
+    background-size: 100%;
 }
 .ui-detail-con{
     width: 85%;
@@ -284,24 +285,28 @@ embed{
     width: 4.35714rem;
     height: 38px;
     vertical-align: middle;
+    background-size: 100%;
 }
 .ui-web-people-icon{
     background: url("../images/people_icon.png") no-repeat center;
     width: 5.21429rem;
     height: 4.14286rem;
     vertical-align: middle;
+    background-size: 100%;
 }
 .ui-web-place-icon{
     background: url("../images/place_icon.png") no-repeat center;
     width: 5.35714rem;
     height: 4.14286rem;
     vertical-align: middle;
+    background-size: 100%;
 }
 .ui-web-tings-icon {
     background: url("../images/things_icon.png") no-repeat center;
     height: 4.21429rem;
     width: 4.07143rem;
     vertical-align: middle;
+    background-size: 100%;
 }
 .ui-web-count{
     color: #999;
