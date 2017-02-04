@@ -93,6 +93,7 @@ define(function(req,exp){
     }
     
     var currentFile;
+    var isDeleteAll;
     var currentIndex = 0;
     exp._oldFilesCount = 0;
     exp.hasUploadCount = 0;
@@ -281,13 +282,8 @@ define(function(req,exp){
 
                 },
                 'Error': function(up, err, errTip) {
-                    var _index = exp.findNext(exp._files,currentIndex);
                     console.log(err);
-                   // exp.alert(err.file.name + "上传" + errTip +"，" + "请重新上传！");
-                    if(!_index){
-                        up.stop();
-                    }
-                    up.stop();
+                    //up.stop();
                 }
             }
         });
@@ -551,10 +547,12 @@ define(function(req,exp){
         aLink.click();
     }
     exp.delVideo = function () {
-      console.log(exp.delList);
       if(exp.delList.length>0) {
           service.deleteVideo({videoIds:exp.delList.toString()}, function (rs) {
                 if(rs.status == "SUCCESS"){
+                    if((exp.delList.length == exp.videoList.length) && exp.args.cursor>1){
+                        exp.args.cursor -= 1;
+                    }
                     service.getVideoList(exp.args,function (rs) {
                         if(rs.status == "SUCCESS"){
                             exp.lists.total = rs.data.totalCount;

@@ -24,7 +24,7 @@ define(function(req,exp){
     }
 
     exp.showCloseUploadBox = function () {
-        if(exp.$element.text() == "<<"){
+        if(exp.$element.hasClass("ui-export-btn")){
             exp.closeUploadBox();
         }else{
             exp.showUploadBox();
@@ -33,10 +33,10 @@ define(function(req,exp){
 
     exp.closeUploadBox = function () {
         $(".ui-upload-box").hide();
-        $(".ui-export-btn").text(">>");
+        $(".ui-upload-ex-btn").removeClass("ui-export-btn").addClass("ui-unexport-btn");
     }
     exp.showUploadBox = function () {
         $(".ui-upload-box").show();
-        $(".ui-export-btn").text("<<");
+        $(".ui-upload-ex-btn").removeClass("ui-unexport-btn").addClass("ui-export-btn");;
     }
 });

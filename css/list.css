@@ -24,11 +24,24 @@
     width: 78%;
     margin: 0 auto;
 }
+
 .ui-export-btn{
-    margin-left: 1rem;
-    cursor: pointer;
+    background: url("../images/upload_export_icon.png") no-repeat center;
+    width: 1.5rem;
+    height: 1.55556rem;
 }
 
+.ui-unexport-btn{
+    background: url("../images/upload_unexport_icon.png") no-repeat center;
+    width: 1.5rem;
+    height: 1.55556rem;
+}
+.ui-upload-ex-btn{
+    margin-left: 1rem;
+    cursor: pointer;
+    background-size: 90%;
+    margin-top: 1.5rem;
+}
 .ui-upload-box,.uploadify-queue{
     width: 38.88889rem;
     position: fixed;
