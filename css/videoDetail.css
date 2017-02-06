@@ -96,6 +96,7 @@
     font-size: 1.3rem;
     color: #333;
     font-weight: 600;
+    word-break: break-all;
 }
 video{
     margin: 0 auto;
