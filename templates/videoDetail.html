@@ -45,11 +45,11 @@
                 <div data-part="videoMask" class="ui-video-mask">
                     {foreach src=this.masks}
                     <% var mask = item; %>
-                    <div style="left:{mask.x}%;top:{mask.y-6}%" class="ui-video-mask-tip">
+                    <div style="left:{mask.x}%;top:{mask.y-6}%" class="ui-video-mask-tip ui-video-mask-tip-{i}">
                         <div class="ui-video-mask-txt">{mask.text}</div>
                         <div class="ui-video-mask-trangle"></div>
                     </div>
-                    <div style="width:{mask.width}%;height:{mask.height}%;left:{mask.x}%;top:{mask.y}%"  class="ui-video-mask-range"></div>
+                    <div style="width:{mask.width}%;height:{mask.height}%;left:{mask.x}%;top:{mask.y}%"  class="ui-video-mask-range ui-video-mask-range-{i}"></div>
                     {/foreach}
                  </div>
 

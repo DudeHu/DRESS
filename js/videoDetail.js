@@ -9,6 +9,8 @@ define(function (req,exp) {
     var currentPlayTime = 0;
     var currentPlayTimeS = 0;
     var times = {};
+    var currentTotal = 0;
+    var maskChildTime = {};
     exp.args = {
         rangeVal:0,
         serachString:""
@@ -106,8 +108,17 @@ define(function (req,exp) {
             }
             var Media = document.getElementById("videoDom");
             var has = false;
+            var oldTime = 0;
             Media.addEventListener("timeupdate",function (e) {
                 exp.dealSenceMask(Math.round(e.currentTarget.currentTime));
+                var _time = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                if((_time < currentPlayTimeS) || (oldTime == _time)){
+                    currentPlayTime = _time;
+                    exp.videoMask.hide();
+                    exp.dealMask(true);
+                }
+                oldTime = _time;
+
             });
             Media.addEventListener("play", function (e) {
                 //currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
@@ -123,9 +134,10 @@ define(function (req,exp) {
                 currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = false;
                 playStatusS = false;
+                console.log("pause:"+currentPlayTime + "..." + currentPlayTimeS);
             }, false);
             Media.addEventListener("waitting", function (e) {
-                //currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 //exp.dealMask(false);
                 playStatus = false;
                 playStatusS = false;
@@ -144,7 +156,6 @@ define(function (req,exp) {
             delete times[o];
         }
     }
-    var currentTotal = 0;
 
     exp.dealMask = function (flag) {
         //exp.dealTimes();
@@ -153,13 +164,24 @@ define(function (req,exp) {
             var _e = exp.playList[currentPlayTime];
             if(_e && _e.length>0){
                 exp.masks=[];
-                currentTotal = 0;
                 _e.forEach(function (ele,index) {
                     if(!flag)
                         currentPlayTimeS = currentPlayTime;
                     playStatus = false;
                     playStatusS = true;
-                    exp.dealCMask(ele,index,_e.length);
+                    currentTotal = 0;
+                    var _c = ele.trail[currentPlayTimeS];
+                    if(_c)
+                        exp.dealCMask(ele,index,_e.length);
+                    else{
+                        currentTotal += 1;
+                        if(_e.length == currentTotal){
+                            exp.videoMask.hide();
+                            playStatus = true;
+                            currentPlayTime = currentPlayTimeS + 1;
+                            exp.dealMask();
+                        }
+                    }
                 });
             }else{
                 currentPlayTime += 1;
@@ -174,12 +196,10 @@ define(function (req,exp) {
 
     exp.dealCMask = function (ele,index,total) {
         var text = ele.name;
-        var _c = ele.trail[currentPlayTimeS];
-        if(_c){
             var time_index = currentPlayTimeS;
             setTimeout(function () {
                 if(playStatusS) {
-                    _c = ele.trail[currentPlayTimeS];
+                   var _c = ele.trail[currentPlayTimeS];
                     if (_c) {
                         exp.masks[index] = {};
                         exp.masks[index].text = text;
@@ -190,21 +210,19 @@ define(function (req,exp) {
                         exp.videoMask.render();
                         currentPlayTimeS += 1;
                         exp.dealCMask(ele, index,total);
-                    } else {
+                    }else{
                         exp.videoMask.hide();
+                        currentTotal += 1;
+                        if(total == currentTotal){
+                            exp.videoMask.hide();
+                            playStatus = true;
+                            currentPlayTime = currentPlayTimeS + 1;
+                            exp.dealMask();
+                        }
                     }
                 }
             },1000/exp.videoInfo.fps);
             exp.videoMask.show();
-        }else{
-            currentTotal += 1;
-        }
-        if(total == currentTotal){
-            exp.videoMask.hide();
-            playStatus = true;
-            currentPlayTime = currentPlayTimeS + 1;
-            exp.dealMask();
-        }
     }
     
     exp.dealSenceMask = function (time) {
