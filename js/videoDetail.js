@@ -115,10 +115,9 @@ define(function (req,exp) {
                 if((_time < currentPlayTimeS) || (oldTime == _time)){
                     currentPlayTime = _time;
                     exp.videoMask.hide();
-                    exp.dealMask(true);
+                    exp.dealMask();
                 }
                 oldTime = _time;
-
             });
             Media.addEventListener("play", function (e) {
                 //currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
