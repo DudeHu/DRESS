@@ -82,3 +82,15 @@
 .ui-order-l-des:after{
     left: 0.55556rem;
 }
+@media screen and (min-width: 1024px){
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 10.66667rem ;
+        background-size: 65%;
+    }
+    .ui-login-form{
+        margin-top: 6.66667rem;
+    }
+}
+@media screen and (max-width: 1023px){
+
+}

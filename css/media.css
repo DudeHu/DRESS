@@ -15,17 +15,59 @@
         width: 1024px!important;
     }
     .ui-videoDetail-con{
-        width: 1280px!important;
+        width: 1000px!important;
+    }
+    .ui-video-detail-video{
+        width: 600px!important;
+    }
+    .ui-video-detail-video video{
+        width: 600px!important;
+    }
+    .ui-detail-con{
+        margin-left: 10.73333rem!important;
+    }
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 10.66667rem !important;
+        background-size: 65%!important;
+    }
+    .ui-login-form{
+        margin-top: 6.66667rem!important;
     }
 }
 @media screen and (min-width: 1024px) {
     html,body {
         font-size : 45%!important ;
     }
+    .ui-video-detail-video{
+        width: 610px!important;
+    }
+    .ui-video-detail-video video{
+        width: 610px!important;
+    }
+    .ui-detail-con{
+        margin-left: 10.73333rem!important;
+    }
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 10.66667rem !important;
+        background-size: 65%!important;
+    }
+    .ui-login-form{
+        margin-top: 6.66667rem!important;
+    }
 }
 @media screen and (min-width: 1280px) {
     html,body {
         font-size : 63%!important ;
+    }
+    .ui-detail-con{
+        margin-left: 11.73333rem!important;
+    }
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 12.66667rem !important;
+        background-size: 65%!important;
+    }
+    .ui-login-form{
+        margin-top: 10.66667rem!important;
     }
 }
 
@@ -39,6 +81,16 @@
     .ui-video-detail-video video{
         width: 780px!important;
     }
+    .ui-detail-con{
+        margin-left: 12.93333rem!important;
+    }
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 12.66667rem !important;
+        background-size: 65%!important;
+    }
+    .ui-login-form{
+        margin-top: 13.66667rem!important;
+    }
 }
 @media screen and (min-width: 1440px) {
     html,body {
@@ -50,6 +102,16 @@
     .ui-video-detail-video video{
         width: 820px!important;
     }
+    .ui-detail-con{
+        margin-left: 13.43333rem!important;
+    }
+    .ui-login-left-bg{
+        background: url("../images/login_left_bg.png") no-repeat 18rem 12.66667rem !important;
+        background-size: 65%!important;
+    }
+    .ui-login-form{
+        margin-top: 13.66667rem!important;
+    }
 }
 @media screen and (min-width: 1680px) {
     html,body {
@@ -60,6 +122,9 @@
     }
     .ui-video-detail-video video{
         width: 940px!important;
+    }
+    .ui-detail-con{
+        margin-left: 12.73333rem!important;
     }
 }
 @media screen and (min-width: 1920px) {
