@@ -6,14 +6,15 @@
 }
 .ui-video-detail-video{
     position: relative;
-    margin: 0 auto;
-    width: 720px;
+    float: right;
+    width: 90%;
 }
 .ui-video-detail-video video{
-    width: 720px;
+    width: 100%;
 }
 .ui-video-detail-video-con{
     width:70%;
+    display: inline-block;
 }
 .ui-video-mask{
     position: absolute;
@@ -61,13 +62,16 @@
 }
 .ui-video-detail-info{
     width: 25%;
-    float: right;
+    display: inline-block;
     font-size: 1rem;
+    margin-left: 2rem;
+    vertical-align: top;
 }
 .ui-video-detail-face{
     border-bottom: 1px solid #0066cc;
     color: #666;
     padding: 1.11111rem 0;
+    padding-top: 0;
 }
 .ui-video-detail-face p {
     line-height: 2.33333rem;
@@ -134,3 +138,4 @@ video{
     -o-border-radius: 0.16667rem 0.16667rem 0.16667rem;
     -mso-border-radius: 0.16667rem 0.16667rem 0.16667rem;
 }
+

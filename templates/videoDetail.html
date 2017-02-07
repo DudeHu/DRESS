@@ -6,32 +6,6 @@
         </div>
     </div>
     <div class="ui-video-detail ui-com-clearFix">
-        <div class="ui-video-detail-info">
-            <div data-part="videoInfoPart" class="ui-video-detail-face">
-                <p class="ui-video-name">{this.videoInfo.name}</p>
-                <p>上传时间：{this.videoInfo.uploadTime} </p>
-                <p>{this.videoInfo.duration}</p>
-                <p>文件大小：{this.videoInfo.size}MB</p>
-            </div>
-            <div class="ui-video-detail-depth">
-                <p>
-                    <span class="ui-web-tings-icon"></span>
-                    <span class="ui-statics-txt">物体</span>
-                    <span class="ui-web-count">{this.videoInfo.objectTagNums}</span>
-                </p>
-                <p>
-                    <span class="ui-web-place-icon"></span>
-                    <span class="ui-statics-txt">场景</span>
-                    <span class="ui-web-count">{this.videoInfo.sceneTagNums}</span>
-                </p>
-                <p>
-                    <span class="ui-web-people-icon"></span>
-                    <span class="ui-statics-txt">明星</span>
-                    <span class="ui-web-count">{this.videoInfo.starTagNums}</span>
-                </p>
-            </div>
-            <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
-        </div>
         <div class="ui-video-detail-video-con ui-com-clearFix">
         <div class="ui-video-detail-video">
             <video id="videoDom" height="auto" controls>
@@ -57,6 +31,32 @@
                 <p>场景 {this.senceMask.name}</p>
             </div>
         </div>
+        </div>
+        <div class="ui-video-detail-info">
+            <div data-part="videoInfoPart" class="ui-video-detail-face">
+                <p class="ui-video-name">{this.videoInfo.name}</p>
+                <p>上传时间：{this.videoInfo.uploadTime} </p>
+                <p>{this.videoInfo.duration}</p>
+                <p>文件大小：{this.videoInfo.size}MB</p>
+            </div>
+            <div class="ui-video-detail-depth">
+                <p>
+                    <span class="ui-web-tings-icon"></span>
+                    <span class="ui-statics-txt">物体</span>
+                    <span class="ui-web-count">{this.videoInfo.objectTagNums}</span>
+                </p>
+                <p>
+                    <span class="ui-web-place-icon"></span>
+                    <span class="ui-statics-txt">场景</span>
+                    <span class="ui-web-count">{this.videoInfo.sceneTagNums}</span>
+                </p>
+                <p>
+                    <span class="ui-web-people-icon"></span>
+                    <span class="ui-statics-txt">明星</span>
+                    <span class="ui-web-count">{this.videoInfo.starTagNums}</span>
+                </p>
+            </div>
+            <div data-event="downloadJSON:{this.videoInfo.jsonUrl}" class="ui-web-pad-btn">下载JSON</div>
         </div>
     </div>
     <div class="ui-statics-form ui-com-clearFix ui-con-fw">
