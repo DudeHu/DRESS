@@ -88,16 +88,16 @@
         width: 100%!important;
     }
     .ui-web-tings-icon {
-        height: 3.21429rem!important;
+        height: 3.71429rem!important;
     }
     .ui-video-detail-depth p{
-        line-height: 3.28889rem!important;
+        line-height: 4.58889rem!important;
     }
 }
 
 @media screen and (min-width: 1366px) {
     html,body {
-        font-size : 72%!important ;
+        font-size : 73%!important ;
     }
     .ui-detail-con{
         margin-left: 12.93333rem!important;
@@ -124,7 +124,7 @@
 }
 @media screen and (min-width: 1440px) {
     html,body {
-        font-size : 78%!important ;
+        font-size : 81%!important ;
     }
     .ui-detail-con{
         margin-left: 13.43333rem!important;
@@ -145,7 +145,7 @@
 }
 @media screen and (min-width: 1680px) {
     html,body {
-        font-size : 87.5%!important ;
+        font-size : 91%!important ;
     }
     .ui-detail-con{
         margin-left: 12.73333rem!important;
