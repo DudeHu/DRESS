@@ -7,6 +7,10 @@
 .ui-video-detail-video{
     position: relative;
     margin: 0 auto;
+    width: 720px;
+}
+.ui-video-detail-video video{
+    width: 720px;
 }
 .ui-video-detail-video-con{
     width:70%;
