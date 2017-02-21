@@ -38,6 +38,7 @@
     width: 7.22222rem;
 }
 .ui-web-space-val{
+    overflow: hidden;
     border:1px solid #999;
     position: relative;
 }
