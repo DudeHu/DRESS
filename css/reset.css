@@ -267,11 +267,11 @@ embed{
     width: 3.07143rem;
 }
 .ui-web-back-icon{
-    background: url("../images/back_icon.png") no-repeat center;
+    background: url("../images/back_icon.png") no-repeat top;
     width: 1rem;
     height: 1.71429rem;
-    vertical-align: text-top;
-    background-size: 100%;
+    vertical-align: middle;
+    background-size: .8rem;
 }
 .ui-detail-con{
     width: 85%;

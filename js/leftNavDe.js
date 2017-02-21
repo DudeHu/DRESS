@@ -9,6 +9,6 @@ define(function (req,exp) {
     }
 
     exp.goPage = function (page) {
-        exp.go("detail/"+page);
+        exp.go("list/"+page);
     }
 });

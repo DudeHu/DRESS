@@ -100,7 +100,13 @@ exports.getUserInfo = function (params) {
     }
 }
 
-
+exports.getToken = function (params) {
+    return{
+        url:"/video/qnUploadToken",
+        type:"post",
+        data:{}
+    }
+}
 
 
 

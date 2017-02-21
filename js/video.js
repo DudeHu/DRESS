@@ -246,6 +246,7 @@ define(function(req,exp){
                         up.stop();
                     }
                     info = JSON.parse(info);
+                    console.log(info);
                     var _item = {};
                     _item.userId = sessionStorage.userId;
                     _item.name = file.name;
@@ -558,7 +559,7 @@ define(function(req,exp){
                             exp.lists.total = rs.data.totalCount;
                             exp.lists.page_count = exp.lists.total%exp.lists.step==0?parseInt(exp.lists.total/exp.lists.step):parseInt(exp.lists.total/exp.lists.step)+1;
                             if(rs.data.list)
-                                exp.videoList = rs.data.list;
+                                searchList = exp.videoList = rs.data.list;
                             else
                                 exp.videoList = [];
                             exp.parent.header.getSpace(function () {

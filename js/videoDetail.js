@@ -110,9 +110,12 @@ define(function (req,exp) {
             var has = false;
             var oldTime = 0;
             Media.addEventListener("timeupdate",function (e) {
-                exp.dealSenceMask(Math.round(e.currentTarget.currentTime));
-                var _time = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
-                if((_time < currentPlayTimeS) || (oldTime == _time)){
+                var _n = Math.round(e.currentTarget.currentTime);
+                var _f = exp.videoInfo.fps;
+                exp.dealSenceMask(_n);
+                var _time = _n * _f;
+                if((oldTime - _time > _f) || ( _time - oldTime > _f)){
+                    e.currentTarget.currentTime = _n;
                     currentPlayTime = _time;
                     exp.videoMask.hide();
                     exp.dealMask();
@@ -137,10 +140,8 @@ define(function (req,exp) {
             }, false);
             Media.addEventListener("waitting", function (e) {
                 currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
-                //exp.dealMask(false);
                 playStatus = false;
                 playStatusS = false;
-
             }, false);
         }
         exp.dealClear();

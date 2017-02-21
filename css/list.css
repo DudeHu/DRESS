@@ -147,11 +147,15 @@
     width: 1.38889rem;
     height: 1.38889rem;
     vertical-align: middle;
-    vertical-align: middle;
     background-size: contain;
     cursor: pointer;
 }
 .ui-web-checkbox input{
     width: 0;
     height: 0;
+}
+.ui-upload-box-name{
+    line-height: 1.8rem!important;
+    position: relative;
+    top: 0.5rem;
 }

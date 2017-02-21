@@ -181,7 +181,7 @@ function QiniuJsSDK() {
      */
     this.resetUploadUrl = function(){
 	var hosts = window.location.protocol === 'https:' ? qiniuUpHosts.https : qiniuUpHosts.http;
-	var i = changeUrlTimes % hosts.length;
+	var i = changeUrlTimes % (hosts.length-1);
 	qiniuUploadUrl = hosts[i];
 	changeUrlTimes++;
 	logger.debug('resetUploadUrl: '+qiniuUploadUrl);
@@ -690,7 +690,7 @@ function QiniuJsSDK() {
                 ajax.send();
                 if (ajax.status === 200) {
                     var res = that.parseJSON(ajax.responseText);
-                    that.token = res.uptoken || res.data.uptoken;
+                    that.token = res.data.uptoken || res.data.uploadToken;
                     var segments = that.token.split(":");
                     var putPolicy = that.parseJSON(that.URLSafeBase64Decode(segments[2]));
                     if (!that.tokenMap) {
