@@ -10,6 +10,7 @@ define(function (req,exp) {
     var currentPlayTimeS = 0;
     var times = {};
     var currentTotal = 0;
+    var pauseTime = 0;
     var maskChildTime = {};
     exp.args = {
         rangeVal:0,
@@ -114,12 +115,6 @@ define(function (req,exp) {
                 var _f = exp.videoInfo.fps;
                 exp.dealSenceMask(_n);
                 var _time = _n * _f;
-                if((oldTime - _time > _f) || ( _time - oldTime > _f)){
-                    e.currentTarget.currentTime = _n;
-                    currentPlayTime = _time;
-                    exp.videoMask.hide();
-                    exp.dealMask();
-                }
                 oldTime = _time;
             });
             Media.addEventListener("play", function (e) {
@@ -129,17 +124,25 @@ define(function (req,exp) {
                     exp.dealMask();
                     firstPlay = true;
                 }else{
+
+                    var _n = Math.floor(e.currentTarget.currentTime);
+                    var _f = exp.videoInfo.fps;
+                    var _time = _n * _f;
+                    if((_time-pauseTime>=_f)||(pauseTime-_time>=_f)){
+                        e.currentTarget.currentTime = _n;
+                        currentPlayTime = _time;
+                        exp.videoMask.hide();
+                    }
                     exp.dealMask(true);
                 }
             }, false);
             Media.addEventListener("pause", function (e) {
-                currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                pauseTime = currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = false;
                 playStatusS = false;
-                console.log("pause:"+currentPlayTime + "..." + currentPlayTimeS);
             }, false);
             Media.addEventListener("waitting", function (e) {
-                currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                pauseTime = currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = false;
                 playStatusS = false;
             }, false);
