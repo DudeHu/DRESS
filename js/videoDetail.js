@@ -5,7 +5,6 @@ define(function (req,exp) {
     "use strict";
 
     var service = req("utils.ajax");
-    var maskTime = null;
     var currentPlayTime = 0;
     var currentPlayTimeS = 0;
     var times = {};
@@ -46,6 +45,7 @@ define(function (req,exp) {
     var renderStatus = false;
     var playStatus = false;
     var playStatusS = false;
+    var hasStart = false;
     exp.onInit = function (done) {
         exp.playList = {};
         exp.masks = [];
@@ -108,28 +108,23 @@ define(function (req,exp) {
                 $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
             }
             var Media = document.getElementById("videoDom");
-            var has = false;
-            var oldTime = 0;
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.round(e.currentTarget.currentTime);
                 var _f = exp.videoInfo.fps;
+                console.log(e.currentTarget.currentTime);
                 exp.dealSenceMask(_n);
-                var _time = _n * _f;
-                oldTime = _time;
             });
             Media.addEventListener("play", function (e) {
-                //currentPlayTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = true;
                 if(!firstPlay){
                     exp.dealMask();
                     firstPlay = true;
                 }else{
-
                     var _n = Math.floor(e.currentTarget.currentTime);
                     var _f = exp.videoInfo.fps;
                     var _time = _n * _f;
                     if((_time-pauseTime>=_f)||(pauseTime-_time>=_f)){
-                        e.currentTarget.currentTime = _n;
+                        Media.currentTime = _n;
                         currentPlayTime = _time;
                         exp.videoMask.hide();
                     }
@@ -162,7 +157,7 @@ define(function (req,exp) {
 
     exp.dealMask = function (flag) {
         //exp.dealTimes();
-         maskTime = window.setTimeout(function () {
+        var maskTime = window.setTimeout(function () {
           if(playStatus){
             var _e = exp.playList[currentPlayTime];
             if(_e && _e.length>0){
