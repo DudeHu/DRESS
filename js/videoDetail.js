@@ -107,6 +107,13 @@ define(function (req,exp) {
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.round(e.currentTarget.currentTime);
                 var _f = exp.videoInfo.fps;
+                var _time = Math.round(e.currentTarget.currentTime*_f);
+                if(!playStatus){
+                    currentPlayTime = _time;
+                    playStatus = true;
+                    exp.runMask(1);
+                }
+
                 exp.dealSenceMask(_n);
             });
             Media.addEventListener("play", function (e) {
@@ -159,7 +166,7 @@ define(function (req,exp) {
         },_time);
     }
 
-    exp.runMask = function () {
+    exp.runMask = function (flag) {
         var sTime = new Date().getTime();
         if(playStatus){
             var _e = exp.playList[currentPlayTime];
@@ -173,10 +180,15 @@ define(function (req,exp) {
                 $(".ui-video-mask").html("");
                 $(".ui-video-mask").hide();
             }
-            currentPlayTime += 1;
-            var eTime = new Date().getTime();
-            var difTime = eTime-sTime;
-            exp.dealMask(1000/exp.videoInfo.fps-difTime-1);
+            if(!flag){
+                currentPlayTime += 1;
+                var eTime = new Date().getTime();
+                var difTime = eTime-sTime;
+                exp.dealMask(1000/exp.videoInfo.fps-difTime-1);
+            }else{
+                playStatus = false;
+            }
+
         }
     }
 
