@@ -214,7 +214,6 @@ define(function(req,exp){
                         up.stop();
                     }
                     info = JSON.parse(info);
-                    console.log(info);
                     var _item = {};
                     _item.userId = sessionStorage.userId;
                     _item.name = file.name;
@@ -241,6 +240,7 @@ define(function(req,exp){
                                         }
                                     });
                                 }else {
+                                    up.stop();
                                     exp.alert("存储空间不足！");
                                 }
                             }else{
