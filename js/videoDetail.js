@@ -6,11 +6,8 @@ define(function (req,exp) {
 
     var service = req("utils.ajax");
     var currentPlayTime = 0;
-    var currentPlayTimeS = 0;
     var times = {};
-    var currentTotal = 0;
     var pauseTime = 0;
-    var maskChildTime = {};
     exp.args = {
         rangeVal:0,
         serachString:""
@@ -44,7 +41,6 @@ define(function (req,exp) {
     var doneStatus = false;
     var renderStatus = false;
     var playStatus = false;
-    var playStatusS = false;
     var hasStart = false;
     exp.onInit = function (done) {
         exp.playList = {};
@@ -214,8 +210,10 @@ define(function (req,exp) {
                 exp.senceMask.name =  ele.name;
                 exp.senceMaskPart.render().show();
                 var _t = setTimeout(function () {
-                    exp.senceMaskPart.hide();
-                    clearTimeout(_t);
+                    if(!playStatus){
+                        exp.senceMaskPart.hide();
+                        clearTimeout(_t);
+                    }
                 }, (_te - _t)*1000);
             }
         });
