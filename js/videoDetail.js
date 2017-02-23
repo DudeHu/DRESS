@@ -111,35 +111,37 @@ define(function (req,exp) {
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.round(e.currentTarget.currentTime);
                 var _f = exp.videoInfo.fps;
-                console.log(e.currentTarget.currentTime);
                 exp.dealSenceMask(_n);
             });
             Media.addEventListener("play", function (e) {
                 playStatus = true;
+                hasStart = false;
                 if(!firstPlay){
-                    exp.dealMask();
+                    exp.dealMask(1000/exp.videoInfo.fps);
                     firstPlay = true;
                 }else{
+                    var sTime = new Date().getTime();
                     var _n = Math.floor(e.currentTarget.currentTime);
                     var _f = exp.videoInfo.fps;
                     var _time = _n * _f;
                     if((_time-pauseTime>=_f)||(pauseTime-_time>=_f)){
                         Media.currentTime = _n;
                         currentPlayTime = _time;
-                        exp.videoMask.hide();
+                       $(".ui-video-mask").html("").hide();
                     }
-                    exp.dealMask(true);
+                    var eTime = new Date().getTime();
+                    exp.dealMask(1000/exp.videoInfo.fps-(eTime-sTime));
                 }
             }, false);
             Media.addEventListener("pause", function (e) {
-                pauseTime = currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                console.log(currentPlayTime,"current");
+                pauseTime = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                console.log(pauseTime,"pause");
                 playStatus = false;
-                playStatusS = false;
             }, false);
             Media.addEventListener("waitting", function (e) {
-                pauseTime = currentPlayTimeS = Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                pauseTime =  Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
                 playStatus = false;
-                playStatusS = false;
             }, false);
         }
         exp.dealClear();
@@ -155,72 +157,53 @@ define(function (req,exp) {
         }
     }
 
-    exp.dealMask = function (flag) {
-        //exp.dealTimes();
-        var maskTime = window.setTimeout(function () {
-          if(playStatus){
+    exp.dealMask = function (_time) {
+         window.setTimeout(function () {
+             exp.runMask();
+        },_time);
+    }
+
+    exp.runMask = function () {
+        var sTime = new Date().getTime();
+        if(playStatus){
             var _e = exp.playList[currentPlayTime];
             if(_e && _e.length>0){
-                exp.masks=[];
+                $(".ui-video-mask").html("");
+                $(".ui-video-mask").show();
                 _e.forEach(function (ele,index) {
-                    if(!flag)
-                        currentPlayTimeS = currentPlayTime;
-                    playStatus = false;
-                    playStatusS = true;
-                    currentTotal = 0;
-                    var _c = ele.trail[currentPlayTimeS];
-                    if(_c)
-                        exp.dealCMask(ele,index,_e.length);
-                    else{
-                        currentTotal += 1;
-                        if(_e.length == currentTotal){
-                            exp.videoMask.hide();
-                            playStatus = true;
-                            currentPlayTime = currentPlayTimeS + 1;
-                            exp.dealMask();
-                        }
-                    }
+                   exp.dealCMask(ele,index,currentPlayTime);
                 });
             }else{
-                currentPlayTime += 1;
-                clearTimeout(maskTime);
-                exp.dealMask();
+                $(".ui-video-mask").html("");
+                $(".ui-video-mask").hide();
             }
-          }
-        },1000/exp.videoInfo.fps);
+            currentPlayTime += 1;
+            var eTime = new Date().getTime();
+            var difTime = eTime-sTime;
+            exp.dealMask(1000/exp.videoInfo.fps-difTime-1);
+        }
+    }
 
+    exp.dealCMask = function (ele,index,c) {
+                        var mask = {};
+                        mask.text = ele.name;
+                        mask.width = Math.round(ele.width * 100);
+                        mask.height = Math.round(ele.height * 100);
+                        mask.x = Math.round(ele.x * 100);
+                        mask.y = Math.round(ele.y * 100);
+                        mask.i = c + '' + index;
+                        exp.addMask(mask);
     }
 
 
-    exp.dealCMask = function (ele,index,total) {
-        var text = ele.name;
-            var time_index = currentPlayTimeS;
-            setTimeout(function () {
-                if(playStatusS) {
-                   var _c = ele.trail[currentPlayTimeS];
-                    if (_c) {
-                        exp.masks[index] = {};
-                        exp.masks[index].text = text;
-                        exp.masks[index].width = Math.round(_c.width * 100);
-                        exp.masks[index].height = Math.round(_c.height * 100);
-                        exp.masks[index].x = Math.round(_c.x * 100);
-                        exp.masks[index].y = Math.round(_c.y * 100);
-                        exp.videoMask.render();
-                        currentPlayTimeS += 1;
-                        exp.dealCMask(ele, index,total);
-                    }else{
-                        exp.videoMask.hide();
-                        currentTotal += 1;
-                        if(total == currentTotal){
-                            exp.videoMask.hide();
-                            playStatus = true;
-                            currentPlayTime = currentPlayTimeS + 1;
-                            exp.dealMask();
-                        }
-                    }
-                }
-            },1000/exp.videoInfo.fps);
-            exp.videoMask.show();
+    exp.addMask =  function (mask) {
+        $('.ui-video-mask-con-'+mask.i).remove();
+       var maskHtml =  $('<div class="ui-com-clearFix ui-video-mask-con-'+mask.i+'"><div style="left:'+mask.x+'%;top:'+(Number(mask.y)-6)+'%" class="ui-video-mask-tip">'
+            +'<div class="ui-video-mask-txt">'+mask.text+'</div>'
+            +'<div class="ui-video-mask-trangle"></div>'
+            +'</div>'
+            +'<div style="width:'+mask.width+'%;height:'+mask.height+'%;left:'+mask.x+'%;top:'+mask.y+'%"  class="ui-video-mask-range ui-video-mask-range'+mask.i+'"></div></div>');
+       $(".ui-video-mask").append(maskHtml);
     }
     
     exp.dealSenceMask = function (time) {

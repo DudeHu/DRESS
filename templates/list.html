@@ -33,7 +33,7 @@
                     <span>操作</span>
                 </li>
                 {foreach src=this.uploadCuList}
-                <li>
+                <li index="{i}">
                     <span class="ui-upload-box-name">{item.name || item.video_name}</span>
                     <span>{Math.round(item.size)}M</span>
                     <span>

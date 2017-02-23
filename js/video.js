@@ -164,42 +164,9 @@ define(function(req,exp){
                         if(rs.status == "SUCCESS"){
                             var _space = 500 - Number(rs.data.space);
                             if( _space >= totalSize/1024/1024){
-
                                 exp.parent.status = "uploading";
                                 exp.parent.statusPart.render();
-                                $(".ui-upload-box-stop").each(function(index) {
-                                    var _this = $(this);
-                                    var _file = files[index];
-                                    _this.on('click', function () {
-                                        if (!$(this).hasClass("start")) {
-                                            $(this).addClass("start");
-                                            stopCount += 1;
-                                            exp.parent.uploadCuList[index].status = false;
-                                            var _index = exp.findNext(files, index);
-                                            up.stop();
-                                            if(_index!=null){
-                                                var _tem = up.files[0];
-                                                up.files[0] = up.files[_index];
-                                                up.files[_index] = _tem;
-                                                currentIndex = _index;
-                                                up.start();
-                                            }
-                                        } else {
-                                            up.stop();
-                                            exp.parent.uploadCuList[index] = true;
-                                            stopCount > 0 && (stopCount -= 1);
-                                            var _index = exp.findCurrent(up.files,_file.name);
-                                            if(_index!=null){
-                                                var _tem = up.files[_index];
-                                                up.files[_index] = up.files[0];
-                                                up.files[0] = _tem;
-                                                currentIndex = index;
-                                                up.start();
-                                            }
-
-                                        }
-                                    });
-                                });
+                                exp.bindDelEvt(up,files);
                             }else {
                                 exp.alert("存储空间不足！");
                             }
@@ -240,6 +207,7 @@ define(function(req,exp){
                     //$(".ui-upload-box-stop-"+(ce + exp._oldFilesCount)).hide();
                     exp.parent.uploadCuList[ce].complete = true;
                     exp.parent.statusPart.render();
+                    exp.bindDelEvt(up,up.files);
                     if(re != null){
                         currentIndex = re;
                     }else{
@@ -306,6 +274,50 @@ define(function(req,exp){
         exp.dealClear();
     }
 
+    exp.bindDelEvt = function (up,files) {
+        $(".ui-upload-box-stop").each(function(index) {
+            var _this = $(this);
+            var _index = _this.parent().attr('index');
+            var _file = files[_index];
+
+            _this.off().on('click', function () {
+                exp.parent.uploadCuList.splice(_index,1);
+                exp._files.splice(_index,1);
+                up.removeFile(_file);
+                exp.totalUploadCount -= 1;
+                exp.parent.statusPart.render();
+                exp.bindDelEvt(up,up.files);
+                /*   if (!$(this).hasClass("start")) {
+                 $(this).addClass("start");
+                 stopCount += 1;
+                 exp.parent.uploadCuList[index].status = false;
+                 var _index = exp.findNext(files, index);
+                 up.stop();
+                 if(_index!=null){
+                 var _tem = up.files[0];
+                 up.files[0] = up.files[_index];
+                 up.files[_index] = _tem;
+                 currentIndex = _index;
+                 up.start();
+                 }
+                 } else {
+                 up.stop();
+                 exp.parent.uploadCuList[index] = true;
+                 stopCount > 0 && (stopCount -= 1);
+                 var _index = exp.findCurrent(up.files,_file.name);
+                 if(_index!=null){
+                 var _tem = up.files[_index];
+                 up.files[_index] = up.files[0];
+                 up.files[0] = _tem;
+                 currentIndex = index;
+                 up.start();
+                 }
+
+                 }*/
+            });
+        });
+    }
+
 
     exp.selectSingle = function (id) {
         var _ele = exp.$element;
@@ -326,6 +338,7 @@ define(function(req,exp){
         }
         exp.showDelBtn();
     }
+
 
     exp.findCurrent = function (files,name) {
         var result = null;
@@ -502,7 +515,7 @@ define(function(req,exp){
                 $(".ui-upload-box-process-"+index).children("span").css('width',_tent + "%");
                 $(".ui-upload-process-val-"+index).text(_tent + "%");
                 if(_tent==100)
-                $(".ui-upload-box-stop-"+index).remove();
+                $(".ui-upload-box-stop-"+index).hide();
             }
 
             var time = document.getElementById("time");
