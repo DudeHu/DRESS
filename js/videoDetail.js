@@ -206,7 +206,9 @@ define(function (req,exp) {
 
     exp.addMask =  function (mask) {
         $('.ui-video-mask-con-'+mask.i).remove();
-       var maskHtml =  $('<div class="ui-com-clearFix ui-video-mask-con-'+mask.i+'"><div style="left:'+mask.x+'%;top:'+(Number(mask.y)-6)+'%" class="ui-video-mask-tip">'
+        var tipLeft = Number(mask.x)>94?94:mask.x;
+
+       var maskHtml =  $('<div class="ui-com-clearFix ui-video-mask-con-'+mask.i+'"><div style="left:'+tipLeft+'%;top:'+(Number(mask.y)-6)+'%" class="ui-video-mask-tip">'
             +'<div class="ui-video-mask-txt">'+mask.text+'</div>'
             +'<div class="ui-video-mask-trangle"></div>'
             +'</div>'
