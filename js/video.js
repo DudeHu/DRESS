@@ -52,7 +52,6 @@ define(function(req,exp){
     exp.goPage = function (page,render) {
         exp.args.cursor = exp.lists.cursor =  page;
         if(!exp.serachStatus){
-
             exp.getList(exp.args,function () {
                 render();
                 exp.render();
@@ -157,7 +156,6 @@ define(function(req,exp){
                         totalSize += _item.size;
                         _item.status = true;
                         exp.parent.uploadCuList.push(_item);
-                        console.log(exp.parent.uploadCuList);
                         exp._files.push(file);
                     });
                     service.getUserInfo({userId:sessionStorage.userId},function (rs) {
@@ -178,10 +176,6 @@ define(function(req,exp){
 
                 },
                 'BeforeUpload': function(up, file) {
-                    var _index = exp.findCurrent(exp._files,file.name);
-                    if(_index!=null){
-                        currentIndex = _index;
-                    }
                     currentFile = file;
                 },
                 'UploadProgress': function(up, file) {
@@ -189,30 +183,25 @@ define(function(req,exp){
                     FileProgress.countProgress(file,currentIndex);
                 },
                 'UploadComplete': function(up,flie) {
-                    if(up.status == plupload.DONE){
+                    if(exp.hasUploaded(up)){
                         exp.parent.status = "success";
                         exp.parent.uploadCuList = uploaded;
                         exp.parent.statusPart.render();
-                        exp.getList(exp.args,exp.listPart.render);
+
+                        exp._files = [];
+                        exp.parent.uploadCuList = [];
+                        currentIndex = 0;
                     }else{
                         exp.alert("上传失败！请重新上传！");
                     }
-
                 },
                 'FileUploaded': function(up, file, info) {
                     FileProgress.countProgress(file,currentIndex);
-                    var re = exp.findNext(up.files,currentIndex);
-                    var ce = exp.findCurrent(exp._files,file.name);
                     exp.hasUploadCount += 1;
-                    //$(".ui-upload-box-stop-"+(ce + exp._oldFilesCount)).hide();
-                    exp.parent.uploadCuList[ce].complete = true;
+                    exp.parent.uploadCuList[currentIndex].complete = true;
+                    currentIndex += 1;
                     exp.parent.statusPart.render();
                     exp.bindDelEvt(up,up.files);
-                    if(re != null){
-                        currentIndex = re;
-                    }else{
-                        up.stop();
-                    }
                     info = JSON.parse(info);
                     var _item = {};
                     _item.userId = sessionStorage.userId;
@@ -272,6 +261,17 @@ define(function(req,exp){
             }
         });
         exp.dealClear();
+    }
+
+    exp.hasUploaded = function (up) {
+        var result = true;
+        for(var i in up.files){
+            if(up.files[i].status != plupload.DONE){
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     exp.bindDelEvt = function (up,files) {
@@ -565,7 +565,7 @@ define(function(req,exp){
           service.deleteVideo({videoIds:exp.delList.toString()}, function (rs) {
                 if(rs.status == "SUCCESS"){
                     if((exp.delList.length == exp.videoList.length) && exp.args.cursor>1){
-                        exp.args.cursor -= 1;
+                        exp.lists.cursor = exp.args.cursor -= 1;
                     }
                     service.getVideoList(exp.args,function (rs) {
                         if(rs.status == "SUCCESS"){
