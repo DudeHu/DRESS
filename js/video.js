@@ -187,10 +187,15 @@ define(function(req,exp){
                         exp.parent.status = "success";
                         exp.parent.uploadCuList = uploaded;
                         exp.parent.statusPart.render();
-
                         exp._files = [];
                         exp.parent.uploadCuList = [];
                         currentIndex = 0;
+                        exp.hasUploadCount = 0;
+                        exp.totalUploadCount = 0;
+                        setTimeout(function () {
+                            exp.parent.status = "none";
+                            exp.parent.statusPart.render();
+                        },3000);
                     }else{
                         exp.alert("上传失败！请重新上传！");
                     }
@@ -243,21 +248,6 @@ define(function(req,exp){
                     console.log(err);
                     //up.stop();
                 }
-            }
-        });
-
-        uploader.bind('FileUploaded', function() {
-            if(exp.hasUploadCount == exp.totalUploadCount){
-                exp.parent.status = "success";
-                //exp.parent.uploadCuList = uploaded;
-                exp.parent.statusPart.render();
-                exp.hasUploadCount = 0;
-                exp.totalUploadCount = 0;
-                exp.parent.uploadCuList = [];
-                setTimeout(function () {
-                    exp.parent.status = "none";
-                    exp.parent.statusPart.render();
-                },3000);
             }
         });
         exp.dealClear();
