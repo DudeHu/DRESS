@@ -2,6 +2,5 @@
 /.git
 /build
 /node_modules
-/my.config.js
 /dist
 /bower_components
