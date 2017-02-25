@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-pid=`ps -aux | grep node | grep dress | awk '{print $2}'`
+pid=`ps -aux | grep 3000 | grep node | awk '{print $2}'`
 
 if [ "${pid}" = '' ]; then
         echo "[FAIL] 不存在任何实例"
