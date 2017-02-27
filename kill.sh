@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 pid=`ps -aux | grep 3000 | grep node | awk '{print $2}'`
 
 if [ "${pid}" = '' ]; then

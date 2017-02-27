@@ -1,6 +1,6 @@
 #! /bin/bash
 
-old_pid=`ps -aux | grep node| grep dress | awk '{print $2}'`
+old_pid=`ps -aux | grep 3000| grep node | awk '{print $2}'`
 
 if [ "${old_pid}" = '' ]; then
     cd /website/dress
