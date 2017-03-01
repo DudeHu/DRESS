@@ -208,6 +208,7 @@ embed{
     width: 1.42857rem;
     height: 1.42857rem;
     vertical-align: middle;
+    background-size:100%;
 }
 .ui-orange-txt{
     color: #ffcc00;
