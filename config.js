@@ -13,7 +13,7 @@ define(function(req, exp){
             global: true,
             cache: false,
             dataType: "JSON",
-            timeout: 30000,
+            timeout: 60000,
             beforeSend: function (xhr) {
                 app.plugin.mask.showMask({
                     loading: true,
