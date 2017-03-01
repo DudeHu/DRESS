@@ -3,6 +3,6 @@
         node: "local",
         java: "test",
         mongodb: "test",
-        env: "test"
+        env: "local"
     };
     

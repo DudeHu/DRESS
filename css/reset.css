@@ -447,6 +447,7 @@ input[type="range"] {
     vertical-align: middle;
     margin-left: 0.35714rem;
     cursor: pointer;
+    background-size: 100%;
 
 }
 .ui-detail-unexport-icon{
@@ -456,6 +457,7 @@ input[type="range"] {
     vertical-align: middle;
     margin-left: 0.35714rem;
     cursor: pointer;
+    background-size: 100%;
 }
 .ui-list-item-detail>div p{
     line-height: 1.67143rem;

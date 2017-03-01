@@ -288,9 +288,6 @@ define(function (req,exp) {
 
     exp.search = function (flag,value) {
         if(($("#searchInput").val()!="")||flag) {
-            if(value == 3){
-                exp.args.rangeVal = 0;
-            }
             service.searchByTag(exp.args, function (rs) {
                 if (rs.status == "SUCCESS") {
                     exp.searchResultList = rs.data;
