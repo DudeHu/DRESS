@@ -122,9 +122,12 @@
                         <div class="ui-list-item-detail">
                             {if Array.isArray(_citem.tagPicList)}
                             {foreach src=_citem.tagPicList}
-                            <% var _sitem = item %>
+                            <%
+                                var _sitem = item;
+                                var imageUrl = _sitem.picUrl.match(/^http:/)?_sitem.picUrl:'http://'+_sitem.picUrl;
+                            %>
                             <div>
-                                <img src="{'http://'+_sitem.picUrl}">
+                                <img src="{imageUrl}">
                                 <p>开始时间 ／ {_sitem.startTime}</p>
                                 <p>持续时间 ／ <span class="ui-orange-txt">{_sitem.duration}</span></p>
                             </div>
