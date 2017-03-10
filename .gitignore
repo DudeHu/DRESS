@@ -4,3 +4,5 @@
 /node_modules
 /dist
 /bower_components
+/run.sh
+/kill.sh
