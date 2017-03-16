@@ -24,7 +24,7 @@ var uptoken = function(bucket, key) {
     putPolicy.persistentOps = fops;
     //putPolicy.callbackUrl = "http://dressplus-api.appdevs.cn/video/uploadCallback";
     //putPolicy.callbackBody = 'filename=$(fname)&filesize=$(fsize)&id=$(x:id)';
-    putPolicy.persistentNotifyUrl = "http://http://vrs-api.dressplus.cn/video/qnNotify";
+    putPolicy.persistentNotifyUrl = "http://vrs-api.dressplus.cn/video/qnNotify";
     putPolicy.persistentPipeline = pipeline;
     return putPolicy.token();
 }
