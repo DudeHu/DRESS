@@ -12,7 +12,7 @@ var bucket = config.Bucket_Name;
 //上传策略中设置pipeline以及fops
 var uptoken = function(bucket, key) {
     //转码是使用的队列名称。
-    var pipeline = 'abcdtest';
+    var pipeline = 'penn-video-encoding';
 
     //要进行转码的转码操作。
     var fops = "avthumb/mp4/vcodec/libx264"

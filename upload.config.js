@@ -1,6 +1,6 @@
 module.exports = {
-    'ACCESS_KEY': 'a2N8oOnDTtK6UXe2HiFUipsJh0zaWHZLvlW6ULnw',
-    'SECRET_KEY': 'JiTmvIqFat2O3XvZzxelhdK0WEn9_1QjEkI4sZE_',
-    'Bucket_Name': 'test',
-    'Domain': 'http://oj9agbelr.bkt.clouddn.com'
-};
+    'ACCESS_KEY': 'tJYrtL8ifcnFk7Do2O6isUcADA7z-C-hyaElyReV',
+    'SECRET_KEY': 'pGSJUvAbIyOgoNZ8KfxqH0siXJvvo3PSx4_rbCSG',
+    'Bucket_Name': 'dressplus-penn',
+    'Domain': 'http://resource.penn.dressplus.cn'
+}

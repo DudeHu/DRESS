@@ -132,7 +132,7 @@ define(function(req,exp){
             //         return '';
             //     }
             // },
-            domain: 'http://oj9agbelr.bkt.clouddn.com',
+            domain: 'http://resource.penn.dressplus.cn',
             // downtoken_url: '/downtoken',
             unique_names: true,
             save_key: true,
