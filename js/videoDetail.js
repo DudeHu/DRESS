@@ -77,26 +77,22 @@ define(function (req,exp) {
                 exp.videoInfo = rs.data;
                 exp.playList = rs.data.trailInfo;
                 renderStatus = true;
-                if(doneStatus){
-                    exp.render();
-                }else{
-                    done();
-                }
+                done();
             }else{
                 exp.alert(rs.msg);
             }
         });
-
-        setTimeout(function (rs) {
-            done();
-            doneStatus = true;
-        },5000);
-
     }
 
     var firstPlay = false;
 
     exp.onRender = function () {
+        $(".ui-video-detail-video").on("mouseover",function () {
+            $(".ui-video-mask").css('height','92%');
+        });
+        $(".ui-video-detail-video").on("mouseout",function () {
+            $(".ui-video-mask").css('height','100%');
+        });
         if(renderStatus) {
             var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
             var _aw = $(".ui-videoDetail-con").width();
@@ -110,6 +106,7 @@ define(function (req,exp) {
                 var _time = Math.round(e.currentTarget.currentTime*_f);
                 if(!playStatus){
                     currentPlayTime = _time;
+                    console.log(currentPlayTime);
                     playStatus = true;
                     exp.runMask(1);
                 }
@@ -119,6 +116,7 @@ define(function (req,exp) {
             Media.addEventListener("play", function (e) {
                 playStatus = true;
                 hasStart = false;
+                console.log("playings")
                 if(!firstPlay){
                     exp.dealMask(1000/exp.videoInfo.fps);
                     firstPlay = true;
@@ -127,6 +125,7 @@ define(function (req,exp) {
                     var _n = Math.floor(e.currentTarget.currentTime);
                     var _f = exp.videoInfo.fps;
                     var _time = _n * _f;
+                    console.log(e.currentTarget);
                     if((_time-pauseTime>=_f)||(pauseTime-_time>=_f)){
                         Media.currentTime = _n;
                         currentPlayTime = _time;
@@ -144,6 +143,7 @@ define(function (req,exp) {
             }, false);
             Media.addEventListener("waitting", function (e) {
                 pauseTime =  Math.round(e.currentTarget.currentTime * exp.videoInfo.fps);
+                console.log("waitiing");
                 playStatus = false;
             }, false);
         }
@@ -184,7 +184,7 @@ define(function (req,exp) {
                 currentPlayTime += 1;
                 var eTime = new Date().getTime();
                 var difTime = eTime-sTime;
-                exp.dealMask(1000/exp.videoInfo.fps-difTime-1);
+                exp.dealMask(1000/exp.videoInfo.fps-difTime-2);
             }else{
                 playStatus = false;
             }
