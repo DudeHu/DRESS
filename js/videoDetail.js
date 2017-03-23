@@ -101,23 +101,20 @@ define(function (req,exp) {
             }
             var Media = document.getElementById("videoDom");
             Media.addEventListener("timeupdate",function (e) {
-                var _n = Math.round(e.currentTarget.currentTime);
+                var _n = Math.floor(e.currentTarget.currentTime);
                 var _f = exp.videoInfo.fps;
-                var _time = Math.round(e.currentTarget.currentTime*_f);
-                if(!playStatus){
-                    currentPlayTime = _time;
-                    console.log(currentPlayTime);
-                    playStatus = true;
-                    exp.runMask(1);
-                }
-
+                var _time = Math.round(e.currentTarget.currentTime * _f);
+                playStatus = true;
+                currentPlayTime = _n;
+                exp.dealMask(_n);
+                //console.log(Math.floor(e.currentTarget.currentTime/exp.videoInfo.fps));
                 exp.dealSenceMask(_n);
             });
             Media.addEventListener("play", function (e) {
                 playStatus = true;
                 hasStart = false;
                 console.log("playings")
-                if(!firstPlay){
+              /*  if(!firstPlay){
                     exp.dealMask(1000/exp.videoInfo.fps);
                     firstPlay = true;
                 }else{
@@ -129,11 +126,11 @@ define(function (req,exp) {
                     if((_time-pauseTime>=_f)||(pauseTime-_time>=_f)){
                         Media.currentTime = _n;
                         currentPlayTime = _time;
-                       $(".ui-video-mask").html("").hide();
+                        $(".ui-video-mask").html("").hide();
                     }
                     var eTime = new Date().getTime();
                     exp.dealMask(1000/exp.videoInfo.fps-(eTime-sTime));
-                }
+                }*/
             }, false);
             Media.addEventListener("pause", function (e) {
                 console.log(currentPlayTime,"current");
@@ -150,8 +147,6 @@ define(function (req,exp) {
         exp.dealClear();
     }
 
-
-
     exp.dealTimes = function () {
         clearTimeout(maskTime);
         for(var o in times){
@@ -161,61 +156,84 @@ define(function (req,exp) {
     }
 
     exp.dealMask = function (_time) {
-         window.setTimeout(function () {
-             exp.runMask();
-        },_time);
+        exp.runMask();
     }
 
     exp.runMask = function (flag) {
-        var sTime = new Date().getTime();
         if(playStatus){
             var _e = exp.playList[currentPlayTime];
-            if(_e && _e.length>0){
+            if(_e){
                 $(".ui-video-mask").html("");
                 $(".ui-video-mask").show();
-                _e.forEach(function (ele,index) {
-                   exp.dealCMask(ele,index,currentPlayTime);
-                });
+                var count = 0;
+                for(var i in _e){
+                    exp.dealCMask(_e[i],count++,currentPlayTime);
+                }
             }else{
                 $(".ui-video-mask").html("");
                 $(".ui-video-mask").hide();
             }
-            if(!flag){
-                currentPlayTime += 1;
-                var eTime = new Date().getTime();
-                var difTime = eTime-sTime;
-                exp.dealMask(1000/exp.videoInfo.fps-difTime-2);
-            }else{
-                playStatus = false;
-            }
-
         }
     }
 
-    exp.dealCMask = function (ele,index,c) {
-                        var mask = {};
-                        mask.text = ele.name;
-                        mask.width = Math.round(ele.width * 100);
-                        mask.height = Math.round(ele.height * 100);
-                        mask.x = Math.round(ele.x * 100);
-                        mask.y = Math.round(ele.y * 100);
-                        mask.i = c + '' + index;
-                        exp.addMask(mask);
+    exp.dealCMask = function (element,index,c) {
+        var ele = element[0];
+        var mask = {};
+        mask.text = ele.name;
+        mask.width = Math.round(ele.width * 100);
+        mask.height = Math.round(ele.height * 100);
+        mask.x = Math.round(ele.x * 100);
+        mask.y = Math.round(ele.y * 100);
+        mask.i = c + '' + index;
+        exp.addMask(mask);
+        exp.moveMask(element,index,c,1)
     }
 
+    exp.moveMask = function (element,index,c,count) {
+            var mask = {};
+            var ele = element[count];
+            if(ele){
+                mask.text = ele.name;
+                mask.width = Math.round(ele.width * 100);
+                mask.height = Math.round(ele.height * 100);
+                mask.x = Math.round(ele.x * 100);
+                mask.y = Math.round(ele.y * 100);
+                mask.i = c + '' + index;
+                if(playStatus) {
+                    setTimeout(function () {
+                        console.log($('.ui-video-mask-con-'+mask.i),mask);
+                        $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-tip").css({
+                            left: mask.x + '%',
+                            top: mask.y - 6  + '%'
+                        });
+                        $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-range").css({
+                            left: mask.x + '%',
+                            top: mask.y + '%',
+                            width: mask.width + '%',
+                            height: mask.height + '%'
+                        });
+                        count += 1;
+                        if(element[count]){
+                            exp.moveMask(element,index,c,count);
+                        }
+                    }, 1000 / exp.videoInfo.fps);
+                }
+            }else{
+                $('.ui-video-mask-con-'+mask.i).remove();
+            }
+    }
 
     exp.addMask =  function (mask) {
         $('.ui-video-mask-con-'+mask.i).remove();
         var tipLeft = Number(mask.x)>94?94:mask.x;
-
-       var maskHtml =  $('<div class="ui-com-clearFix ui-video-mask-con-'+mask.i+'"><div style="left:'+tipLeft+'%;top:'+(Number(mask.y)-6)+'%" class="ui-video-mask-tip">'
+        var maskHtml =  $('<div class="ui-com-clearFix ui-video-mask-con-'+mask.i+'"><div style="left:'+tipLeft+'%;top:'+(Number(mask.y)-6)+'%" class="ui-video-mask-tip">'
             +'<div class="ui-video-mask-txt">'+mask.text+'</div>'
             +'<div class="ui-video-mask-trangle"></div>'
             +'</div>'
             +'<div style="width:'+mask.width+'%;height:'+mask.height+'%;left:'+mask.x+'%;top:'+mask.y+'%"  class="ui-video-mask-range ui-video-mask-range'+mask.i+'"></div></div>');
-       $(".ui-video-mask").append(maskHtml);
+        $(".ui-video-mask").append(maskHtml);
     }
-    
+
     exp.dealSenceMask = function (time) {
         exp.videoInfo.senceList.forEach(function (ele,index) {
             var _t =exp.formatTime(ele.startTime);
