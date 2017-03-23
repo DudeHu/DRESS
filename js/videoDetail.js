@@ -201,7 +201,6 @@ define(function (req,exp) {
                 mask.i = c + '' + index;
                 if(playStatus) {
                     setTimeout(function () {
-                        console.log($('.ui-video-mask-con-'+mask.i),mask);
                         $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-tip").css({
                             left: mask.x + '%',
                             top: mask.y - 6  + '%'
