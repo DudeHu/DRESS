@@ -6,6 +6,7 @@ define(function (req,exp) {
 
     var service = req("utils.ajax");
     var currentPlayTime = 0;
+    var disappearTime = 0;
     var times = {};
     var pauseTime = 0;
     exp.args = {
@@ -102,8 +103,7 @@ define(function (req,exp) {
             var Media = document.getElementById("videoDom");
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.floor(e.currentTarget.currentTime);
-                var _f = exp.videoInfo.fps;
-                var _time = Math.round(e.currentTarget.currentTime * _f);
+                disappearTime = Math.round(e.currentTarget.currentTime * 1000);
                 playStatus = true;
                 currentPlayTime = _n;
                 exp.dealMask(_n);
@@ -177,21 +177,23 @@ define(function (req,exp) {
     }
 
     exp.dealCMask = function (element,index,c) {
-        var ele = element[0];
-        var mask = {};
-        mask.text = ele.name;
-        mask.width = Math.round(ele.width * 100);
-        mask.height = Math.round(ele.height * 100);
-        mask.x = Math.round(ele.x * 100);
-        mask.y = Math.round(ele.y * 100);
-        mask.i = c + '' + index;
-        exp.addMask(mask);
-        exp.moveMask(element,index,c,1)
+        if((!element.disappeaarTime) || (disappearTime <= element.disappeaarTime)) {
+            var ele = element.shows[0];
+            var mask = {};
+            mask.text = ele.name;
+            mask.width = Math.round(ele.width * 100);
+            mask.height = Math.round(ele.height * 100);
+            mask.x = Math.round(ele.x * 100);
+            mask.y = Math.round(ele.y * 100);
+            mask.i = c + '' + index;
+            exp.addMask(mask);
+            exp.moveMask(element, index, c, 1);
+        }
     }
 
     exp.moveMask = function (element,index,c,count) {
             var mask = {};
-            var ele = element[count];
+            var ele = element.shows[count];
             if(ele){
                 mask.text = ele.name;
                 mask.width = Math.round(ele.width * 100);
@@ -201,19 +203,24 @@ define(function (req,exp) {
                 mask.i = c + '' + index;
                 if(playStatus) {
                     setTimeout(function () {
-                        $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-tip").css({
-                            left: mask.x + '%',
-                            top: mask.y - 6  + '%'
-                        });
-                        $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-range").css({
-                            left: mask.x + '%',
-                            top: mask.y + '%',
-                            width: mask.width + '%',
-                            height: mask.height + '%'
-                        });
-                        count += 1;
-                        if(element[count]){
-                            exp.moveMask(element,index,c,count);
+                        if((element.disappeaarTime) && (disappearTime > element.disappeaarTime)){
+                            console.log(element.disappeaarTime,disappearTime);
+                            $('.ui-video-mask-con-'+mask.i).remove();
+                        }else{
+                            $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-tip").css({
+                                left: mask.x + '%',
+                                top: mask.y - 6  + '%'
+                            });
+                            $('.ui-video-mask-con-'+mask.i).find(".ui-video-mask-range").css({
+                                left: mask.x + '%',
+                                top: mask.y + '%',
+                                width: mask.width + '%',
+                                height: mask.height + '%'
+                            });
+                            count += 1;
+                            if( element.shows[count]){
+                                exp.moveMask(element,index,c,count);
+                            }
                         }
                     }, 1000 / exp.videoInfo.fps);
                 }
