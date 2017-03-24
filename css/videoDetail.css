@@ -138,4 +138,7 @@ video{
     -o-border-radius: 0.16667rem 0.16667rem 0.16667rem;
     -mso-border-radius: 0.16667rem 0.16667rem 0.16667rem;
 }
-
+video::-webkit-media-controls-enclosure {
+    /*禁用播放器控制栏的样式*/
+    z-index: 10 !important;
+}
