@@ -88,12 +88,6 @@ define(function (req,exp) {
     var firstPlay = false;
 
     exp.onRender = function () {
-        $(".ui-video-detail-video").on("mouseover",function () {
-            $(".ui-video-mask").css('height','92%');
-        });
-        $(".ui-video-detail-video").on("mouseout",function () {
-            $(".ui-video-mask").css('height','100%');
-        });
         if(renderStatus) {
             var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
             var _aw = $(".ui-videoDetail-con").width();
@@ -113,7 +107,7 @@ define(function (req,exp) {
             Media.addEventListener("play", function (e) {
                 playStatus = true;
                 hasStart = false;
-                console.log("playings")
+                console.log("playings");
               /*  if(!firstPlay){
                     exp.dealMask(1000/exp.videoInfo.fps);
                     firstPlay = true;
@@ -182,9 +176,9 @@ define(function (req,exp) {
             var mask = {};
             mask.text = ele.name;
             mask.width = Math.round(ele.width * 100);
-            mask.height = Math.round(ele.height * 100);
+            mask.height = Math.round(ele.height * (100+8));
             mask.x = Math.round(ele.x * 100);
-            mask.y = Math.round(ele.y * 100);
+            mask.y = Math.round(ele.y * 100 + 8);
             mask.i = c + '' + index;
             exp.addMask(mask);
             exp.moveMask(element, index, c, 1);
@@ -197,9 +191,9 @@ define(function (req,exp) {
             if(ele){
                 mask.text = ele.name;
                 mask.width = Math.round(ele.width * 100);
-                mask.height = Math.round(ele.height * 100);
+                mask.height = Math.round(ele.height * (100+8));
                 mask.x = Math.round(ele.x * 100);
-                mask.y = Math.round(ele.y * 100);
+                mask.y = Math.round(ele.y * 100 + 8);
                 mask.i = c + '' + index;
                 if(playStatus) {
                     setTimeout(function () {
