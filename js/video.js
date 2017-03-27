@@ -197,7 +197,7 @@ define(function(req,exp){
                             exp.parent.statusPart.render();
                         },3000);
                     }else{
-                        exp.alert("上传失败！请重新上传！");
+                        currentIndex = exp.parent.uploadCuList.length;
                     }
                 },
                 'FileUploaded': function(up, file, info) {
@@ -245,8 +245,9 @@ define(function(req,exp){
 
                 },
                 'Error': function(up, err, errTip) {
-                    console.log(err);
+                    console.log(err,"err!!!!");
                     //up.stop();
+                    exp.alert("上传失败！请重新上传！");
                 }
             }
         });
@@ -276,6 +277,20 @@ define(function(req,exp){
                 up.removeFile(_file);
                 exp.totalUploadCount -= 1;
                 exp.parent.statusPart.render();
+                if(exp.totalUploadCount == exp.hasUploadCount){
+                    exp.parent.status = "success";
+                    exp.parent.uploadCuList = uploaded;
+                    exp.parent.statusPart.render();
+                    exp._files = [];
+                    exp.parent.uploadCuList = [];
+                    currentIndex = 0;
+                    exp.hasUploadCount = 0;
+                    exp.totalUploadCount = 0;
+                    setTimeout(function () {
+                        exp.parent.status = "none";
+                        exp.parent.statusPart.render();
+                    },3000);
+                }
                 exp.bindDelEvt(up,up.files);
                 /*   if (!$(this).hasClass("start")) {
                  $(this).addClass("start");
