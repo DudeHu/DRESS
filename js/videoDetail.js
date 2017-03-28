@@ -102,8 +102,9 @@ define(function (req,exp) {
                     $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
                 }
                 if($(this).height()>$(this).width()){
-                    $(".ui-video-detail-video").css("width",$(this).width()/2 + 40 + 'px!important');
-                    $(this).css("width",$(this).width()/2 + 40 + 'px!important');
+                    var _width = $(this).width()/2 + 30
+                    $(".ui-video-detail-video").css("width",_width + 'px!important');
+                    $(this).css("width",_width + 'px!important');
                 }
             });
             Media.addEventListener("timeupdate",function (e) {
