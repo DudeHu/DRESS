@@ -102,7 +102,7 @@ define(function (req,exp) {
                     $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
                 }
                 if($(this).height()>$(this).width()){
-                    var _width = $(this).width()/2 + 30
+                    var _width = $(this).width()/2 + 20
                     $(".ui-video-detail-video").css("width",_width + 'px!important');
                     $(this).css("width",_width + 'px!important');
                 }
