@@ -338,7 +338,7 @@ define(function(req,exp){
             _ele.parent().addClass("on");
             exp.delList.push(id);
         }else{
-            exp.delListFromId(id);r
+            exp.delListFromId(id);
             _ele.parent().removeClass("on");
         }
         exp.showDelBtn();
