@@ -211,7 +211,7 @@ define(function(req,exp){
                     var _item = {};
                     _item.userId = sessionStorage.userId;
                     _item.name = file.name;
-                    _item.size = Math.round(file.size/1024/1024);
+                    _item.size = file.size/1024/1024;
                     _item.qnVideoId = info.persistentId;
                     if(info.url){
                         _item.url = info.url;

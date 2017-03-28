@@ -101,6 +101,9 @@ define(function (req,exp) {
                 if(_ew > _aw ){
                     $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
                 }
+                if($(this).height()>$(this).width()){
+                    $(".ui-video-detail-video").css("width",$(this).width()/2 + 'px!important');
+                }
             });
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.floor(e.currentTarget.currentTime);

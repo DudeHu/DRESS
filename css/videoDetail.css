@@ -6,7 +6,7 @@
 }
 .ui-video-detail-video{
     position: relative;
-    float: right;
+    margin: 0 auto;
     width: 90%;
 }
 .ui-video-detail-video video{
