@@ -95,6 +95,13 @@ define(function (req,exp) {
                 $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
             }
             var Media = document.getElementById("videoDom");
+            Media.addEventListener('loadedmetadata', function () {
+                var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
+                var _aw = $(".ui-videoDetail-con").width();
+                if(_ew > _aw ){
+                    $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
+                }
+            });
             Media.addEventListener("timeupdate",function (e) {
                 var _n = Math.floor(e.currentTarget.currentTime);
                 disappearTime = Math.round(e.currentTarget.currentTime * 1000);
