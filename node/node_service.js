@@ -32,7 +32,6 @@ var uptoken = function(bucket, key) {
 //构造上传函数
 var uploadFile = function(uptoken, key, file) {
     var extra = new qiniu.io.PutExtra();
-    var extra = new qiniu.io.PutExtra();
     qiniu.io.putReadable(uptoken, key, file, extra, function(err, ret) {
         if(!err) {
             // 上传成功， 处理返回值

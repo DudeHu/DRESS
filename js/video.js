@@ -109,7 +109,7 @@ define(function(req,exp){
             flash_swf_url: '../bower_components/plupload/js/Moxie.swf',
             dragdrop: true,
             chunk_size: '5mb',
-            max_retries: 0,
+            max_retries: 3,
             get_new_uptoken: true,
             filters:{
                 mime_types : [
@@ -134,8 +134,8 @@ define(function(req,exp){
             // },
             domain: 'http://resource.penn.dressplus.cn',
             // downtoken_url: '/downtoken',
-            unique_names: true,
-            save_key: true,
+            unique_names: false,
+            save_key: false,
             // x_vars: {
             //     'id': '1234'
             // },
@@ -338,7 +338,7 @@ define(function(req,exp){
             _ele.parent().addClass("on");
             exp.delList.push(id);
         }else{
-            exp.delListFromId(id);
+            exp.delListFromId(id);r
             _ele.parent().removeClass("on");
         }
         exp.showDelBtn();
