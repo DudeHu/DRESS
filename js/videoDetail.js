@@ -89,11 +89,6 @@ define(function (req,exp) {
 
     exp.onRender = function () {
         if(renderStatus) {
-            var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
-            var _aw = $(".ui-videoDetail-con").width();
-            if(_ew > _aw ){
-                $(".ui-videoDetail-con").css("width",_ew + 60 + "px");
-            }
             var Media = document.getElementById("videoDom");
             Media.addEventListener('loadedmetadata', function () {
                 var _ew = $(".ui-video-detail-video").width()+ $(".ui-video-detail-info").width();
