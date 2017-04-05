@@ -12,8 +12,10 @@
 
 .ui-header-con .ui-web-logo{
     width: 8.33333rem;
-    height: 3.33333rem;
+    height: 5.13333rem;
     background-size: contain;
+    position: absolute;
+    top: .5rem;
 }
 .ui-header-con >div:first-child{
     float: left;
